@@ -23,7 +23,7 @@
     "@angular/router": "~7.2.0",
     "@ng-bootstrap/ng-bootstrap": "^4.2.1",
     "@types/chartist": "^0.9.46",
-    "bootstrap": "^4.2.1",
+    "bootstrap": "^4.3.1",
     "chartist": "^0.11.4",
     "chartist-svg": "^0.1.5",
     "compass-mixins": "^0.12.10",
