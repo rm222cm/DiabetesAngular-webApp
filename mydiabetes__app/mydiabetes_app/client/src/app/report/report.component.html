@@ -1,0 +1,266 @@
+<div class="container">
+<div class="row">
+  <!-- <div class="col">
+    <app-insulin-bar-chart [insulinData]="groupedReport" [reportData]="reportData"></app-insulin-bar-chart>
+
+  </div> -->
+  <!-- 
+
+  <div class="col">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{ 'report.startdate' | translate }}</span>
+      </div>
+      <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate"
+        (change)="onDateChange($event.target.value ,'START')">
+    </div>
+  </div>
+  <div class="col">
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{ 'report.enddate' | translate }}</span>
+      </div>
+      <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate"
+        (change)="onDateChange($event.target.value,'END')">
+    </div>
+  </div>
+   -->
+  <!-- <div class="col">
+
+  </div> -->
+</div>
+<app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart>
+</div>
+
+<!-- <div *ngIf="groupedReport" class="container">
+  <div *ngFor="let key of objectKeys(groupedReport)">
+    -----------outer
+    <div *ngFor="let item of groupedReport[key]">
+      ---------inner
+      {{item.entryTime}}
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="row justify-content-center my-5" *ngIf="isLoading">
+    <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+  </div>
+
+  <!-- <div id="timeline" *ngIf="!isLoading">
+    <div class="row timeline-movement timeline-movement-top">
+      <div class="timeline-badge timeline-future-movement">
+        <a (click)="previousDayData()" style="cursor: pointer;">
+          <i class="fa fa-minus" style="color: brown;"></i>
+        </a>
+      </div>
+      <div class="timeline-badge timeline-filter-movement">
+        <a href="#">
+          <i class="fa fa-clock" style="color: brown;"></i>
+        </a>
+      </div>
+
+    </div>
+    <div *ngIf="groupedReport" class="container">
+      <div class="row timeline-movement" *ngFor="let key of objectKeys(groupedReport)">
+        <div class="timeline-badge">
+          <span class="timeline-balloon-date-day">{{groupedReport[key][0].entryTime | date:'dd'}}</span>
+          <span class="timeline-balloon-date-month">{{groupedReport[key][0].entryTime | date:'LLL'}}</span>
+        </div>
+        <div class="col-6 timeline-item" >
+            <div *ngFor="let item of groupedReport[key]">
+            <div class="row" *ngIf="item.type == 'glucose'">
+                <div class="timeline-panel debits notGlucoseType">
+                  <ul class="timeline-panel-ul">
+                    <li><span class="importo headGlucose">{{ 'report.glucose' | translate }}</span></li>
+                    <li><span class="causale">Glucose Type : {{item.glucoseType}}</span> </li>
+                    <li><span class="causale">Glucose Levels : {{item.glucoseLevelUnits}}</span> </li>
+                    <li>
+                      <p><small class="text-muted"><i class="fa fa-clock"></i>
+                          {{item.glucoseTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                    </li>
+                  </ul>
+                </div>
+    
+            </div>
+            <div class="row" *ngIf="item.type == 'activity'">
+                <div class="timeline-panel credits">
+                  <ul class="timeline-panel-ul">
+                    <li><span class="importo headActivity">{{ 'report.activity' | translate }}</span></li>
+                    <li><span class="causale">{{item.activityType}}</span> </li>
+                    <li><span class="causale">
+                        {{item.activityDuration.hour}}Hr&nbsp;{{item.activityDuration.minute}}Min</span> </li>
+                    <li>
+                      <p><small class="text-muted"><i class="fa fa-clock"></i>
+                          {{item.activityTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+            <div class="row" *ngIf="item.type == 'carbs'">
+                <div class="timeline-panel credits">
+                  <ul class="timeline-panel-ul">
+                    <li><span class="importo headCarbs">{{ 'report.carbs' | translate }}</span></li>
+                    <li><span class="causale">{{item.carbsItem}}</span> </li>
+                    <li><span class="causale">{{ carbsType[item.carbsType - 1] }}</span> </li>
+                    <li>
+                      <p><small class="text-muted"><i class="fa fa-clock"></i>
+                          {{item.carbsTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                    </li>
+                  </ul>
+                </div>                
+            </div>
+            <div class="row"  *ngIf="item.type == 'insulin'">
+                <div class="timeline-panel credits">
+                  <ul class="timeline-panel-ul">
+                    <li><span class="importo headInsulin">{{ 'report.insulin' | translate }}</span></li>
+                    <li><span class="causale">{{insulinType[item.dosageType-1]}}</span> </li>
+                    <li><span class="causale">{{item.dosageUnits}} Units</span> </li>
+                    <li><span class="causale">{{item.insulinType}}</span> </li>
+                    <li>
+                      <p><small class="text-muted"><i class="fa fa-clock"></i>
+                          {{item.dosageTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                    </li>
+                  </ul>
+                </div>                
+            </div>
+        </div>
+      </div>
+      <div class="col-6 timeline-item" >
+        <div *ngFor="let item of groupedReport[key]">
+          <div class="row" *ngIf="item.type != 'glucose'">
+              <div class="timeline-panel credits notGlucoseType">
+                <ul class="timeline-panel-ul">
+                  <li><span class="importo headInsulin">{{ 'report.insulin' | translate }}</span></li>
+                  <li><span class="causale">Dosage Type </span> </li>
+                  <li><span class="causale">Dosage Units </span> </li>
+                  <li><span class="causale">Type of Insulin</span> </li>
+                  <li>
+                    <p><small class="text-muted"><i class="fa fa-clock"></i>
+                       </small></p>
+                  </li>
+                </ul>
+              </div>                
+          </div>
+        <div class="row" *ngIf="item.type == 'glucose'">
+            <div class="timeline-panel debits">
+              <ul class="timeline-panel-ul">
+                <li><span class="importo headGlucose">{{ 'report.glucose' | translate }}</span></li>
+                <li><span class="causale">{{glucoseType[item.glucoseType-1]}}</span> </li>
+                <li><span class="causale">{{item.glucoseLevelUnits}} mmol/L</span> </li>
+                <li>
+                  <p><small class="text-muted"><i class="fa fa-clock"></i>
+                      {{item.glucoseTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                </li>
+              </ul>
+            </div>
+
+        </div>
+      </div>
+      </div>
+    
+          
+      </div>
+    </div>
+    
+     <div class="row timeline-movement" *ngFor="let item of reportData">
+
+
+      <div class="timeline-badge">
+        <span class="timeline-balloon-date-day">{{item.entryTime | date:'dd'}}</span>
+        <span class="timeline-balloon-date-month">{{item.entryTime | date:'LLL'}}</span>
+      </div>
+
+      <div class="col-sm-offset-6 col-sm-6  timeline-item">
+        <div class="row">
+          <div class="col-sm-offset-1 col-sm-11">
+            <div class="timeline-panel debits"
+              *ngIf="item.type == 'carbs' || item.type == 'activity' || item.type == 'insulin'">
+
+              <ul class="timeline-panel-ul" *ngIf="item.type == 'activity'">
+                <li><span class="importo headActivity">Activity</span></li>
+                <li><span class="causale">Activity Type : {{item.activityType}}</span> </li>
+                <li><span class="causale">Activity Duration :
+                    {{item.activityDuration.hour}}Hr&nbsp;{{item.activityDuration.minute}}Min</span> </li>
+                <li>
+                  <p><small class="text-muted"><i class="fa fa-clock"></i>
+                      {{item.activityTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                </li>
+              </ul>
+
+              <ul class="timeline-panel-ul" *ngIf="item.type == 'carbs'">
+                <li><span class="importo headCarbs">Carbs</span></li>
+                <li><span class="causale">Carbs Item : {{item.carbsItem}}</span> </li>
+                <li><span class="causale">Carbs Type : {{item.carbsType}}</span> </li>
+                <li>
+                  <p><small class="text-muted"><i class="fa fa-clock"></i>
+                      {{item.carbsTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                </li>
+              </ul>
+
+              <ul class="timeline-panel-ul" *ngIf="item.type == 'insulin'">
+                <li><span class="importo headInsulin">Insulin</span></li>
+                <li><span class="causale">Dosage Type : {{item.dosageType}}</span> </li>
+                <li><span class="causale">Dosage Units : {{item.dosageUnits}}</span> </li>
+                <li><span class="causale">Type of Insulin : {{item.insulinType}}</span> </li>
+                <li>
+                  <p><small class="text-muted"><i class="fa fa-clock"></i>
+                      {{item.dosageTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6  timeline-item">
+        <div class="row">
+          <div class="col-sm-11">
+            <div class="timeline-panel credits" *ngIf="item.type == 'glucose'">
+              <ul class="timeline-panel-ul">
+                <li><span class="importo headGlucose">Glucose</span></li>
+                <li><span class="causale">Glucose Type : {{item.glucoseType}}</span> </li>
+                <li><span class="causale">Glucose Levels : {{item.glucoseLevelUnits}}</span> </li>
+                <li>
+                  <p><small class="text-muted"><i class="fa fa-clock"></i>
+                      {{item.glucoseTime | date:'MM/dd/yyyy hh:mm'}}</small></p>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row timeline-movement timeline-movement-bottom" style="border-bottom: none;">
+      <div class="timeline-badge timeline-future-movement">
+        <a (click)="nextDayData()" style="cursor: pointer;">
+          <i class="fa fa-plus" style="color: brown;"></i>
+        </a>
+      </div>
+    </div>
+  </div> -->
+<div class="container">
+  <div class="form-row row" style="padding-bottom: 30px;">
+    
+
+    <div class="form-group col">
+      <button type="button" class="btn  btn-default-form btn-form btn-sm ml-auto"
+        style="width: 100%; box-shadow: none !important;outline: none;" (click)="generateHistoricalCSV()">{{ 'report.historicalcsv' | translate }}</button>
+    </div>
+
+
+    <div class="form-group col">
+      <button type="button" class="btn btn-default-form btn-block btn-sm ml-auto"
+        style="width: 100%; box-shadow: none !important;outline: none;" (click)="generateCSV()">{{ 'report.downloadcsv' | translate }}</button>
+    </div>
+
+    <!-- <div class=" col-md-2">
+
+    </div> -->
+  </div>
+  </div>
+</div>

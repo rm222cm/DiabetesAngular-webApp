@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <!-- <div class="row">
+    <div class="col-lg-3 col-sm-3">
+      <button routerLink="/services/insulin" (click)="tabClick('insulin')" class="btn btn-block darkblue"
+      >Insulin Dosages</button>
+    </div>
+    <div class="col-lg-3 col-sm-3">
+      <button routerLink="/services/activity" (click)="tabClick('activity')" class="btn btn-block w-100"
+        >Activity Level</button>
+    </div>
+    <div class="col-lg-3 col-sm-3">
+      <button routerLink="/services/carbs" (click)="tabClick('carbs')" class="btn btn-block turquoise"
+        >Carbs Amount</button>
+    </div>
+    <div class="col-lg-3 col-sm-3">
+        <button routerLink="/services/glucose" (click)="tabClick('glucose')" class="btn btn-block w-100"
+          style="" >Glucose Level</button>
+      </div>
+  </div> -->
+  <div id="accordion" class="row">
+    <div class="card col-sm-12 col-x-12 col-md-3">
+      <div class="card-header" id="headingOne">
+          <button class="btn btn-link btn-insulin" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            {{ 'insulin.btntitle' | translate }}
+          </button>
+      </div>
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+     <app-insulin></app-insulin>
+        </div>
+      </div>
+    </div>
+    <div class="card col-sm-12 col-x-12 col-md-3">
+      <div class="card-header" id="headingTwo">
+          <button class="btn btn-link btn-activityLevel" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
+            {{ 'activity.activityleveltitle' | translate }}
+          </button>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div class="card-body">
+          <app-activity-card></app-activity-card>
+         </div>
+      </div>
+    </div>
+    <div class="card col-sm-12 col-x-12 col-md-3">
+      <div class="card-header" id="headingThree">
+          <button class="btn btn-link btn-card-amount" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseOne">
+            {{ 'carbs.carbsamount' | translate }}
+          </button>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+          <app-carb></app-carb>
+         </div>
+      </div>
+    </div>
+    <div class="card col-sm-12 col-x-12 col-md-3">
+      <div class="card-header" id="headingFour">
+          <button class="btn btn-link btn-glucoselevel" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseOne">
+            {{ 'glucose.glucosetitle' | translate }}
+          </button>
+      </div>
+      <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+        <div class="card-body">
+         </div>
+         <app-glucose-level></app-glucose-level>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <router-outlet></router-outlet> -->
