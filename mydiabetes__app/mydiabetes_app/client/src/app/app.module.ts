@@ -1,3 +1,5 @@
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { InsulinComponent } from './insulin/insulin.component';
 import { ActivityComponent } from './activity/activity.component';
 import { CarbsComponent } from './carbs/carbs.component';
-//import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+// import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DiabatesServicesComponent } from './diabates-services/diabates-services.component';
 import { DiabetesGraphComponent } from './diabetes-graph/diabetes-graph.component';
@@ -30,6 +32,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -52,7 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiabetesGraphComponent,
     GlucoseLevelComponent,
     ReportComponent,
-    BarChartComponent,
+    BarChartComponent
   ],
   entryComponents: [DiabetesGraphComponent],
   imports: [
@@ -64,6 +67,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbModule,
     ModalDialogModule.forRoot(),
     ReactiveFormsModule,
+    NgxChartsModule,
+    // BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
