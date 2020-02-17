@@ -1,3 +1,13 @@
+
+ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+  .tooltip-caret.position-top {
+    border-top-color: white;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  background-color: white;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
 // BUTTON
 @media screen and (max-width: 600px) {
     .navBtn{
@@ -368,4 +378,56 @@
 }
 .notGlucoseType{
   visibility: hidden;
+}
+.verticaltext_heading {
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  color: #FFF;
+  position: absolute;
+  top:10px;
+  left:10px;
+  text-transform: uppercase;
+  font-size: 21px;
+  font-weight: bold;
+}
+.g_h{
+  height: 175px !important;
+}
+@media screen and (max-width: 840px) {
+  .verticaltext_heading {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    color: #FFF;
+    position: relative;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .g_h{
+    height: auto !important;
+    line-height: 28px;
+    padding-bottom: 10px;
+  }
+}
+
+.insulincustom:checked~.custom-control-label::before {
+  color: #fff;
+  border-color: brown;
+  background-color: brown;
+  margin-top: 5px;
+}
+.insulincustom:checked~.custom-control-label::after {
+  margin-top: 5px;
+}
+.activitycustom:checked~.custom-control-label::before {
+  margin-top: 5px;
+}
+.activitycustom:checked~.custom-control-label::after {
+  margin-top: 5px;
 }

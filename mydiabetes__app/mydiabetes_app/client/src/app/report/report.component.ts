@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { start } from 'repl';
-import { single,multi, multi1 } from '../data/data.model';
+import { single,multi1,multi } from '../data/data.model';
+import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,21 +10,27 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
+  providers:[DatePipe]
 })
 export class ReportComponent implements OnInit {
 
-  constructor(private insulinService: InsulinDosagesService, private http: HttpClient) {
+  constructor(private insulinService: InsulinDosagesService, private http: HttpClient, private datePipe: DatePipe) {
 
-    Object.assign(this, { multi });
-    Object.assign(this, { multi1 });
+    
+    Object.assign(this, { single });
+    // Object.assign(this, { multi });
+    // Object.assign(this, { multi1 });
+    console.log('multi1')
+    console.log(multi1)
   }
 
   single: any[];
-  multi: any[];
+  multi: any;
   multi1: any[];
+  activityobj: any;
 
-  view: any[] = [1024, 200];
+  view: any[] = [1024, 180];
 
   // options
   showXAxis = true;
@@ -46,7 +53,11 @@ export class ReportComponent implements OnInit {
   timeline: boolean = true;
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#9ecae6', '#c6aed0', '#d29494', '#d59c9c']
+  };
+
+  colorScheme1 = {
+    domain: ['#3CB371', '#64c12abf', '#c12abcbf', '#432aa9bf']
   };
   glucoseType = [
     'Before Meal',
@@ -63,12 +74,15 @@ export class ReportComponent implements OnInit {
     'Protein',
     'Fibers',
   ];
-  startDate = new Date(new Date().setDate(new Date().getDate() - 10)).toISOString().substring(0, 10);
+  startDate = new Date(new Date().setDate(new Date().getDate() - 3650)).toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
   reportData: any[] = [];
   isLoading = true;
+  autoScale = true;
   objectKeys = Object.keys;
   groupedReport: any;
+  showInsulin = true;
+  showActivity = true;
 
   ngOnInit() {
     console.log(this.startDate + '  ' + this.endDate);
@@ -78,6 +92,16 @@ export class ReportComponent implements OnInit {
     console.log(event);
   }
 
+  onChecked(value, target) {
+    console.log('value, target');
+    console.log(value, target);
+    if(target == 'INSULIN'){
+      this.showInsulin = !this.showInsulin;
+    }
+    if(target == 'ACTIVITY'){
+      this.showActivity = !this.showActivity;
+    }
+  }
   previousDayData() {
     const day = new Date(this.startDate);
     this.startDate = new Date(new Date(this.startDate).setDate(day.getDate() - 1)).toISOString().substring(0, 10);
@@ -117,12 +141,26 @@ export class ReportComponent implements OnInit {
 
   }
   groupBy(xs, key) {
-    return xs.reduce(function(rv, x) {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
+    if(xs){
+
+      return xs.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+      }, {});
+    } else {
+      return {};
+    }
   }
+
+  formatPercent(val) {
+    // console.log('val')
+    // console.log(val)
+    // if (val <= 100) {
+    //   return val + '%';
+    // }
+  } 
   getReportData() {
+    console.log('getReportData')
     const data = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -132,13 +170,91 @@ export class ReportComponent implements OnInit {
 
       this.reportData = this.parseData(res.data);
       this.reportData.map(elem => {
-        var myDate = new Date(elem.entryTime).setHours(0, 0, 0, 0);
+        var myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
         elem['commonTime'] = myDate;
-        return elem;
+        if(elem.type == 'insulin'   ){
+          if(elem.insulinType && elem.insulinType.includes('before')){
+            elem['name'] =  'Before Meal';
+          } else  if(elem.insulinType && elem.insulinType.includes('after')){
+            elem['name'] =  'After Meal';
+          } else {
+            elem['name'] =  'Any other time';
+          }
+          
+          elem['value'] = elem.dosageUnits;
+            if( elem.dosageUnits > 90){
+
+              elem['value'] = 30;
+            }
+            // elem['name'] = elem.insulinType || 'other';
+          
+
+        } else if(elem.type == 'activity'){
+          elem['value'] =  Math.abs((elem.activityDuration.hour * 60) + (elem.activityDuration.minute));
+          elem['name'] = this.datePipe.transform(elem.entryTime, 'MMM,y');
+        } else if(elem.type == 'glucose'){
+
+        } else if(elem.type == 'carbs'){
+
+        }
+          return elem;
       });
-      this.groupedReport = this.groupBy(this.reportData, 'commonTime');
       console.log('reportData', this.reportData);
+      this.groupedReport = this.groupBy(this.reportData, 'type');
       console.log('groupedReport', this.groupedReport);
+      let insulin  = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
+      let activity  = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
+      let obj1=[];
+      let obj2=[{'name':'Activity','series':[]}];
+      let sample ={
+        "name": "Activity",
+        "series": [
+          {
+            "name": new Date('2010-01-08'),
+            "value": 7300000
+          }
+        ]
+        };
+       let count = 0;
+       let count2 = 0;
+      for (let [key, value] of Object.entries(insulin)) {
+        // if( this.datePipe.transform(value['dosageTime'], 'MM-dd-yy') != '02-10-20')
+        // {
+          obj1[count] = {};
+          obj1[count].name =  this.datePipe.transform(value['dosageTime'], 'MMM,y');
+          obj1[count].series = [
+            {
+              "name": value['name'],
+              "value": value['value'],
+              "dosageTime": value['dosageTime']
+            }]
+          count++;
+          this.multi = obj1;        
+        // }
+
+      }
+      for (let [key, value] of Object.entries(activity)) {
+        obj2[0].series[count2] = {};
+        obj2[0].series[count2].name =  new Date(value['activityTime']);
+        obj2[0].series[count2].value = value['value'];
+        obj2[0].series[count2].activityTime = value['activityTime'];
+        obj2[0].series[count2].activityType = value['activityType'];
+        let hour_text = ' hour, ';
+        let minute_text = ' minute ';
+        if(value['activityDuration']['hour']>1){
+          hour_text = ' hours, ';
+        }
+        if(value['activityDuration']['minute']>1){
+          minute_text = ' minutes ';
+        }
+        obj2[0].series[count2].activityDuration =  value['activityDuration']['hour'] + hour_text + value['activityDuration']['minute'] + minute_text;
+       
+        count2++;
+        this.activityobj = obj2;
+      }
+        console.log(' this.this.multi');
+        console.log( JSON.stringify(this.multi));
+        console.log( this.multi);
       this.isLoading = false;
     },
       error => {
@@ -147,6 +263,11 @@ export class ReportComponent implements OnInit {
       });
   }
 
+  replaceKeys(obj, find, replace) {
+
+    return Object.keys(obj).reduce (
+      (acc, key) => Object.assign(acc, { [key.replace(find, replace)]: obj[key] }), {});
+  }
   onDateChange(value, type) {
     console.log(value);
 
