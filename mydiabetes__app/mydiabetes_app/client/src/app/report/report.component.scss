@@ -431,3 +431,9 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 .activitycustom:checked~.custom-control-label::after {
   margin-top: 5px;
 }
+input[type=checkbox]:not(old) + label {
+  display: inline-block;
+  line-height: 30px !important;
+  margin-top: 12px !important;
+  margin-right: 12px !important;
+}

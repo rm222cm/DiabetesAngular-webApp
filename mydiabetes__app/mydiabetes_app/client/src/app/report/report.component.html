@@ -4,31 +4,45 @@
     <app-insulin-bar-chart [insulinData]="groupedReport" [reportData]="reportData"></app-insulin-bar-chart>
 
   </div> -->
-    <!-- 
+    
 
-  <div class="col">
+  <div class=" col-md-2"></div>
+  <div class=" col-md-4">
     <div class="input-group input-group-sm">
       <div class="input-group-prepend">
-        <span class="input-group-text">{{ 'report.startdate' | translate }}</span>
+        <span class="input-group-text">Start Date</span>
       </div>
       <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate"
         (change)="onDateChange($event.target.value ,'START')">
     </div>
   </div>
-  <div class="col">
+  <div class="col-md-offset-1 col-md-4">
     <div class="input-group input-group-sm">
       <div class="input-group-prepend">
-        <span class="input-group-text">{{ 'report.enddate' | translate }}</span>
+        <span class="input-group-text">End Date</span>
       </div>
       <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate"
         (change)="onDateChange($event.target.value,'END')">
     </div>
   </div>
-   -->
+  <div class="col-md-12">
+  <div class="col-md-12 bg-light text-center">
+    <div class="custom-control custom-checkbox mt-2 d-inline-block">
+      <input [(ngModel)]="showInsulin" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
+        (click)="onChecked($event.target.checked,'INSULIN')">
+      <label class="custom-control-label " for="insulinCheck1">Insulin</label>
+    </div>
+    <div class="custom-control custom-checkbox mt-2 d-inline-block">
+      <input [(ngModel)]="showActivity" type="checkbox" class="insulincustom custom-control-input" id="activityCheck1"
+      (click)="onChecked($event.target.checked,'ACTIVITY')">
+    <label class="custom-control-label" for="activityCheck1">Activity</label>
+    </div>
+  </div>
+</div>
     <!-- <div class="col">
 
   </div> -->
-  <div class="col-12 vh-50">
+  <div class="col-md-12 vh-50">
     <div class="row" >
       <!-- <div class="form-row"> 
         <div class="form-group col-md-6">
@@ -50,18 +64,14 @@
           </div>
         </div> 
       </div> -->
-
-      <div class="col-md-2 bg-secondary text-white align-top g_h">
-        <h4 class="verticaltext_heading w-50"> Insulin  Dosage Chart
-          <div class="custom-control custom-checkbox mt-2">
-          <input [(ngModel)]="showInsulin" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
-            (click)="onChecked($event.target.checked,'INSULIN')">
-          <label class="custom-control-label" for="insulinCheck1">Insulin</label>
-        </div></h4>
-      </div>
+      <!-- <h4 class="ml-5">title</h4> -->
+      <div class="clearfix col-md-12"></div>
+      <div  class="col-md-1"></div><div class="col-md-11 text-center"><dl><b>Insulin Dosage Chart</b></dl></div>
+      <div  class="col-md-1 text-white align-top g_h"></div>
       <div class="col-md-10"  *ngIf="showInsulin">
         <!-- <h4>Insulin Dosage Chart </h4> -->
         <!-- <ngx-charts-bar-vertical-stacked -->
+          
         <ngx-charts-bar-vertical-2d
            
           [scheme]="colorScheme"
@@ -74,29 +84,23 @@
           [showYAxisLabel]="showYAxisLabel"
           [xAxisLabel]="xAxisLabel"
           [yAxisLabel]="yAxisLabel"
-          (select)="onSelect($event)">
+          (select)="onSelectInsulin($event)">
           <ng-template #tooltipTemplate let-model="model">
              
             <pre style="color: antiquewhite; text-align: left ">Dosage Time: {{model.dosageTime | date:'yy-MM-dd HH:mm'}}</pre>
           
             <pre style="color: antiquewhite; text-align: left;">Dosage Amount: {{model.value}}</pre>
+            <pre style="color: antiquewhite; text-align: left;">Insulin Type: {{model.insulinType}}</pre>
           </ng-template>
         </ngx-charts-bar-vertical-2d>
       </div>
-    </div>
-      <div class="row">
-      <div class="col-md-2 bg-info text-white align-top g_h">
-      <h4  class="verticaltext_heading  w-50"> Activity Level Chart
-        <div class="custom-control custom-checkbox ml-3">
-          <input [(ngModel)]="showActivity" type="checkbox" class="insulincustom custom-control-input" id="activityCheck1"
-            (click)="onChecked($event.target.checked,'ACTIVITY')">
-          <label class="custom-control-label" for="activityCheck1">Activity</label>
-        </div>
-      </h4>
-      
-      </div>
+      <!-- <h4>title</h4> -->
+      <div class="clearfix col-md-12"></div>
+      <div  class="col-md-1"></div><div class="col-md-11 text-center"><dl><b>Activity Chart</b></dl></div>
+      <div  class="col-md-1 text-white align-top g_h"></div>
       <div class="col-md-10" *ngIf="showActivity">
         <!-- <h4>Activity Level Chart </h4> -->
+        
         <ngx-charts-area-chart
           
           [scheme]="colorScheme1"
@@ -118,25 +122,41 @@
             <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{model.activityDuration }}</pre>
            
           </ng-template>
+                    
+            <ng-template #seriesTooltipTemplate let-model="model" >
+              <span *ngFor="let mod of model; let i = index">
+                <pre style="color: antiquewhite; text-align: left ">Activity Time: {{mod.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
+                <pre style="color: antiquewhite; text-align: left ">Activity Type: {{mod.activityType }}</pre>
+                <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{mod.activityDuration }}</pre>
+              </span>
+            </ng-template>
         </ngx-charts-area-chart>
       </div>
-      <div class="w-100"></div>
-      <div class="col">
-        <!-- <ngx-charts-area-chart-stacked
-          [view]="view"
+      <div style="padding-bottom: 5px;" class="col-md-12"> </div>
+      <!-- <h4>title</h4> -->
+      <!-- <div class="clearfix col-md-12"></div>
+      <div  class="col-md-1"></div><div class="col-md-11 text-center"><dl><b>Crab Chart</b></dl></div>
+      <div  class="col-md-1 text-white align-top g_h"></div>
+      <div class="col-md-10">
+        
+        <ngx-charts-line-chart
+          
           [scheme]="colorScheme"
-          [legend]="legend"
+          [legend]="false"
           [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
+          [showYAxisLabel]="false"
           [xAxis]="xAxis"
-          [yAxis]="yAxis"
-          [xAxisLabel]="xAxisLabel1"
-          [yAxisLabel]="yAxisLabel1"
+          [yAxis]="false"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
           [timeline]="timeline"
-          [results]="multi1"
-          (select)="onSelect($event)">
-        </ngx-charts-area-chart-stacked> -->
-      </div>
+          [results]="linear"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)"
+          >
+        </ngx-charts-line-chart>
+      </div> -->
       <div class="col">
         <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
       </div>

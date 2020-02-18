@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { start } from 'repl';
-import { single,multi1,multi } from '../data/data.model';
+import { single,multi1,multi,linear } from '../data/data.model';
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
@@ -19,7 +19,7 @@ export class ReportComponent implements OnInit {
 
     
     Object.assign(this, { single });
-    // Object.assign(this, { multi });
+    Object.assign(this, { linear });
     // Object.assign(this, { multi1 });
     console.log('multi1')
     console.log(multi1)
@@ -27,6 +27,7 @@ export class ReportComponent implements OnInit {
 
   single: any[];
   multi: any;
+  linear: any;
   multi1: any[];
   activityobj: any;
 
@@ -35,7 +36,7 @@ export class ReportComponent implements OnInit {
   // options
   showXAxis = true;
   showYAxis = true;
-  gradient = false;
+  gradient = true;
   showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = 'Time/Date';
@@ -88,8 +89,25 @@ export class ReportComponent implements OnInit {
     console.log(this.startDate + '  ' + this.endDate);
     this.getReportData();
   }
-  onSelect(event) {
-    console.log(event);
+  onSelectInsulin(event) {
+    var elements = document.querySelectorAll('.legend-label-text') ;
+    elements.forEach(function(el){
+
+      if(el.textContent.trim() == event  ){
+        if(el['style'].textDecoration == 'line-through'){
+          el['style'].textDecoration = '';
+        } else {
+          el['style'].textDecoration = 'line-through';
+        }
+      }
+    })
+    if(event == 'After Meal'){
+
+    } else if(event == 'Before Meal'){
+
+    }else if(event == 'Any other time'){
+
+    }
   }
 
   onChecked(value, target) {
@@ -173,19 +191,24 @@ export class ReportComponent implements OnInit {
         var myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
         elem['commonTime'] = myDate;
         if(elem.type == 'insulin'   ){
-          if(elem.insulinType && elem.insulinType.includes('before')){
+          if(elem.insulinType){
+            elem['insulinType'] =  elem.insulinType;
+          } else {
+            elem['insulinType'] =  '';
+          }
+          if(elem.dosageType == '1'){
             elem['name'] =  'Before Meal';
-          } else  if(elem.insulinType && elem.insulinType.includes('after')){
+          } else  if(elem.dosageType == '2'){
             elem['name'] =  'After Meal';
           } else {
             elem['name'] =  'Any other time';
           }
           
           elem['value'] = elem.dosageUnits;
-            if( elem.dosageUnits > 90){
+            // if( elem.dosageUnits > 90){
 
-              elem['value'] = 30;
-            }
+            //   elem['value'] = 90;
+            // }
             // elem['name'] = elem.insulinType || 'other';
           
 
@@ -206,17 +229,8 @@ export class ReportComponent implements OnInit {
       let activity  = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
       let obj1=[];
       let obj2=[{'name':'Activity','series':[]}];
-      let sample ={
-        "name": "Activity",
-        "series": [
-          {
-            "name": new Date('2010-01-08'),
-            "value": 7300000
-          }
-        ]
-        };
-       let count = 0;
-       let count2 = 0;
+      let count = 0;
+      let count2 = 0;
       for (let [key, value] of Object.entries(insulin)) {
         // if( this.datePipe.transform(value['dosageTime'], 'MM-dd-yy') != '02-10-20')
         // {
@@ -226,6 +240,7 @@ export class ReportComponent implements OnInit {
             {
               "name": value['name'],
               "value": value['value'],
+              "insulinType": value['insulinType'],
               "dosageTime": value['dosageTime']
             }]
           count++;
