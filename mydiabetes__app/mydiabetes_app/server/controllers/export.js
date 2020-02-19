@@ -109,6 +109,44 @@ exports.exportAsReport = async (req, res) => {
   });
 };
 
+exports.exportAsReportInsulin = async (req, res) => {
+
+  let fromDate = new Date(req.body.startDate)
+  let toDate = new Date(req.body.endDate)
+  let dosageType =req.body.dosageType
+  toDate.setDate(toDate.getDate() + 1)
+
+  //making time as empty
+  fromDate.setHours(0, 0, 0)
+  toDate.setHours(0, 0, 0)
+
+  let insulinRecord = await Insulin.find({ $and: [{ "dosageTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }, { "dosageType": {$nin:dosageType} }] });
+
+  let map = new Map();
+
+  exports.addInsulinElementsToMap(insulinRecord, map);
+
+  var mapAsc = new Map([...map.entries()].sort());
+  let mapToArray = Array.from(mapAsc.values());
+  const index1 = dosageType.indexOf(1);
+  const index2 = dosageType.indexOf(2);
+  const index3 = dosageType.indexOf(3);
+  if (index1 > -1) {
+    mapToArray.push({"_id":"","dosageType":"1","dosageUnits":"","dosageTime":"2020-01-07T18:40:00.648Z","entryTime":"","latestGlucoseLevelUnits":"","email":req.session.user.email,"__v":0});
+  }
+  if (index2 > -1) {
+    mapToArray.push({"_id":"","dosageType":"2","dosageUnits":"","dosageTime":"2020-01-07T18:40:00.648Z","entryTime":"","latestGlucoseLevelUnits":"","email":req.session.user.email,"__v":0});
+  }
+  if (index3 > -1) {
+    mapToArray.push({"_id":"","dosageType":"3","dosageUnits":"","dosageTime":"2020-01-07T18:40:00.648Z","entryTime":"","latestGlucoseLevelUnits":"","email":req.session.user.email,"__v":0});
+  }
+
+  res.json({
+    msg: 'success',
+    redirect: '/home',
+    data: mapToArray
+  });
+};
 exports.export = async (req, res) => {
 
   let fromDate = new Date(req.body.startDate)

@@ -46,4 +46,8 @@ export class InsulinDosagesService {
     return this.http.post('api/exportAsReport', body);
   }
 
+  public getInsulinReportData(body) {
+    return this.http.post('api/exportAsReportInsulin', body);
+  }
+
 }

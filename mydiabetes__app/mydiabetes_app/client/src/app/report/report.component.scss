@@ -1,4 +1,3 @@
-
 ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   .tooltip-caret.position-top {
     border-top-color: white;
@@ -10,230 +9,228 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 }
 // BUTTON
 @media screen and (max-width: 600px) {
-    .navBtn{
-      padding-bottom: 15px ;
-    }
+  .navBtn {
+    padding-bottom: 15px;
   }
-  
-  $main-color: brown;
-  // // BUTTON
-  
-   .row{
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-top: 20px
-   }
-  .invalid-feedback {
-    display: block;
-    text-align: center;
-  }
-  
-  // .ml-10 {
-  //   margin-left: 8% !important;
-  // }
-  
-  // .tweet-img {
-  //   margin-top: 50px;
-  //   // min-height: 380px;
-  //   padding: 30px;
-  // }
-  // .tweet-img .title {
-  //   font-family: "Kaushan Script", cursive;
-  //   color: rgb(82, 47, 47);
-  // }
-  // span {
-  //   display: block;
-  //   margin: 0 auto;
-  // }
-  // .upload-input {
-  //   display: none;
-  // }
-  // .btn {
-  //   cursor: pointer;
-  //   width: 50%;
-  //   // margin-left:25%;
-  //   //background-color: #008000;
-  //   //border-color: #008000;
-  //   color: white;
-  
-  //   // &:hover,
-  //   // &:focus,
-  //   // &:active {
-  //   //   border-color: #008000 !important;
-  //   //   background-color: #008000!important;
-  //   // }
-  // }
-  
-  // img {
-  //   background: rgb(251, 171, 171);
-  //   border-radius: 20%;
-  //   width: 200px;
-  //   height: 200px;
-  //   display: block;
-  // }
-  
-  .darkblue {
-    background: brown!important;
-    border-color: brown!important;
-    color: #ffffff;
-    // margin-left: 25%;
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 400;
-    background-color: transparent;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-  }
-    .turquoise {
-      background: #ffdb58 !important;
-      border-color: #ffdb58 !important;
-      color: #ffffff;
-      // margin-left: 25%;
-      cursor: pointer;
-      display: inline-block;
-      font-weight: 400;
-      background-color: transparent;
-      border: 1px solid transparent;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
-      border-radius: 0.25rem;
-    }
-  // .w-100 {
-  //   width: 100% !important;
-  // }
-  
-  // @media screen and (max-width: 900px) {
-  //   .image-upload {
-  //     margin-top: 120px;
-  //   }
-  
-  //   img {
-  //     width: 100px;
-  //     height: 100px;
-  //     float: left;
-  //     margin-right: 20px;
-  //   }
-  //   .tweet-img {
-  //     margin-top: 25px;
-  //   }
-  // }
-  
-  // @media screen and (max-width: 400px) {
-  //   img {
-  //     width: 50px;
-  //     height: 50px;
-  //     float: left;
-  //     margin-right: 20px;
-  //   }
-  //   .tweet-img {
-  //     margin-top: 10px;
-  //   }
-  //   .turquoise {
-  //     background: #ffdb58 !important;
-  //     border-color: #ffdb58 !important;
-  //     color: #ffffff;
-  //     // margin-left: 25%;
-  //     cursor: pointer;
-  //     display: inline-block;
-  //     font-weight: 400;
-  //     background-color: transparent;
-  //     border: 1px solid transparent;
-  //     padding: 0.375rem 0.75rem;
-  //     font-size: 1rem;
-  //     border-radius: 0.25rem;
-  //   }
-  //   .darkblue {
-  //     background: brown!important;
-  //     border-color: brown!important;
-  //     color: #ffffff;
-  //     // margin-left: 25%;
-  //     cursor: pointer;
-  //     display: inline-block;
-  //     font-weight: 400;
-  //     background-color: transparent;
-  //     border: 1px solid transparent;
-  //     padding: 0.375rem 0.75rem;
-  //     font-size: 1rem;
-  //     border-radius: 0.25rem;
-  //   }
-  //   .btn {
-  //     cursor: pointer;
-  //     width: 50%;
-  //     // margin-left:25%;
-  //     background-color: #008000;
-  //     border-color: #008000;
-  //     color: white;
-  
-  //     &:hover,
-  //     &:focus,
-  //     &:active {
-  //       border-color:#008000 !important;
-  //       background-color: #008000 !important;
-  //     }
-  //   }
-  // }
-  // INSULIN
-  .invalid-feedback {
-    display: block;
-  }
-  .btn {
-    background: #008000;
-    color: #fff;
-    margin-bottom:5px;
-  }
-  .btn-form{
-    background: brown !important;
-    border-color: brown !important;
-    color: #fff !important;
-  }
-  .form-title {
-    font-family: "Kaushan Script", cursive;
-    color: rgb(82, 47, 47);
-  }
-  .signup-image-link {
-    font-family: "IBM Plex Mono", monospace;
-    color: rgb(82, 47, 47);
-    font-size: 25px;
-  }
-  .ml-15 {
-    margin-left: 15px;
-  }
-  .card{
-    border: 0px solid;
-    background-color: transparent;
-  }
-  .card-header{
-    border: 0px solid;
-    background-color: transparent;
-    padding: 0px;
-  }
-  .card-header .btn{
-  width:100%;
+}
+
+$main-color: brown;
+// // BUTTON
+
+.row {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 20px;
+}
+.invalid-feedback {
+  display: block;
+  text-align: center;
+}
+
+// .ml-10 {
+//   margin-left: 8% !important;
+// }
+
+// .tweet-img {
+//   margin-top: 50px;
+//   // min-height: 380px;
+//   padding: 30px;
+// }
+// .tweet-img .title {
+//   font-family: "Kaushan Script", cursive;
+//   color: rgb(82, 47, 47);
+// }
+// span {
+//   display: block;
+//   margin: 0 auto;
+// }
+// .upload-input {
+//   display: none;
+// }
+// .btn {
+//   cursor: pointer;
+//   width: 50%;
+//   // margin-left:25%;
+//   //background-color: #008000;
+//   //border-color: #008000;
+//   color: white;
+
+//   // &:hover,
+//   // &:focus,
+//   // &:active {
+//   //   border-color: #008000 !important;
+//   //   background-color: #008000!important;
+//   // }
+// }
+
+// img {
+//   background: rgb(251, 171, 171);
+//   border-radius: 20%;
+//   width: 200px;
+//   height: 200px;
+//   display: block;
+// }
+
+.darkblue {
+  background: brown !important;
+  border-color: brown !important;
+  color: #ffffff;
+  // margin-left: 25%;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+}
+.turquoise {
+  background: #ffdb58 !important;
+  border-color: #ffdb58 !important;
+  color: #ffffff;
+  // margin-left: 25%;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+}
+// .w-100 {
+//   width: 100% !important;
+// }
+
+// @media screen and (max-width: 900px) {
+//   .image-upload {
+//     margin-top: 120px;
+//   }
+
+//   img {
+//     width: 100px;
+//     height: 100px;
+//     float: left;
+//     margin-right: 20px;
+//   }
+//   .tweet-img {
+//     margin-top: 25px;
+//   }
+// }
+
+// @media screen and (max-width: 400px) {
+//   img {
+//     width: 50px;
+//     height: 50px;
+//     float: left;
+//     margin-right: 20px;
+//   }
+//   .tweet-img {
+//     margin-top: 10px;
+//   }
+//   .turquoise {
+//     background: #ffdb58 !important;
+//     border-color: #ffdb58 !important;
+//     color: #ffffff;
+//     // margin-left: 25%;
+//     cursor: pointer;
+//     display: inline-block;
+//     font-weight: 400;
+//     background-color: transparent;
+//     border: 1px solid transparent;
+//     padding: 0.375rem 0.75rem;
+//     font-size: 1rem;
+//     border-radius: 0.25rem;
+//   }
+//   .darkblue {
+//     background: brown!important;
+//     border-color: brown!important;
+//     color: #ffffff;
+//     // margin-left: 25%;
+//     cursor: pointer;
+//     display: inline-block;
+//     font-weight: 400;
+//     background-color: transparent;
+//     border: 1px solid transparent;
+//     padding: 0.375rem 0.75rem;
+//     font-size: 1rem;
+//     border-radius: 0.25rem;
+//   }
+//   .btn {
+//     cursor: pointer;
+//     width: 50%;
+//     // margin-left:25%;
+//     background-color: #008000;
+//     border-color: #008000;
+//     color: white;
+
+//     &:hover,
+//     &:focus,
+//     &:active {
+//       border-color:#008000 !important;
+//       background-color: #008000 !important;
+//     }
+//   }
+// }
+// INSULIN
+.invalid-feedback {
+  display: block;
+}
+.btn {
+  background: #008000;
+  color: #fff;
+  margin-bottom: 5px;
+}
+.btn-form {
+  background: brown !important;
+  border-color: brown !important;
+  color: #fff !important;
+}
+.form-title {
+  font-family: "Kaushan Script", cursive;
+  color: rgb(82, 47, 47);
+}
+.signup-image-link {
+  font-family: "IBM Plex Mono", monospace;
+  color: rgb(82, 47, 47);
+  font-size: 25px;
+}
+.ml-15 {
+  margin-left: 15px;
+}
+.card {
+  border: 0px solid;
+  background-color: transparent;
+}
+.card-header {
+  border: 0px solid;
+  background-color: transparent;
+  padding: 0px;
+}
+.card-header .btn {
+  width: 100%;
   text-decoration: none;
   color: #ffffff;
-  margin-bottom:5px;
-  }
-  .card-header .btn-insulin{
-    background: brown !important;
-    border-color: brown !important;
-  }
-  .card-header .btn-activityLevel{
-    background: #008000;
-    color: #fff;
-  }
-  .btn-card-amount{
-    background: #ffdb58 !important;
-    border-color: #ffdb58 !important;
-  }
-  .card-header .btn-glucoselevel{
-    background-color:rgb(106, 90, 205);
-    border:rgb(106, 90, 205) !important;
-  }
+  margin-bottom: 5px;
+}
+.card-header .btn-insulin {
+  background: brown !important;
+  border-color: brown !important;
+}
+.card-header .btn-activityLevel {
+  background: #008000;
+  color: #fff;
+}
+.btn-card-amount {
+  background: #ffdb58 !important;
+  border-color: #ffdb58 !important;
+}
+.card-header .btn-glucoselevel {
+  background-color: rgb(106, 90, 205);
+  border: rgb(106, 90, 205) !important;
+}
 
-
-  
 #timeline {
   list-style: none;
   position: relative;
@@ -276,7 +273,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   left: 11px;
 }
 #timeline .timeline-badge span.timeline-balloon-date-month {
-  font-size: .7em;
+  font-size: 0.7em;
   position: relative;
   top: 10px;
   left: -14px;
@@ -304,7 +301,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 }
 #timeline .timeline-badge.timeline-future-movement a span {
   color: brown;
-  font-size: .9em;
+  font-size: 0.9em;
   top: 2px;
   left: 1px;
 }
@@ -321,7 +318,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
 #timeline .timeline-movement .timeline-item .timeline-panel {
   border: 1px solid #d4d4d4;
   border-radius: 3px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   color: #666;
   padding: 10px;
   position: relative;
@@ -333,13 +330,28 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   padding: 0;
   margin: 0;
 }
-#timeline .timeline-movement .timeline-item .timeline-panel.credits .timeline-panel-ul {
+#timeline
+  .timeline-movement
+  .timeline-item
+  .timeline-panel.credits
+  .timeline-panel-ul {
   text-align: right;
 }
-#timeline .timeline-movement .timeline-item .timeline-panel.credits .timeline-panel-ul li {
+#timeline
+  .timeline-movement
+  .timeline-item
+  .timeline-panel.credits
+  .timeline-panel-ul
+  li {
   color: #666;
 }
-#timeline .timeline-movement .timeline-item .timeline-panel.credits .timeline-panel-ul li span.importo {
+#timeline
+  .timeline-movement
+  .timeline-item
+  .timeline-panel.credits
+  .timeline-panel-ul
+  li
+  span.importo {
   color: #468c1f;
   font-size: 1.8;
 }
@@ -351,32 +363,41 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   width: 100%;
   margin-left: 25px;
 }
-#timeline .timeline-movement .timeline-item .timeline-panel.debits .timeline-panel-ul {
+#timeline
+  .timeline-movement
+  .timeline-item
+  .timeline-panel.debits
+  .timeline-panel-ul {
   text-align: left;
 }
-#timeline .timeline-movement .timeline-item .timeline-panel.debits .timeline-panel-ul span.importo {
+#timeline
+  .timeline-movement
+  .timeline-item
+  .timeline-panel.debits
+  .timeline-panel-ul
+  span.importo {
   color: #e2001a;
   font-size: 1.8;
 }
 
-.btn-default-form{
-  background: #e9ecef!important;
-  border-color: #e9ecef!important;
+.btn-default-form {
+  background: #e9ecef !important;
+  border-color: #e9ecef !important;
   color: #717171 !important;
 }
-.headActivity{
-  color:#008000!important;
+.headActivity {
+  color: #008000 !important;
 }
-.headCarbs{
-  color:#ffdb58!important;
+.headCarbs {
+  color: #ffdb58 !important;
 }
-.headInsulin{
-  color:brown!important;
+.headInsulin {
+  color: brown !important;
 }
-.headGlucose{
-  color:slateblue!important;
+.headGlucose {
+  color: slateblue !important;
 }
-.notGlucoseType{
+.notGlucoseType {
   visibility: hidden;
 }
 .verticaltext_heading {
@@ -385,15 +406,15 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
   -ms-transform: rotate(0deg);
   -o-transform: rotate(0deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  color: #FFF;
+  color: #fff;
   position: absolute;
-  top:10px;
-  left:10px;
+  top: 10px;
+  left: 10px;
   text-transform: uppercase;
   font-size: 21px;
   font-weight: bold;
 }
-.g_h{
+.g_h {
   height: 175px !important;
 }
 @media screen and (max-width: 840px) {
@@ -403,37 +424,58 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
     -ms-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-    color: #FFF;
+    color: #fff;
     position: relative;
     text-transform: uppercase;
     font-size: 18px;
     font-weight: bold;
   }
-  .g_h{
+  .g_h {
     height: auto !important;
     line-height: 28px;
     padding-bottom: 10px;
   }
 }
 
-.insulincustom:checked~.custom-control-label::before {
+.insulincustom:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: brown;
   background-color: brown;
-  margin-top: 5px;
 }
-.insulincustom:checked~.custom-control-label::after {
-  margin-top: 5px;
+.activitycustom:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #008000;
+  background-color: #008000;
 }
-.activitycustom:checked~.custom-control-label::before {
-  margin-top: 5px;
+.carbscustom:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #ffdb58;
+  background-color: #ffdb58;
 }
-.activitycustom:checked~.custom-control-label::after {
-  margin-top: 5px;
+.glucosecustom:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: slateblue;
+  background-color: slateblue;
 }
-input[type=checkbox]:not(old) + label {
+// .insulincustom:checked~.custom-control-label::after {
+//   margin-top: 5px;
+// }
+// .activitycustom:checked~.custom-control-label::before {
+//   margin-top: 5px;
+// }
+// .activitycustom:checked~.custom-control-label::after {
+//   margin-top: 5px;
+// }
+input:checked ~ .custom-control-label::after,
+input:checked ~ .custom-control-label::before {
+  margin-top: 0px;
+}
+input[type="checkbox"] .custom-control-label::after{
+  margin-top: 5px !important;
+}
+input[type="checkbox"] + label {
   display: inline-block;
-  line-height: 30px !important;
-  margin-top: 12px !important;
+
+  line-height: 21px !important;
   margin-right: 12px !important;
 }

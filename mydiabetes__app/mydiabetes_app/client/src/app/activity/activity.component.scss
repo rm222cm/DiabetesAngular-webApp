@@ -2,21 +2,25 @@
   color: #fff;
   border-color: brown;
   background-color: brown;
+  margin-top: 10px;
 }
 .activitycustom:checked~.custom-control-label::before {
   color: #fff;
   border-color: #008000;
   background-color: #008000;
+  margin-top: 10px;
 }
 .carbscustom:checked~.custom-control-label::before {
   color: #fff;
   border-color: #ffdb58 ;
   background-color: #ffdb58 ;
+  margin-top: 10px;
 }
 .glucosecustom:checked~.custom-control-label::before {
   color: #fff;
   border-color: slateblue;
   background-color: slateblue;
+  margin-top: 10px;
 }
 .ct-chart{
   position: relative;

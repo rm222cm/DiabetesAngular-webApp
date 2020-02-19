@@ -51,5 +51,6 @@ router.post('/getChartData', auth, insulin.getChartData);
 router.get('/exportHistory', exportData.exportHistory);
 router.post('/export', exportData.export);
 router.post('/exportAsReport', exportData.exportAsReport);
+router.post('/exportAsReportInsulin', exportData.exportAsReportInsulin);
 
 module.exports = router;

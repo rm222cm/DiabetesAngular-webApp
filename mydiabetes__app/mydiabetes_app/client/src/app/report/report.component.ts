@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
-import { start } from 'repl';
 import { single,multi1,multi,linear } from '../data/data.model';
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-report',
@@ -29,9 +27,12 @@ export class ReportComponent implements OnInit {
   multi: any;
   linear: any;
   multi1: any[];
+  insilinArray: any[] = [];
   activityobj: any;
+  carbsobj: any;
+  golucoseobj: any;
 
-  view: any[] = [1024, 180];
+  view: any[] = [1024, 480];
 
   // options
   showXAxis = true;
@@ -44,6 +45,7 @@ export class ReportComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Dosage Unit';
   yAxisLabel1 = 'Duration';
+  yAxisLabelGlucose = 'Glucose Level';
 
 
   legend: boolean = true;
@@ -59,6 +61,12 @@ export class ReportComponent implements OnInit {
 
   colorScheme1 = {
     domain: ['#3CB371', '#64c12abf', '#c12abcbf', '#432aa9bf']
+  };
+  colorSchemeCarbs = {
+    domain: ['#ffdb58', '#64c12abf', '#c12abcbf', '#432aa9bf']
+  };
+  colorSchemeGlucose = {
+    domain: ['slateblue', '#64c12abf', '#c12abcbf', '#432aa9bf']
   };
   glucoseType = [
     'Before Meal',
@@ -84,6 +92,8 @@ export class ReportComponent implements OnInit {
   groupedReport: any;
   showInsulin = true;
   showActivity = true;
+  showCarbs = true;
+  showGlucose = true;
 
   ngOnInit() {
     console.log(this.startDate + '  ' + this.endDate);
@@ -91,23 +101,71 @@ export class ReportComponent implements OnInit {
   }
   onSelectInsulin(event) {
     var elements = document.querySelectorAll('.legend-label-text') ;
-    elements.forEach(function(el){
+    let arr = [];
+    elements.forEach((el)=>{
 
       if(el.textContent.trim() == event  ){
         if(el['style'].textDecoration == 'line-through'){
           el['style'].textDecoration = '';
+          if(event == 'After Meal'){
+
+            const index = this.insilinArray.indexOf(2);
+            if (index > -1) {
+              this.insilinArray.splice(index, 1);
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+
+          } else if(event == 'Before Meal'){
+            
+            const index = this.insilinArray.indexOf(1);
+            if (index > -1) {
+              this.insilinArray.splice(index, 1);
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+
+          }else if(event == 'Any other time'){
+
+            const index = this.insilinArray.indexOf(3);
+            if (index > -1) {
+              this.insilinArray.splice(index, 1);
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+
+          }
         } else {
           el['style'].textDecoration = 'line-through';
+          if(event == 'After Meal'){
+            const index = this.insilinArray.indexOf(2);
+            if (index < 0) {
+              this.insilinArray.push(2)
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+
+          } else if(event == 'Before Meal'){
+            const index = this.insilinArray.indexOf(1);
+            if (index < 0) {
+              this.insilinArray.push(1)
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+      
+          }else if(event == 'Any other time'){
+            const index = this.insilinArray.indexOf(3);
+            if (index < 0) {
+              this.insilinArray.push(3)
+            }
+
+            this.getInsulinReportData(this.insilinArray);
+      
+          }
         }
       }
     })
-    if(event == 'After Meal'){
 
-    } else if(event == 'Before Meal'){
-
-    }else if(event == 'Any other time'){
-
-    }
   }
 
   onChecked(value, target) {
@@ -118,6 +176,12 @@ export class ReportComponent implements OnInit {
     }
     if(target == 'ACTIVITY'){
       this.showActivity = !this.showActivity;
+    }
+    if(target == 'CARBS'){
+      this.showCarbs = !this.showCarbs;
+    }
+    if(target == 'GLUCOSE'){
+      this.showGlucose = !this.showGlucose;
     }
   }
   previousDayData() {
@@ -169,6 +233,18 @@ export class ReportComponent implements OnInit {
       return {};
     }
   }
+  groupByCustom(xs, key) {
+    if(xs){
+      console.log('xs,key');
+      console.log(xs,key);
+      return xs.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []);
+        return rv;
+      }, {});
+    } else {
+      return {};
+    }
+  }
 
   formatPercent(val) {
     // console.log('val')
@@ -205,11 +281,6 @@ export class ReportComponent implements OnInit {
           }
           
           elem['value'] = elem.dosageUnits;
-            // if( elem.dosageUnits > 90){
-
-            //   elem['value'] = 90;
-            // }
-            // elem['name'] = elem.insulinType || 'other';
           
 
         } else if(elem.type == 'activity'){
@@ -227,10 +298,16 @@ export class ReportComponent implements OnInit {
       console.log('groupedReport', this.groupedReport);
       let insulin  = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
       let activity  = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
+      let carbs  = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
+      let glucose  = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
       let obj1=[];
       let obj2=[{'name':'Activity','series':[]}];
+      let obj3=[{'name':'Crabs','series':[]}];
+      let obj4=[{'name':'Glucose','series':[]}];
       let count = 0;
       let count2 = 0;
+      let count3 = 0;
+      let count4 = 0;
       for (let [key, value] of Object.entries(insulin)) {
         // if( this.datePipe.transform(value['dosageTime'], 'MM-dd-yy') != '02-10-20')
         // {
@@ -267,9 +344,32 @@ export class ReportComponent implements OnInit {
         count2++;
         this.activityobj = obj2;
       }
-        console.log(' this.this.multi');
-        console.log( JSON.stringify(this.multi));
-        console.log( this.multi);
+      //-------------------------------Carb charts ---------------------------------//
+      //-------------------------------Carb charts ---------------------------------//
+      //-------------------------------Carb charts ---------------------------------//
+      for (let [key, value] of Object.entries(carbs)) {
+        obj3[0].series[count3] = {};
+        obj3[0].series[count3].name =  new Date(value['carbsTime']);
+        obj3[0].series[count3].value = 5;
+        obj3[0].series[count3].carbsTime = new Date(value['carbsTime']);
+        obj3[0].series[count3].carbsType = this.carbsType[value['carbsType']];
+        obj3[0].series[count3].carbsItem = value['carbsItem'];
+        count3++;
+        this.carbsobj = obj3;
+      }
+      //-------------------------------glucose charts ---------------------------------//
+      //-------------------------------glucose charts ---------------------------------//
+      //-------------------------------glucose charts ---------------------------------//
+      for (let [key, value] of Object.entries(glucose)) {
+        obj4[0].series[count4] = {};
+        obj4[0].series[count4].name =  new Date(value['glucoseTime']);
+        obj4[0].series[count4].value = value['glucoseLevelUnits'];
+        obj4[0].series[count4].glucoseTime = new Date(value['glucoseTime']);
+        obj4[0].series[count4].glucoseType = this.glucoseType[value['glucoseType']];
+        obj4[0].series[count4].glucoseLevelUnits = value['glucoseLevelUnits'];
+        count4++;
+        this.golucoseobj = obj4;
+      }
       this.isLoading = false;
     },
       error => {
@@ -278,6 +378,77 @@ export class ReportComponent implements OnInit {
       });
   }
 
+  getInsulinReportData(dosageType) {
+    console.log('getInsulinReportData')
+    const data = {
+      startDate: this.startDate,
+      endDate: this.endDate,
+      dosageType: dosageType
+    };
+    this.isLoading = true;
+    this.insulinService.getInsulinReportData(data).subscribe((res: any) => {
+
+      this.reportData = this.parseData(res.data);
+      this.reportData.map(elem => {
+        var myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
+        elem['commonTime'] = myDate;
+        if(elem.type == 'insulin'   ){
+          if(elem.insulinType){
+            elem['insulinType'] =  elem.insulinType;
+          } else {
+            elem['insulinType'] =  '';
+          }
+          if(elem.dosageType == '1'){
+            elem['name'] =  'Before Meal';
+          } else  if(elem.dosageType == '2'){
+            elem['name'] =  'After Meal';
+          } else {
+            elem['name'] =  'Any other time';
+          }
+          
+          elem['value'] = elem.dosageUnits;
+          
+
+        }
+          return elem;
+      });
+      console.log('reportData', this.reportData);
+      this.groupedReport = this.groupBy(this.reportData, 'type');
+      let insulin_data = this.groupByCustom(this.groupedReport.insulin, 'dosageType');
+      console.log('groupedReport', this.groupedReport);
+      console.log('insulin_data', insulin_data);
+      let insulin  = this.groupedReport.insulin; 
+      let obj1=[]; 
+      let count = 0; 
+      
+
+     
+      for (let [key, value] of Object.entries(insulin)) {
+
+          obj1[count] = {};
+          obj1[count].name =  this.datePipe.transform(value['dosageTime'], 'MMM,y');
+          obj1[count].series = [
+            {
+              "name": value['name'],
+              "value": value['value'],
+              "insulinType": value['insulinType'],
+              "dosageTime": value['dosageTime']
+            }]
+          count++;
+          this.multi = obj1;   
+
+      }
+      
+      console.log('this.multi');
+      console.log(this.multi);
+      
+      this.isLoading = false;
+    },
+      error => {
+        console.log(error);
+
+      });
+  }
   replaceKeys(obj, find, replace) {
 
     return Object.keys(obj).reduce (
