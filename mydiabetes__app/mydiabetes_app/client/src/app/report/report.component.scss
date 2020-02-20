@@ -482,3 +482,13 @@ input[type="checkbox"] + label {
 .input-group-text{
   min-width: 80px !important;
 }
+.md-btn{
+  margin-left: 9%;
+  width: 50%;
+}
+@media only screen and (max-width: 800px) {
+  .md-btn{
+    margin-left: 19%;
+    width: 81%;
+  }
+}
