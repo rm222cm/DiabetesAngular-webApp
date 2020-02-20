@@ -483,12 +483,34 @@ input[type="checkbox"] + label {
   min-width: 80px !important;
 }
 .md-btn{
-  margin-left: 9%;
-  width: 50%;
+  margin-left: 8.3%;
+}
+.md_wd{
+  -webkit-box-flex: 0 !important;
+    flex: 0 0 45% !important;
+    max-width: 45% !important;
+}
+.btn-container .manage-margin{
+  margin-left: 8% !important;
+}
+@media only screen and (max-width: 1200px) {
+  .btn-container .manage-margin{
+    margin-left: 10% !important;
+  }
 }
 @media only screen and (max-width: 800px) {
   .md-btn{
-    margin-left: 19%;
-    width: 81%;
+    margin-left: 16%;
+    width: 86%;
+  }
+  .md_inline{
+    display:inline-block;
+    width: 50% !important;
+  }
+  .btn-container .manage-margin{
+    margin-left: 13% !important;
+  }
+  .btn-container .manage-margin .col-md-6{
+    padding: 0 !important;
   }
 }

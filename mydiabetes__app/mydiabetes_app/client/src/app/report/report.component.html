@@ -1,223 +1,201 @@
 <div class="container-fluid">
   <div class="row">
-  <div class=" col-md-3"></div>
-  <div class=" col-md-3">
-    <div class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text">Start Date</span>
+    <div class=" col-md-3"></div>
+    <div class=" col-md-3">
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Start Date</span>
+        </div>
+        <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate"
+          (change)="onDateChange($event.target.value ,'START')">
       </div>
-      <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate"
-        (change)="onDateChange($event.target.value ,'START')">
     </div>
-  </div>
-  <div class="col-md-offset-1 col-md-3">
-    <div class="input-group input-group-sm">
-      <div class="input-group-prepend">
-        <span class="input-group-text">End Date</span>
+    <div class="col-md-offset-1 col-md-3">
+      <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+          <span class="input-group-text">End Date</span>
+        </div>
+        <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate"
+          (change)="onDateChange($event.target.value,'END')">
       </div>
-      <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate"
-        (change)="onDateChange($event.target.value,'END')">
     </div>
-  </div>
-  <div class=" col-md-3"></div>
-  <div class="col-md-12">
-  <div class="col-md-12 text-center mt-1">
-    <div class="custom-control custom-checkbox mt-2 d-inline-block">
-      <input [(ngModel)]="showInsulin" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
-        (click)="onChecked($event.target.checked,'INSULIN')">
-      <label class="custom-control-label " for="insulinCheck1">Insulin</label>
-    </div>
-    <div class="custom-control custom-checkbox mt-2 d-inline-block">
-      <input [(ngModel)]="showActivity" type="checkbox" class="activitycustom custom-control-input" id="activityCheck1"
-      (click)="onChecked($event.target.checked,'ACTIVITY')">
-    <label class="custom-control-label" for="activityCheck1">Activity</label>
-    </div>
-    <div class="custom-control custom-checkbox mt-2 d-inline-block">
-      <input [(ngModel)]="showCarbs" type="checkbox" class="carbscustom custom-control-input" id="carbsCheck1"
-      (click)="onChecked($event.target.checked,'CARBS')">
-    <label class="custom-control-label" for="carbsCheck1">Carbs</label>
-    </div>
-    <div class="custom-control custom-checkbox mt-2 d-inline-block">
-      <input [(ngModel)]="showGlucose" type="checkbox" class="glucosecustom custom-control-input" id="glucoseCheck1"
-      (click)="onChecked($event.target.checked,'GLUCOSE')">
-    <label class="custom-control-label" for="glucoseCheck1">Glucose</label>
-    </div>
-  </div>
-</div>
- 
-  <div class="col-md-12 vh-50">
-    <div class="row" >
-      <div class="clearfix col-md-12"  *ngIf="showInsulin"></div>
-      <div  class="col-md-1"  *ngIf="showInsulin"></div><div class="col-md-11 text-center"  *ngIf="showInsulin"><dl><b>Insulin Dosage Chart</b></dl></div>
-      <div  class="col-md-1 text-white align-top g_h"  *ngIf="showInsulin"></div>
-      <div class="col-md-10"  *ngIf="showInsulin">
-        <ngx-charts-bar-vertical-2d
-           
-          [scheme]="colorScheme"
-          [results]="multi"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          (select)="onSelectInsulin($event)">
-          <ng-template #tooltipTemplate let-model="model">
-             
-            <pre style="color: antiquewhite; text-align: left ">Dosage Time: {{model.dosageTime | date:'yy-MM-dd HH:mm'}}</pre>
-          
-            <pre style="color: antiquewhite; text-align: left;">Dosage Amount: {{model.value}} Units</pre>
-            <pre style="color: antiquewhite; text-align: left;">Insulin Type: {{model.insulinType}}</pre>
-          </ng-template>
-        </ngx-charts-bar-vertical-2d>
+    <div class=" col-md-3"></div>
+    <div class="col-md-12">
+      <div class="col-md-12 text-center mt-1">
+        <div class="custom-control custom-checkbox mt-2 d-inline-block">
+          <input [(ngModel)]="showInsulin" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
+            (click)="onChecked($event.target.checked,'INSULIN')">
+          <label class="custom-control-label " for="insulinCheck1">Insulin</label>
+        </div>
+        <div class="custom-control custom-checkbox mt-2 d-inline-block">
+          <input [(ngModel)]="showActivity" type="checkbox" class="activitycustom custom-control-input"
+            id="activityCheck1" (click)="onChecked($event.target.checked,'ACTIVITY')">
+          <label class="custom-control-label" for="activityCheck1">Activity</label>
+        </div>
+        <div class="custom-control custom-checkbox mt-2 d-inline-block">
+          <input [(ngModel)]="showCarbs" type="checkbox" class="carbscustom custom-control-input" id="carbsCheck1"
+            (click)="onChecked($event.target.checked,'CARBS')">
+          <label class="custom-control-label" for="carbsCheck1">Carbs</label>
+        </div>
+        <div class="custom-control custom-checkbox mt-2 d-inline-block">
+          <input [(ngModel)]="showGlucose" type="checkbox" class="glucosecustom custom-control-input" id="glucoseCheck1"
+            (click)="onChecked($event.target.checked,'GLUCOSE')">
+          <label class="custom-control-label" for="glucoseCheck1">Glucose</label>
+        </div>
       </div>
+    </div>
 
-      <div class="clearfix col-md-12" *ngIf="showActivity"></div>
-      <div  class="col-md-1" *ngIf="showActivity"></div><div class="col-md-11 text-center" *ngIf="showActivity"><dl><b>Activity Chart</b></dl></div>
-      <div  class="col-md-1 text-white align-top g_h" *ngIf="showActivity"></div>
-      <div class="col-md-10" *ngIf="showActivity">
+    <div class="col-md-12 vh-50">
+      <div class="row">
+        <div class="clearfix col-md-12" *ngIf="showInsulin"></div>
+        <div class="col-md-1" *ngIf="showInsulin"></div>
+        <div class="col-md-11 text-center" *ngIf="showInsulin">
+          <dl><b>Insulin Dosage Chart</b></dl>
+        </div>
+        <div class="col-md-1 text-white align-top g_h" *ngIf="showInsulin"></div>
+        <div class="col-md-10" *ngIf="showInsulin">
+          <ngx-charts-bar-vertical-2d [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis"
+            [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+            (select)="onSelectInsulin($event)">
+            <ng-template #tooltipTemplate let-model="model">
 
-        <ngx-charts-area-chart
-          
-          [scheme]="colorScheme1"
-          [legend]="false"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxis]="xAxis"
-          [yAxis]="yAxis"
-          [xAxisLabel]="xAxisLabel1"
-          [yAxisLabel]="yAxisLabel1"
-          [timeline]="timeline"
-          [autoScale]="autoScale"
-          [results]="activityobj"
-          (select)="onSelect($event)">
-          <ng-template #tooltipTemplate let-model="model">
-             
-            <pre style="color: antiquewhite; text-align: left ">Activity Time: {{model.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
-            <pre style="color: antiquewhite; text-align: left ">Activity Type: {{model.activityType }}</pre>
-            <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{model.activityDuration }}</pre>
-           
-          </ng-template>
-                    
-            <ng-template #seriesTooltipTemplate let-model="model" >
+              <pre
+                style="color: antiquewhite; text-align: left ">Dosage Time: {{model.dosageTime | date:'yy-MM-dd HH:mm'}}</pre>
+
+              <pre style="color: antiquewhite; text-align: left;">Dosage Amount: {{model.value}} Units</pre>
+              <pre style="color: antiquewhite; text-align: left;">Insulin Type: {{model.insulinType}}</pre>
+            </ng-template>
+          </ngx-charts-bar-vertical-2d>
+        </div>
+
+        <div class="clearfix col-md-12" *ngIf="showActivity"></div>
+        <div class="col-md-1" *ngIf="showActivity"></div>
+        <div class="col-md-11 text-center" *ngIf="showActivity">
+          <dl><b>Activity Chart</b></dl>
+        </div>
+        <div class="col-md-1 text-white align-top g_h" *ngIf="showActivity"></div>
+        <div class="col-md-10" *ngIf="showActivity">
+
+          <ngx-charts-area-chart [scheme]="colorScheme1" [legend]="false" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel1"
+            [yAxisLabel]="yAxisLabel1" [timeline]="timeline" [autoScale]="autoScale" [results]="activityobj"
+            (select)="onSelect($event)">
+            <ng-template #tooltipTemplate let-model="model">
+
+              <pre
+                style="color: antiquewhite; text-align: left ">Activity Time: {{model.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
+              <pre style="color: antiquewhite; text-align: left ">Activity Type: {{model.activityType }}</pre>
+              <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{model.activityDuration }}</pre>
+
+            </ng-template>
+
+            <ng-template #seriesTooltipTemplate let-model="model">
               <span *ngFor="let mod of model; let i = index">
-                <pre style="color: antiquewhite; text-align: left ">Activity Time: {{mod.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
+                <pre
+                  style="color: antiquewhite; text-align: left ">Activity Time: {{mod.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
                 <pre style="color: antiquewhite; text-align: left ">Activity Type: {{mod.activityType }}</pre>
                 <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{mod.activityDuration }}</pre>
               </span>
             </ng-template>
-        </ngx-charts-area-chart>
-      </div>
+          </ngx-charts-area-chart>
+        </div>
 
-      <div class="clearfix col-md-12" *ngIf="showCarbs"></div>
-      <div  class="col-md-1" *ngIf="showCarbs"></div><div class="col-md-11 text-center" *ngIf="showCarbs"><dl><b>Crabs Chart</b></dl></div>
-      <div  class="col-md-1 text-white align-top g_h" *ngIf="showCarbs"></div>
-      <div class="col-md-10" *ngIf="showCarbs">
+        <div class="clearfix col-md-12" *ngIf="showCarbs"></div>
+        <div class="col-md-1" *ngIf="showCarbs"></div>
+        <div class="col-md-11 text-center" *ngIf="showCarbs">
+          <dl><b>Crabs Chart</b></dl>
+        </div>
+        <div class="col-md-1 text-white align-top g_h" *ngIf="showCarbs"></div>
+        <div class="col-md-10" *ngIf="showCarbs">
 
-        <ngx-charts-line-chart
-          
-          [scheme]="colorSchemeCarbs"
-          [legend]="false"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="true"
-          [xAxis]="xAxis"
-          [yAxis]="true"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]=""
-          [timeline]="timeline"
-          [results]="carbsobj"
-          (select)="onSelect($event)"
-          >
-          <ng-template #tooltipTemplate let-model="model">
-             
-            <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
-                <pre style="color: antiquewhite; text-align: left ">Carb Type: {{model.carbsType }}</pre>
-                <pre style="color: antiquewhite; text-align: left ">Eating Time: {{model.carbsTime  | date:'y-MM-dd HH:mm'}}</pre>
-           
-          </ng-template>
-                    
-            <ng-template #seriesTooltipTemplate let-model="model" >
+          <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]=""
+            [timeline]="timeline" [results]="carbsobj" (select)="onSelect($event)">
+            <ng-template #tooltipTemplate let-model="model">
+
+              <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
+              <pre style="color: antiquewhite; text-align: left ">Carb Type: {{model.carbsType }}</pre>
+              <pre
+                style="color: antiquewhite; text-align: left ">Eating Time: {{model.carbsTime  | date:'y-MM-dd HH:mm'}}</pre>
+
+            </ng-template>
+
+            <ng-template #seriesTooltipTemplate let-model="model">
               <span *ngFor="let mod of model; let i = index">
                 <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{mod.carbsItem }}</pre>
                 <pre style="color: antiquewhite; text-align: left ">Carb Type: {{mod.carbsType }}</pre>
-                <pre style="color: antiquewhite; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
+                <pre
+                  style="color: antiquewhite; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
               </span>
             </ng-template>
-        </ngx-charts-line-chart>
-      </div>
-      <div class="col-md-1"></div>
+          </ngx-charts-line-chart>
+        </div>
+        <div class="col-md-1"></div>
 
-      
-      <div class="clearfix col-md-12" *ngIf="showGlucose"></div>
-      <div  class="col-md-1" *ngIf="showGlucose"></div><div class="col-md-11 text-center" *ngIf="showGlucose"><dl><b>Glucose Level Chart</b></dl></div>
-      <div  class="col-md-1 text-white align-top g_h" *ngIf="showGlucose"></div>
-      <div class="col-md-10" *ngIf="showGlucose">
 
-        <ngx-charts-line-chart
-          
-          [scheme]="colorSchemeGlucose"
-          [legend]="false"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="true"
-          [xAxis]="xAxis"
-          [yAxis]="true"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabelGlucose"
-          [timeline]="timeline"
-          [results]="golucoseobj"
-          (select)="onSelect($event)"
-          >
-          <ng-template #tooltipTemplate let-model="model">
-             
-            <pre style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
-            <pre style="color: antiquewhite; text-align: left ">Glucose Level: {{model.glucoseLevelUnits}} mmol/L</pre>
-            <pre style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{model.glucoseTime  | date:'HH:mm'}}</pre>
-           
-          </ng-template>
-                    
-            <ng-template #seriesTooltipTemplate let-model="model" >
+        <div class="clearfix col-md-12" *ngIf="showGlucose"></div>
+        <div class="col-md-1" *ngIf="showGlucose"></div>
+        <div class="col-md-11 text-center" *ngIf="showGlucose">
+          <dl><b>Glucose Level Chart</b></dl>
+        </div>
+        <div class="col-md-1 text-white align-top g_h" *ngIf="showGlucose"></div>
+        <div class="col-md-10" *ngIf="showGlucose">
+
+          <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj" (select)="onSelect($event)">
+            <ng-template #tooltipTemplate let-model="model">
+
+              <pre
+                style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
+              <pre
+                style="color: antiquewhite; text-align: left ">Glucose Level: {{model.glucoseLevelUnits}} mmol/L</pre>
+              <pre
+                style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{model.glucoseTime  | date:'HH:mm'}}</pre>
+
+            </ng-template>
+
+            <ng-template #seriesTooltipTemplate let-model="model">
               <span *ngFor="let mod of model; let i = index">
-                <pre style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{mod.glucoseType }}</pre>
-            <pre style="color: antiquewhite; text-align: left ">Glucose Level: {{mod.glucoseLevelUnits}} mmol/L</pre>
-            <pre style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
+                <pre
+                  style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{mod.glucoseType }}</pre>
+                <pre
+                  style="color: antiquewhite; text-align: left ">Glucose Level: {{mod.glucoseLevelUnits}} mmol/L</pre>
+                <pre
+                  style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
               </span>
             </ng-template>
-        </ngx-charts-line-chart>
-      </div>
-      
-      <div class="col">
-        <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
+          </ngx-charts-line-chart>
+        </div>
+
+        <div class="col">
+          <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
+        </div>
       </div>
     </div>
   </div>
-  </div>
   <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
-  
-<div class="container ">
-  <div class="row justify-content-center my-5" *ngIf="isLoading">
-    <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
-  </div> 
-    <div class="col-md-1"></div>
-    <div class="col-md-11 mb-5">
-      <div class="col-md-1"></div>
- <div class="form-row row md-btn">
-        <div class="form-group col-md-6">
-          <button type="button" class="btn btn-default-form btn-form btn-sm col-lg-12" 
+
+  <div class="container-fluid btn-container">
+    <div class="row justify-content-center my-5" *ngIf="isLoading">
+      <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+    </div>
+    <div class="form-row row mb-5">
+      <div class="col-md-10 offset-1">
+        <div class="row m-0 manage-margin">
+        <div class="form-group col-md-6 pl-1">
+          <button type="button" class="btn btn-default-form btn-form btn-sm col-md-12"
             (click)="generateHistoricalCSV()">{{ 'report.historicalcsv' | translate }}</button>
         </div>
-        <div class="form-group col-md-6">
-          <button type="button" class="btn btn-default-form btn-block btn-sm col-lg-12" 
+        <div class="form-group col-md-6 p-0">
+          <button type="button" class="btn btn-default-form btn-block btn-sm col-md-12"
             (click)="generateCSV()">{{ 'report.downloadcsv' | translate }}</button>
         </div>
       </div>
-        <!-- <div class=" col-md-2">
-      </div> -->
       </div>
-      
-    </div> 
-</div>
-
-
-  
+      <div class="col-md-1"></div>
+    </div>
+    <!-- <div class=" col-md-2">
+      </div> -->
+  </div>
