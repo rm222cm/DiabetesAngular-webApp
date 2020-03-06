@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
+declare var makeDistroChart: any;
 
 @Component({
   selector: 'app-report',
