@@ -33,6 +33,7 @@
     "chartist-plugin-tooltip": "0.0.11",
     "chartist-plugin-tooltips": "0.0.17",
     "chartist-svg": "^0.1.5",
+    "chartjs-chart-box-and-violin-plot": "^2.3.0",
     "compass-mixins": "^0.12.10",
     "core-js": "^2.5.4",
     "d3": "^5.15.0",

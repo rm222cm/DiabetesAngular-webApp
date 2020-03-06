@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { single, multi1, multi, linear } from '../data/data.model';
+import * as d3 from 'd3'; 
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
@@ -12,8 +13,9 @@ import { HttpClient } from '@angular/common/http';
   providers: [DatePipe]
 })
 export class ReportComponent implements OnInit {
-
-  constructor(private insulinService: InsulinDosagesService, private http: HttpClient, private datePipe: DatePipe) {
+  @ViewChild('dataContainer') dataContainer: ElementRef;
+  constructor(private insulinService: InsulinDosagesService, private http: HttpClient,
+     private datePipe: DatePipe) {
 
 
     Object.assign(this, { single });
@@ -96,11 +98,40 @@ export class ReportComponent implements OnInit {
   showActivity = true;
   showCarbs = true;
   showGlucose = true;
+  htmlData = false;
 
   ngOnInit() {
     console.log(this.startDate + '  ' + this.endDate);
     this.getReportData();
+    
   }
+
+  voilin(this_data) {
+    // this.dataContainer.nativeElement.innerHTML = '';
+    var chart1;
+    // d3.json(this_data, function(error, data) {
+    //   console.log('data');
+    //   console.log(data);
+      this_data.forEach(function (d) {d.value = +d.value; });
+
+        chart1 = makeDistroChart({
+            data: this_data,
+            xName: 'date',
+            yName: 'value',
+            axisLabels: {xAxis: null, yAxis: 'Values'},
+            selector: '#chart-distro1',
+            chartSize: { height: 530, width: 960},
+            constrainExtremes: true});
+        // chart1.renderBoxPlot();
+        // chart1.renderDataPlots();
+        // chart1.renderNotchBoxes({showNotchBox:false});
+        chart1.renderViolinPlot({showViolinPlot: true});
+
+    }
+    // );
+  
+  // }
+  
   onSelectInsulin(event) {
     var elements = document.querySelectorAll('.legend-label-text') ;
     let arr = [];
@@ -296,6 +327,7 @@ export class ReportComponent implements OnInit {
       const carbs  = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
       const glucose  = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
       let obj1 = [];
+      let objvoilin = [];
       let obj2 = [{'name': 'Activity', 'series': []}];
       let obj3 = [{'name': 'Crabs', 'series': []}];
       let obj4 = [{'name': 'Glucose', 'series': []}];
@@ -303,10 +335,16 @@ export class ReportComponent implements OnInit {
       let count2 = 0;
       let count3 = 0;
       let count4 = 0;
+      console.log("insulin.length");
+      console.log(insulin.length);
+      console.log(insulin);
       for (let [key, value] of Object.entries(insulin)) {
 
           obj1[count] = {};
+          objvoilin[count] = {};
           obj1[count].name =  this.datePipe.transform(value['dosageTime'], 'MMM,y');
+          objvoilin[count].date =  obj1[count].name;
+          objvoilin[count].value =  value['value'];
           obj1[count].series = [
             {
               'name': value['name'],
@@ -315,7 +353,14 @@ export class ReportComponent implements OnInit {
               'dosageTime': value['dosageTime']
             }];
           count++;
+          console.log('count');
+          console.log(count);
           this.multi = obj1;
+          if (count === insulin.length ) {
+            console.log("this.objvoilin");
+            console.log( objvoilin);
+            this.voilin(objvoilin);
+          }
         // }
 
       }
