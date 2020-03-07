@@ -119,7 +119,7 @@ export class ReportComponent implements OnInit {
             data: this_data,
             xName: 'date',
             yName: 'value',
-            axisLabels: {xAxis: null, yAxis: 'Values'},
+            axisLabels: {xAxis: 'Time Specification', yAxis: 'Dosage Units'},
             selector: '#chart-distro1',
             chartSize: { height: 530, width: 960},
             constrainExtremes: true});
@@ -344,7 +344,7 @@ export class ReportComponent implements OnInit {
           obj1[count] = {};
           objvoilin[count] = {};
           obj1[count].name =  this.datePipe.transform(value['dosageTime'], 'MMM,y');
-          objvoilin[count].date =  obj1[count].name;
+          objvoilin[count].date =  value['name'];
           objvoilin[count].value =  value['value'];
           obj1[count].series = [
             {

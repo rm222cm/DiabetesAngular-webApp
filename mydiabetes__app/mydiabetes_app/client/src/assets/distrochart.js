@@ -312,7 +312,7 @@ function makeDistroChart(settings) {
             .selectAll("text")
             .attr("y", 5)
             .attr("x", -5)
-            .attr("transform", "rotate(-45)")
+            // .attr("transform", "rotate(-45)")
             .style("text-anchor", "end");
         chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
         chart.objs.g.select('.y.axis').call(chart.objs.yAxis.innerTickSize(-chart.width));
@@ -332,7 +332,7 @@ function makeDistroChart(settings) {
         // Add all the divs to make it centered and responsive
         chart.objs.mainDiv.append("div")
             .attr("class", "inner-wrapper")
-            .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
+            // .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
             .append("div").attr("class", "outer-box")
             .append("div").attr("class", "inner-box");
         // Capture the inner div for the chart (where the chart actually is)
