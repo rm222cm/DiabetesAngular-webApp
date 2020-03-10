@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { single, multi1, multi, linear } from '../data/data.model';
-import * as d3 from 'd3'; 
+// import * as d3 from 'd3'; 
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
 declare var makeDistroChart: any;
+declare var d3: any;
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [DatePipe]
 })
 export class ReportComponent implements OnInit {
@@ -107,32 +109,59 @@ export class ReportComponent implements OnInit {
     
   }
 
-  voilin(this_data) {
+  boxPlot(this_data) {
     // this.dataContainer.nativeElement.innerHTML = '';
-    var chart1;
-    // d3.json(this_data, function(error, data) {
-    //   console.log('data');
-    //   console.log(data);
+    let chart1;
+    // d3.csv(this_data, function(error, data) {
+    // d3.csv('../../assets/DATA.CSV', function(error, data) {
+      console.log('this_data');
+      console.log(this_data);
       this_data.forEach(function (d) {d.value = +d.value; });
 
-        chart1 = makeDistroChart({
-            data: this_data,
-            xName: 'date',
-            yName: 'value',
-            axisLabels: {xAxis: 'Time Specification', yAxis: 'Dosage Units'},
-            selector: '#chart-distro1',
-            chartSize: { height: 530, width: 960},
-            constrainExtremes: true});
-        // chart1.renderBoxPlot();
+      chart1 = makeDistroChart({
+          data: this_data,
+          xName: 'date',
+          yName: 'value',
+          axisLabels: {xAxis: null, yAxis: 'Dosage Units'},
+          selector: '#chart-distro1',
+          chartSize: { height: 530, width: 960},
+          constrainExtremes: true});
+        chart1.renderBoxPlot();
+      console.log('after', this_data);
         // chart1.renderDataPlots();
         // chart1.renderNotchBoxes({showNotchBox:false});
-        chart1.renderViolinPlot({showViolinPlot: true});
+        // chart1.renderViolinPlot({showViolinPlot: true});
 
-    }
-    // );
-  
-  // }
-  
+    // }); // d3.csv
+  }
+
+  scatterPlot(this_data) {
+    // this.dataContainer.nativeElement.innerHTML = '';
+    let chart2;
+    // d3.csv(this_data, function(error, data) {
+    // d3.csv('../../assets/DATA.CSV', function(error, data) {
+      console.log('this_data');
+      console.log(this_data);
+      this_data.forEach(function (d) {d.value = +d.value; });
+
+      chart2 = makeDistroChart({
+          data: this_data,
+          xName: 'date',
+          yName: 'value',
+          axisLabels: {xAxis: null, yAxis: 'Activity Duration'},
+          selector: '#chart-distro2',
+          chartSize: { height: 530, width: 960},
+          constrainExtremes: true});
+          chart2.renderDataPlots();
+          chart2.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});
+           
+        // chart1.renderDataPlots();
+        // chart1.renderNotchBoxes({showNotchBox:false});
+        // chart1.renderViolinPlot({showViolinPlot: true});
+
+    // }); // d3.csv
+  }
+
   onSelectInsulin(event) {
     var elements = document.querySelectorAll('.legend-label-text') ;
     let arr = [];
@@ -203,8 +232,7 @@ export class ReportComponent implements OnInit {
   }
 
   onChecked(value, target) {
-    console.log('value, target');
-    console.log(value, target);
+
     if (target == 'INSULIN') {
       this.showInsulin = !this.showInsulin;
     }
@@ -228,7 +256,7 @@ export class ReportComponent implements OnInit {
   nextDayData() {
     const day = new Date(this.endDate);
     this.endDate = new Date(new Date(this.endDate).setDate(day.getDate() + 1)).toISOString().substring(0, 10);
-    console.log(this.endDate); // May 01 2000
+    // console.log(this.endDate); // May 01 2000
     this.getReportData();
   }
 
@@ -269,8 +297,8 @@ export class ReportComponent implements OnInit {
   }
   groupByCustom(xs, key) {
     if (xs) {
-      console.log('xs,key');
-      console.log(xs, key);
+      // console.log('xs,key');
+      // console.log(xs, key);
       return xs.reduce(function(rv, x) {
         (rv[x[key]] = rv[x[key]] || []);
         return rv;
@@ -281,7 +309,7 @@ export class ReportComponent implements OnInit {
   }
 
   getReportData() {
-    console.log('getReportData');
+    // console.log('getReportData');
     const data = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -320,15 +348,16 @@ export class ReportComponent implements OnInit {
         }
           return elem;
       });
-      console.log('reportData', this.reportData);
+      // console.log('reportData', this.reportData);
       this.groupedReport = this.groupBy(this.reportData, 'type');
-      console.log('groupedReport', this.groupedReport);
+      // console.log('groupedReport', this.groupedReport);
       const insulin  = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
       const activity  = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
       const carbs  = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
       const glucose  = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
       let obj1 = [];
       let objvoilin = [];
+      let objscatter = [];
       let obj2 = [{'name': 'Activity', 'series': []}];
       let obj3 = [{'name': 'Crabs', 'series': []}];
       let obj4 = [{'name': 'Glucose', 'series': []}];
@@ -336,9 +365,9 @@ export class ReportComponent implements OnInit {
       let count2 = 0;
       let count3 = 0;
       let count4 = 0;
-      console.log("insulin.length");
-      console.log(insulin.length);
-      console.log(insulin);
+      // console.log("insulin.length");
+      // console.log(insulin.length);
+      // console.log(insulin);
       for (let [key, value] of Object.entries(insulin)) {
 
           obj1[count] = {};
@@ -346,6 +375,13 @@ export class ReportComponent implements OnInit {
           obj1[count].name =  this.datePipe.transform(value['dosageTime'], 'MMM,y');
           objvoilin[count].date =  value['name'];
           objvoilin[count].value =  value['value'];
+          if (value['name'] === 'Before Meal') {
+            objvoilin[count].order = 1;
+          } else if (value['name'] === 'After Meal') {
+            objvoilin[count].order = 2;
+          } else {
+            objvoilin[count].order = 3;
+          }
           obj1[count].series = [
             {
               'name': value['name'],
@@ -354,23 +390,28 @@ export class ReportComponent implements OnInit {
               'dosageTime': value['dosageTime']
             }];
           count++;
-          console.log('count');
-          console.log(count);
+          // console.log('count');
+          // console.log(count);
           this.multi = obj1;
           if (count === insulin.length ) {
-            console.log("this.objvoilin");
-            console.log( objvoilin);
-            this.voilin(objvoilin);
+            // console.log("this.objvoilin");
+            // console.log( objvoilin);
+            objvoilin.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0)); 
+
+            this.boxPlot(objvoilin);
           }
         // }
 
       }
       for (let [key, value] of Object.entries(activity)) {
         obj2[0].series[count2] = {};
+        objscatter[count2] = {};
         obj2[0].series[count2].name =  new Date(value['activityTime']);
         obj2[0].series[count2].value = value['value'];
         obj2[0].series[count2].activityTime = value['activityTime'];
         obj2[0].series[count2].activityType = value['activityType'];
+        objscatter[count2].date =  value['activityType'];
+        objscatter[count2].value =  value['value'];
         let hour_text = ' hour, ';
         let minute_text = ' minute ';
         if (value['activityDuration']['hour'] > 1) {
@@ -384,6 +425,12 @@ export class ReportComponent implements OnInit {
 
         count2++;
         this.activityobj = obj2;
+         if (count2 === activity.length ) {
+          console.log("this.objscatter");
+          console.log( objscatter);
+
+          this.scatterPlot(objscatter);
+        }
       }
       // -------------------------------Carb charts ---------------------------------//
       // -------------------------------Carb charts ---------------------------------//

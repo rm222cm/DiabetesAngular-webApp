@@ -47,13 +47,13 @@
 
     <div class="col-md-12 vh-50">
       <div class="row">
-        <div class="clearfix col-md-12" *ngIf="showInsulin"></div>
-        <div class="col-md-1" *ngIf="showInsulin"></div>
-        <div class="col-md-11 text-center" *ngIf="showInsulin">
+        <div class="clearfix col-md-12" [hidden]="!showInsulin"></div>
+        <div class="col-md-1" [hidden]="!showInsulin"></div>
+        <div class="col-md-11 text-center" [hidden]="!showInsulin">
           <dl><b>Insulin Dosage Chart</b></dl>
         </div>
-        <div class="col-md-1 text-white align-top g_h" *ngIf="showInsulin"></div>
-        <div class="col-md-10" *ngIf="showInsulin">
+        <div class="col-md-1 text-white align-top g_h" [hidden]="!showInsulin"></div>
+        <div class="col-md-10" [hidden]="!showInsulin">
           <!-- <ngx-charts-bar-vertical-2d [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis"
             [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
@@ -70,15 +70,16 @@
           <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
         </div>
 
-        <div class="clearfix col-md-12" *ngIf="showActivity"></div>
-        <div class="col-md-1" *ngIf="showActivity"></div>
-        <div class="col-md-11 text-center" *ngIf="showActivity">
+        <div class="clearfix col-md-12" [hidden]="!showActivity"></div>
+        <div class="col-md-1" [hidden]="!showActivity"></div>
+        <div class="col-md-11 text-center" [hidden]="!showActivity">
           <dl><b>Activity Chart</b></dl>
         </div>
-        <div class="col-md-1 text-white align-top g_h" *ngIf="showActivity"></div>
-        <div class="col-md-10" *ngIf="showActivity">
-
-          <ngx-charts-area-chart [scheme]="colorScheme1" [legend]="false" [showXAxisLabel]="showXAxisLabel"
+        <div class="col-md-1 text-white align-top g_h" [hidden]="!showActivity"></div>
+        <div class="col-md-10" [hidden]="!showActivity">
+          
+          <div class="chart-wrapper" id="chart-distro2" #dataContainer></div>
+          <!-- <ngx-charts-area-chart [scheme]="colorScheme1" [legend]="false" [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel1"
             [yAxisLabel]="yAxisLabel1" [timeline]="timeline" [autoScale]="autoScale" [results]="activityobj"
             (select)="onSelect($event)">
@@ -99,16 +100,16 @@
                 <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{mod.activityDuration }}</pre>
               </span>
             </ng-template>
-          </ngx-charts-area-chart>
+          </ngx-charts-area-chart> -->
         </div>
 
-        <div class="clearfix col-md-12" *ngIf="showCarbs"></div>
-        <div class="col-md-1" *ngIf="showCarbs"></div>
-        <div class="col-md-11 text-center" *ngIf="showCarbs">
+        <div class="clearfix col-md-12" [hidden]="!showCarbs"></div>
+        <div class="col-md-1" [hidden]="!showCarbs"></div>
+        <div class="col-md-11 text-center" [hidden]="!showCarbs">
           <dl><b>Crabs Chart</b></dl>
         </div>
-        <div class="col-md-1 text-white align-top g_h" *ngIf="showCarbs"></div>
-        <div class="col-md-10" *ngIf="showCarbs">
+        <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
+        <div class="col-md-10" [hidden]="!showCarbs">
 
           <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]=""
@@ -135,13 +136,13 @@
         <div class="col-md-1"></div>
 
 
-        <div class="clearfix col-md-12" *ngIf="showGlucose"></div>
-        <div class="col-md-1" *ngIf="showGlucose"></div>
-        <div class="col-md-11 text-center" *ngIf="showGlucose">
+        <div class="clearfix col-md-12" [hidden]="!showGlucose"></div>
+        <div class="col-md-1" [hidden]="!showGlucose"></div>
+        <div class="col-md-11 text-center" [hidden]="!showGlucose">
           <dl><b>Glucose Level Chart</b></dl>
         </div>
-        <div class="col-md-1 text-white align-top g_h" *ngIf="showGlucose"></div>
-        <div class="col-md-10" *ngIf="showGlucose">
+        <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
+        <div class="col-md-10" [hidden]="!showGlucose">
 
           <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel"
@@ -172,7 +173,7 @@
 
         <div class="col">
           <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
-          <div class="chart-wrapper" id="chart-distro1"></div>
+          <!-- <div class="chart-wrapper" id="chart-distro"></div> -->
         </div>
       </div>
     </div>

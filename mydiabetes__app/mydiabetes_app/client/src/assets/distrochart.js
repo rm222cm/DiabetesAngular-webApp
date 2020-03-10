@@ -350,9 +350,11 @@ function makeDistroChart(settings) {
 
         // Create axes
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
+        console.log("chart.objs.xAxis")
+        console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + chart.height + ")")
+            .attr("transform", "translate(0," + chart.height-60 + ")")
             .call(chart.objs.xAxis);
         chart.objs.axes.append("g")
             .attr("class", "y axis")
@@ -371,10 +373,14 @@ function makeDistroChart(settings) {
         for (var cName in chart.groupObjs) {
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
             chart.groupObjs[cName].g.on("mouseover", function () {
+                console.log("d3.event.pageX");
+                console.log(d3.event.pageX);
+                console.log(d3.event.pageY);
                 chart.objs.tooltip
                     .style("display", null)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
+                    // .style("position", "absolute")
+                    .style("left", (d3.event.pageX - 20) + "px")
+                    .style("top", (d3.event.pageY - 280) + "px");
             }).on("mouseout", function () {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
