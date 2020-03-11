@@ -2,10 +2,14 @@ import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@an
 import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { single, multi1, multi, linear } from '../data/data.model';
 // import * as d3 from 'd3'; 
+import * as Jquery from 'jquery';
+
 import { DatePipe } from '@angular/common';
 
 import { HttpClient } from '@angular/common/http';
 declare var makeDistroChart: any;
+declare var makeDistroChartBox: any;
+declare var rSlider: any;
 declare var d3: any;
 
 @Component({
@@ -17,6 +21,7 @@ declare var d3: any;
 })
 export class ReportComponent implements OnInit {
   @ViewChild('dataContainer') dataContainer: ElementRef;
+  @ViewChild('sliderButton') sliderButton: ElementRef;
   constructor(private insulinService: InsulinDosagesService, private http: HttpClient,
      private datePipe: DatePipe) {
 
@@ -106,9 +111,43 @@ export class ReportComponent implements OnInit {
   ngOnInit() {
     console.log(this.startDate + '  ' + this.endDate);
     this.getReportData();
-    
-  }
 
+  }
+  slider() {
+    var slider2 = new rSlider({
+      target: '#time_range',
+      values: [8, 8.3, 9, 9.3, 10, 10.3, 11, 11.3, 12, 12.3,
+         13, 13.3, 14, 14.3, 15, 15.3, 16, 16.3, 17, 17.3, 18, 18.3, 19],
+      step: 1,
+      range: true,
+      set: [14, 15.3],
+      tooltip: true,
+      scale: true,
+      labels: true,
+      width: null,
+      onChange: function (vals) {
+          console.log(vals);
+      }
+  });
+
+  var slider3 = new rSlider({
+    target: '#time_range1',
+    values: [8, 8.3, 9, 9.3, 10, 10.3, 11, 11.3, 12, 12.3,
+       13, 13.3, 14, 14.3, 15, 15.3, 16, 16.3, 17, 17.3, 18, 18.3, 19],
+    step: 1,
+    range: true,
+    set: [14, 15.3],
+    tooltip: true,
+    scale: true,
+    labels: true,
+    width: null,
+    onChange: function (vals) {
+        console.log(vals);
+    }
+});
+  console.log('slider2');
+  console.log(slider2);
+  }
   boxPlot(this_data) {
     // this.dataContainer.nativeElement.innerHTML = '';
     let chart1;
@@ -118,7 +157,7 @@ export class ReportComponent implements OnInit {
       console.log(this_data);
       this_data.forEach(function (d) {d.value = +d.value; });
 
-      chart1 = makeDistroChart({
+      chart1 = makeDistroChartBox({
           data: this_data,
           xName: 'date',
           yName: 'value',
@@ -153,8 +192,8 @@ export class ReportComponent implements OnInit {
           chartSize: { height: 530, width: 960},
           constrainExtremes: true});
           chart2.renderDataPlots();
-          chart2.dataPlots.show({showPlot:true, plotType:40, showBeanLines:false,colors:null});
-           
+          chart2.dataPlots.show({showPlot: true, plotType: 40, showBeanLines: false, colors: null});
+          this.sliderButton.nativeElement.click();
         // chart1.renderDataPlots();
         // chart1.renderNotchBoxes({showNotchBox:false});
         // chart1.renderViolinPlot({showViolinPlot: true});

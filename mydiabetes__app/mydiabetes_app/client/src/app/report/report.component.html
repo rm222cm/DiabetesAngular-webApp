@@ -1,5 +1,13 @@
 <div class="container-fluid">
   <div class="row">
+    <div class="col-md-12">
+      <div id="time-range">
+         
+        
+        
+        <button id="clicker" #sliderButton style="display: none;" (click)="slider()"> click me</button>
+    </div>
+    </div>
     <div class=" col-md-3"></div>
     <div class=" col-md-3">
       <div class="input-group input-group-sm">
@@ -68,6 +76,7 @@
             </ng-template>
           </ngx-charts-bar-vertical-2d> -->
           <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
+          <input type="text" id="time_range" class="slider" />
         </div>
 
         <div class="clearfix col-md-12" [hidden]="!showActivity"></div>
@@ -79,6 +88,7 @@
         <div class="col-md-10" [hidden]="!showActivity">
           
           <div class="chart-wrapper" id="chart-distro2" #dataContainer></div>
+          <input type="text" id="time_range1" class="slider" />
           <!-- <ngx-charts-area-chart [scheme]="colorScheme1" [legend]="false" [showXAxisLabel]="showXAxisLabel"
             [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel1"
             [yAxisLabel]="yAxisLabel1" [timeline]="timeline" [autoScale]="autoScale" [results]="activityobj"
