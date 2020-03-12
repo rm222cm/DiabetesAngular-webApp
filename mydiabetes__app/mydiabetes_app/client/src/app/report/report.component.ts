@@ -3,6 +3,7 @@ import { InsulinDosagesService } from '../services/insulin-dosages.service';
 import { single, multi1, multi, linear } from '../data/data.model';
 // import * as d3 from 'd3'; 
 import * as Jquery from 'jquery';
+import { Options,LabelType, ChangeContext  } from 'ng5-slider';
 
 import { DatePipe } from '@angular/common';
 
@@ -20,6 +21,11 @@ declare var d3: any;
   providers: [DatePipe]
 })
 export class ReportComponent implements OnInit {
+
+
+
+
+
   @ViewChild('dataContainer') dataContainer: ElementRef;
   @ViewChild('sliderButton') sliderButton: ElementRef;
   constructor(private insulinService: InsulinDosagesService, private http: HttpClient,
@@ -108,45 +114,66 @@ export class ReportComponent implements OnInit {
   showGlucose = true;
   htmlData = false;
 
+
+  dateRange: Date[] = this.createDateRange();
+  value: number = new Date(this.startDate).getTime();
+  maxValue: number = new Date(this.endDate).getTime();
+ 
+   options: Options = {
+    stepsArray: this.dateRange.map((date: Date) => {
+      return { value: date.getTime() };
+    }),
+    translate: (value: number, label: LabelType): string => {
+      return new Date(value).toDateString();
+    }
+  };
+
+  createDateRange(): Date[] {
+    const dates: Date[] = [];
+      let startDate = new Date(this.startDate) ;
+      let endDate = new Date(this.endDate) ;
+    for (let new_date = startDate; new_date <= endDate; new Date(new_date.getDate() + 1)) {
+      
+      new_date = new Date(new_date.setDate(new_date.getDate() + 1)); 
+         
+      dates.push(new_date);
+
+    }
+    console.log(dates);
+    
+    return dates;
+  }
+
+
   ngOnInit() {
     console.log(this.startDate + '  ' + this.endDate);
     this.getReportData();
-
   }
+  onUserChange(changeContext: ChangeContext): void {
+  console.log("changeContext");
+  console.log(changeContext);
+  this.startDate = new Date(changeContext.value ).toDateString();
+  this.endDate = new Date(changeContext.highValue ).toDateString();
+  console.log("this.startDate");
+  console.log(this.startDate);
+  console.log(changeContext.value  );
+  this.getReportData();
+  }
+   zeroPad(num, places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+  }
+   formatDT(__dt) {
+    var year = __dt.getFullYear();
+    var month = this.zeroPad(__dt.getMonth()+1, 2);
+    var date =this.zeroPad(__dt.getDate(), 2);
+    var hours = this.zeroPad(__dt.getHours(), 2);
+    var minutes = this.zeroPad(__dt.getMinutes(), 2);
+    var seconds = this.zeroPad(__dt.getSeconds(), 2);
+    return year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+};
   slider() {
-    var slider2 = new rSlider({
-      target: '#time_range',
-      values: [8, 8.3, 9, 9.3, 10, 10.3, 11, 11.3, 12, 12.3,
-         13, 13.3, 14, 14.3, 15, 15.3, 16, 16.3, 17, 17.3, 18, 18.3, 19],
-      step: 1,
-      range: true,
-      set: [14, 15.3],
-      tooltip: true,
-      scale: true,
-      labels: true,
-      width: null,
-      onChange: function (vals) {
-          console.log(vals);
-      }
-  });
-
-  var slider3 = new rSlider({
-    target: '#time_range1',
-    values: [8, 8.3, 9, 9.3, 10, 10.3, 11, 11.3, 12, 12.3,
-       13, 13.3, 14, 14.3, 15, 15.3, 16, 16.3, 17, 17.3, 18, 18.3, 19],
-    step: 1,
-    range: true,
-    set: [14, 15.3],
-    tooltip: true,
-    scale: true,
-    labels: true,
-    width: null,
-    onChange: function (vals) {
-        console.log(vals);
-    }
-});
-  console.log('slider2');
-  console.log(slider2);
+  
   }
   boxPlot(this_data) {
     // this.dataContainer.nativeElement.innerHTML = '';
@@ -156,7 +183,8 @@ export class ReportComponent implements OnInit {
       console.log('this_data');
       console.log(this_data);
       this_data.forEach(function (d) {d.value = +d.value; });
-
+      
+      document.getElementById('chart-distro1').innerHTML = '';
       chart1 = makeDistroChartBox({
           data: this_data,
           xName: 'date',
@@ -182,7 +210,8 @@ export class ReportComponent implements OnInit {
       console.log('this_data');
       console.log(this_data);
       this_data.forEach(function (d) {d.value = +d.value; });
-
+      
+    document.getElementById('chart-distro2').innerHTML = '';
       chart2 = makeDistroChart({
           data: this_data,
           xName: 'date',
@@ -579,6 +608,7 @@ export class ReportComponent implements OnInit {
       (acc, key) => Object.assign(acc, { [key.replace(find, replace)]: obj[key] }), {});
   }
   onDateChange(value, type) {
+    
     console.log(value);
 
     if (type == 'START') {

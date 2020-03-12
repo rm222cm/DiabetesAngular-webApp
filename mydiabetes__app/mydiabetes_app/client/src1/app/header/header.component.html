@@ -1,0 +1,46 @@
+<header>
+  <div *ngIf="userData.auth" class="user-data">
+    <img src="{{userData.avatar}}" alt="" />
+    <span>{{userData.name}}</span>
+  </div> 
+  <div class="login-info">
+    <ng-template #noAuth>
+      <ul class="navbar ml-auto login-register">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">{{ 'header.login' | translate }}</a>
+        </li>
+        <span class="seperator"></span>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/signup">{{ 'header.Register' | translate }}</a>
+        </li>
+      </ul>
+    </ng-template>
+    <ul *ngIf="userData.auth;else noAuth" class="navbar ml-auto logout">
+      <li class="nav-item">
+        <a class="nav-link" (click)="logOut()">{{ 'header.logout' | translate }}</a>
+      </li>
+    </ul>
+  </div>
+  <h1 class="logo">
+    <a class="navbar-brand" href="#">My diabetes<strong>logbook</strong></a>
+  </h1>
+  <nav>
+    <ul class="navbar mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/home">{{ 'header.Home' | translate }} <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/services">{{ 'header.Services' | translate }}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/report">{{ 'header.Report' | translate }}</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" (click)="useLanguage('en')">en</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="useLanguage('sv')">sv</a>
+      </li> -->
+    </ul>
+  </nav>
+</header>

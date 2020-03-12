@@ -34,6 +34,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Ng5SliderModule } from 'ng5-slider';
+
 // required for AOT compilation
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -64,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    Ng5SliderModule,
     HttpClientModule,
     NgbModule,
     ModalDialogModule.forRoot(),

@@ -1,0 +1,241 @@
+<!-- Activity form -->
+<section class="">
+  <div class="container-fluid">
+    <div class="row shadow-none bg-white rounded formBodyOuter">
+      <!-- <div class="col-2"></div> -->
+      <div class="form-body-inside">
+        <div class="signup-content text-center">
+          <div class=" w-100">
+            <h2 class="form-title">{{ 'activity.activityleveltitle' | translate }}</h2>
+            <form class="register-form" [formGroup]="activityForm" id="register-form" (ngSubmit)="onSubmit()"
+              [mustMatch]="['pass', 'repass']" novalidate>
+              <div class="form-group">
+                <select [ngClass]="{'selectColor': activityFormCtrl.activityType.value ==''}" class="form-control"
+                  formControlName="activityType" name="activityType" id="activityType">
+                  <option value="" selected="true" class="please-select">{{ 'activity.pleaseselect' | translate }}</option>
+                  <option  value="running">{{ 'activity.running' | translate }}</option>
+                  <option  value="jogging">{{ 'activity.jogging' | translate }}</option>
+                  <option  value="walking">{{ 'activity.walking' | translate }}</option>
+                  <option  value="lifting_weight">{{ 'activity.liftingweight' | translate }}</option>
+                </select>
+              </div>
+
+              <div *ngIf="isSubmitted && activityFormCtrl.activityType.invalid" class="invalid-feedback">
+                <div *ngIf="activityFormCtrl.activityType.errors.required">
+                  Required field
+                </div>
+              </div>
+              <!-- <div class="form-group row">
+                <div class="col-4 mt-3">
+                  <label for="time"><i class="zmdi zmdi-time"></i> Duration</label>
+                </div>
+                <div class="col-8">
+                  <ngb-timepicker formControlName="activityDuration" name="activityDuration" required></ngb-timepicker>
+                </div>
+                <div class="col-2">
+
+                </div>
+              </div> -->
+              <div class="form-row duration-row">
+                <div class="col-4">
+                  <label for="time"><i class="zmdi zmdi-time"></i> {{ 'activity.duration' | translate }}</label>
+                </div>
+                <div class="col">
+                  <div class="form-row">
+                    <div class="col">
+                      <select formControlName="durationHour" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                        <option selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                      </select>
+                    </div>
+                    <div class="col">Hours</div>
+                    <div *ngIf="isSubmitted && activityFormCtrl.durationHour.invalid" class="invalid-feedback">
+                      <div *ngIf="activityFormCtrl.durationHour.errors.required">
+                        Required field
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                    <div class="form-row">
+                        <div class="col">
+                          <select formControlName="durationMinute" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            <!-- <option selected></option> -->
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>
+                            <option value="50">50</option>
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>
+                            <option value="60">60</option>
+                          </select>
+                        </div>
+                        <div class="col">Minutes</div>
+                        <div *ngIf="isSubmitted && activityFormCtrl.durationMinute.invalid" class="invalid-feedback">
+                          <div *ngIf="activityFormCtrl.durationMinute.errors.required">
+                            Required field
+                          </div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+              <div class="form-group row ">
+                <div class="col-4 mt-3">
+                  <label for="time"><i class="zmdi zmdi-time"></i> {{ 'activity.timeofactivity' | translate }}</label>
+                </div>
+
+                <div class="col-8">
+                  <ngb-timepicker formControlName='activityTime' name="activityTime">
+                  </ngb-timepicker>
+                </div>
+
+              </div>
+
+
+              <div class="form-group form-button">
+                <input type="submit" name="signup" id="signup" class="btn btn-form btn-block" value="{{ 'activity.submit' | translate }}"
+                  *ngIf="!formProcess" />
+                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+              </div>
+              <div class="form-group form-button">
+                <input type="button" class="btn btn-form btn-block" value="{{ 'activity.generatechart' | translate }}" *ngIf="!formProcess"
+                  data-toggle="modal" data-target="#exampleModalScrollable2" (click)="loadGraph()"/>
+                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+              </div>
+              <div class="form-group error {{errMsg.class}}">
+                <span>{{errMsg.msg}}</span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-2">
+          <!-- Modal -->
+          <!-- Modal -->
+        <div class="modal fade" id="exampleModalScrollable2" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <p class="modal-title" id="exampleModalScrollableTitle">Diabetes Chart</p>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="modal-body2">
+              <div class="form-row">
+                <div class="form-group col-md-3"></div>
+                <div class="form-group col-md-3">
+                  <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{ 'report.startdate' | translate }}</span>
+                    </div>
+                    <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
+                      [(ngModel)]="startDate" (change)="onDateChange($event.target.value)">
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">{{ 'report.enddate' | translate }}</span>
+                    </div>
+                    <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
+                      [(ngModel)]="endDate" (change)="onDateChange($event.target.value)">
+                  </div>
+                </div>
+                <div class="form-group col-md-3"></div>
+              </div>
+              <div class="container">
+                <div id="chartist-chart1" class="ct-chart " data-x-axis="Time" data-y-axis="Glucose Level"></div>
+              </div>
+              
+                <div class="row mb-1 mt-3 justify-content-center">
+                <div class="custom-control custom-checkbox">
+                  <input [(ngModel)]="activityCheckBoxGroup.insulinCheck" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
+                    (change)="onChecked($event.target.checked,'INSULIN')">
+                  <label class="custom-control-label" for="insulinCheck1">{{ 'report.insulin' | translate }}</label>
+                </div>
+                <div class="custom-control custom-checkbox ml-3">
+                  <input [(ngModel)]="activityCheckBoxGroup.activityCheck" type="checkbox" class="activitycustom custom-control-input" id="activityCheck1"
+                    (change)="onChecked($event.target.checked,'ACTIVITY')">
+                  <label class="custom-control-label" for="activityCheck1">{{ 'report.activity' | translate }}</label>
+                </div>
+                <div class="custom-control custom-checkbox ml-3">
+                  <input [(ngModel)]="activityCheckBoxGroup.carbsCheck" type="checkbox" class="carbscustom custom-control-input" id="carbsCheck1"
+                    (change)="onChecked($event.target.checked,'CARBS')">
+                  <label class="custom-control-label" for="carbsCheck1">{{ 'report.carbs' | translate }}</label>
+                </div>
+                <div class="custom-control custom-checkbox ml-3">
+                  <input [(ngModel)]="activityCheckBoxGroup.glucoseCheck" type="checkbox" class="glucosecustom custom-control-input" id="glucoseCheck1"
+                    (change)="onChecked($event.target.checked,'Glucose')">
+                  <label class="custom-control-label" for="glucoseCheck1">{{ 'report.glucose' | translate }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

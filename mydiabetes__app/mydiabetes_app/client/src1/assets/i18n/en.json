@@ -1,0 +1,102 @@
+{
+    "main": {
+        "welcome": "Welcome to 'Your diabetes logbook' web application",
+        "description": "It is our priority to provide you with services in best quality. Take a tour in our website...",
+        "enjoy": "ENJOY!"
+    },
+    "header":{
+        "login": "Login",
+        "logout": "Logout",
+        "Register": "Register",
+        "Home": "Home",
+        "Services": "Services",
+        "Report": "Report"
+    },
+    "login":{
+        "title": "Log in",
+        "createaccount": "Create an account",
+        "yourmail": "Your mail",
+        "password": "Password",
+        "login": "Log in",
+        "logintwitter": "Or login with"
+    },
+    "signup": {
+        "haveAcc": "Have an account?",
+        "yourname": "Your Name",
+        "youremail": "Your Email",
+        "password": "Password",
+        "repeatPass": "Repeat your password",
+        "register": "Register"
+    },
+    "loginpop":{
+        "title":"Success",
+        "success":"Logged in successfully",
+        "continue":"Continue"
+    },
+    "insulin":{
+        "btntitle":"Insulin Dosages",
+        "maintitle":"Insulin Dosages",
+        "pleaseselect":"Please select",
+        "beforemeal":"Before Meal",
+        "afteremeal":"After Meal",
+        "othertime":"Any other time",
+        "dosagetime":"Dosage time",
+        "insulindosage":"Insulin Dosage",
+        "units":"Units",
+        "typeofinsulin":"Type of Insulin",
+        "submit":"Submit",
+        "generatechart":"Generate Chart!"
+    },
+    "activity":{
+        "activityleveltitle":"Activity Level",
+        "pleaseselect":"Please select",
+        "running":"Running",
+        "jogging":"Jogging",
+        "walking":"Walking",
+        "liftingweight":"Lifting Weight",
+        "duration":"Duration",
+        "timeofactivity":"Time of activity",
+        "submit":"Submit",
+        "generatechart":"Generate Chart!"
+    },
+    "carbs":{
+        "carbsamount":"Carbs Amount",
+        "pleaseselect":"Please select",
+        "carbohydrates":"Carbohydrates",
+        "proteins":"Proteins",
+        "fibers":"Fibers",
+        "timeofmeal":"Time of meal",
+        "typeoffood":"Type of food/carbs",
+        "submit":"Submit",
+        "generatechart":"Generate Chart!"
+    },
+    "glucose":{
+        "glucosetitle":"Glucose Level",
+        "pleaseselect":"Please Select",
+        "beforemeal":"Before Meal",
+        "aftermeal":"After Meal",
+        "othertime":"Any other time",
+        "time":"Time",
+        "mmol":"mmol/L",
+        "submit":"Submit",
+        "generatechart":"Generate Chart!"
+    },
+    "report":{
+        "report":"Report",
+        "downloadcsv":"Download CSV",
+        "historicalcsv":"Historical CSV",
+        "startdate":"Start Date",
+        "enddate":"End Date",
+        "insulin":"Insulin",
+        "carbs":"Carbs",
+        "activity":"Activity",
+        "glucose":"Glucose"
+    },
+    "popupmessage":{
+        "insulinsuccess":"Insulin dosage has been added successfully.",
+        "carbssuccess":"Activity Level has been added successfully.",
+        "activitysuccess":"Carbs amount has been added successfully.",
+        "glucosesuccess":"Glucose Level has been added successfully.",
+        "continuesuccess":"Continue"
+    }
+}
