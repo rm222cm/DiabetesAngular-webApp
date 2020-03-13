@@ -32,8 +32,8 @@ function makeDistroChartBox(settings) {
         axisLables: null,
         yTicks: 1,
         scale: 'linear',
-        chartSize: {width: 800, height: 400},
-        margin: {top: 15, right: 60, bottom: 40, left: 50},
+        chartSize: { width: 800, height: 400 },
+        margin: { top: 15, right: 60, bottom: 40, left: 50 },
         constrainExtremes: false,
         color: d3.scale.category10()
     };
@@ -60,7 +60,7 @@ function makeDistroChartBox(settings) {
     chart.data = chart.settings.data;
 
     chart.groupObjs = {}; //The data organized by grouping and sorted as well as any metadata for the groups
-    chart.objs = {mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null};
+    chart.objs = { mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null };
     chart.colorFunct = null;
 
     /**
@@ -73,17 +73,18 @@ function makeDistroChartBox(settings) {
             return colorOptions
         } else if (Array.isArray(colorOptions)) {
             //  If an array is provided, map it to the domain
-            var colorMap = {}, cColor = 0;
+            var colorMap = {},
+                cColor = 0;
             for (var cName in chart.groupObjs) {
                 colorMap[cName] = colorOptions[cColor];
                 cColor = (cColor + 1) % colorOptions.length;
             }
-            return function (group) {
+            return function(group) {
                 return colorMap[group];
             }
         } else if (typeof colorOptions == 'object') {
             // if an object is provided, assume it maps to  the colors
-            return function (group) {
+            return function(group) {
                 return colorOptions[group];
             }
         } else {
@@ -98,7 +99,7 @@ function makeDistroChartBox(settings) {
      * @returns {{left: null, right: null, middle: null}}
      */
     function getObjWidth(objWidth, gName) {
-        var objSize = {left: null, right: null, middle: null};
+        var objSize = { left: null, right: null, middle: null };
         var width = chart.xScale.rangeBand() * (objWidth / 100);
         var padding = (chart.xScale.rangeBand() - width) / 2;
         var gShift = chart.xScale(gName);
@@ -138,15 +139,15 @@ function makeDistroChartBox(settings) {
      * @returns {Function} A function that provides the values for the tooltip
      */
     function tooltipHover(groupName, metrics) {
-        console.log("groupName, metrics");
-        console.log(groupName, metrics);
+        // console.log("groupName, metrics");
+        // console.log(groupName, metrics);
         var tooltipString = "Group: " + groupName;
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
         tooltipString += "<br\>Median: " + formatAsFloat(metrics.median);
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
-        return function () {
+        return function() {
             chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
             chart.objs.tooltip.html(tooltipString)
         };
@@ -155,7 +156,7 @@ function makeDistroChartBox(settings) {
     /**
      * Parse the data and calculates base values for the plots
      */
-    !function prepareData() {
+    ! function prepareData() {
         function calcMetrics(values) {
 
             var metrics = { //These are the original non�scaled values
@@ -237,7 +238,7 @@ function makeDistroChartBox(settings) {
     /**
      * Prepare the chart settings and chart div and svg
      */
-    !function prepareSettings() {
+    ! function prepareSettings() {
         //Set base settings
         chart.margin = chart.settings.margin;
         chart.divWidth = chart.settings.chartSize.width;
@@ -269,7 +270,7 @@ function makeDistroChartBox(settings) {
             chart.range = d3.extent(fences);
 
         } else {
-            chart.range = d3.extent(chart.data, function (d) {return d[chart.settings.yName];});
+            chart.range = d3.extent(chart.data, function(d) { return d[chart.settings.yName]; });
         }
 
         chart.colorFunct = getColorFunct(chart.settings.colors);
@@ -285,7 +286,7 @@ function makeDistroChartBox(settings) {
             .tickFormat(chart.yFormatter)
             .outerTickSize(0)
             .innerTickSize(-chart.width + (chart.margin.right + chart.margin.left));
-        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks()*chart.settings.yTicks);
+        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks() * chart.settings.yTicks);
         chart.objs.xAxis = d3.svg.axis().scale(chart.xScale).orient("bottom").tickSize(5);
     }();
 
@@ -293,7 +294,7 @@ function makeDistroChartBox(settings) {
      * Updates the chart based on the current settings and window size
      * @returns {*}
      */
-    chart.update = function () {
+    chart.update = function() {
         // Update chart size based on view port size
         chart.width = parseInt(chart.objs.chartDiv.style("width"), 10) - (chart.margin.left + chart.margin.right);
         chart.height = parseInt(chart.objs.chartDiv.style("height"), 10) - (chart.margin.top + chart.margin.bottom);
@@ -327,8 +328,8 @@ function makeDistroChartBox(settings) {
     /**
      * Prepare the chart html elements
      */
-    !function prepareChart() {
-        
+    ! function prepareChart() {
+
         // Build main div and chart div
         chart.objs.mainDiv = d3.select(chart.settings.selector)
             .style("max-width", chart.divWidth + "px");
@@ -357,7 +358,7 @@ function makeDistroChartBox(settings) {
         console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + chart.height-60 + ")")
+            .attr("transform", "translate(0," + chart.height - 60 + ")")
             .call(chart.objs.xAxis);
         chart.objs.axes.append("g")
             .attr("class", "y axis")
@@ -375,9 +376,14 @@ function makeDistroChartBox(settings) {
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
 
         for (var cName in chart.groupObjs) {
+            console.log('.......testing..........');
+            console.log('........testing.........');
+
+            console.log('.......testing..........');
+            console.log('........testing.........');
 
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
-            chart.groupObjs[cName].g.on("mouseover", function () {
+            chart.groupObjs[cName].g.on("mouseover", function() {
                 console.log("cName");
                 console.log(chart.groupObjs[cName]);
                 console.log("d3.event.pageX");
@@ -388,7 +394,7 @@ function makeDistroChartBox(settings) {
                     // .style("position", "absolute")
                     .style("left", (d3.event.pageX - 200) + "px")
                     .style("top", (d3.event.pageY - 400) + "px");
-            }).on("mouseout", function () {
+            }).on("mouseout", function() {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
         }
@@ -410,7 +416,7 @@ function makeDistroChartBox(settings) {
      * @param [options.colors=chart default] The color mapping for the violin plot
      * @returns {*} The chart object
      */
-    chart.renderViolinPlot = function (options) {
+    chart.renderViolinPlot = function(options) {
         chart.violinPlots = {};
 
         var defaultOptions = {
@@ -440,7 +446,7 @@ function makeDistroChartBox(settings) {
          * Take a new set of options and redraw the violin
          * @param updateOptions
          */
-        chart.violinPlots.change = function (updateOptions) {
+        chart.violinPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     vOpts[key] = updateOptions[key]
@@ -455,30 +461,30 @@ function makeDistroChartBox(settings) {
             chart.violinPlots.update();
         };
 
-        chart.violinPlots.reset = function () {
+        chart.violinPlots.reset = function() {
             chart.violinPlots.change(defaultOptions)
         };
-        chart.violinPlots.show = function (opts) {
+        chart.violinPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.violinPlots.change(opts);
 
         };
 
-        chart.violinPlots.hide = function (opts) {
+        chart.violinPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.violinPlots.change(opts);
 
@@ -487,7 +493,7 @@ function makeDistroChartBox(settings) {
         /**
          * Update the violin obj values
          */
-        chart.violinPlots.update = function () {
+        chart.violinPlots.update = function() {
             var cName, cViolinPlot;
 
             for (cName in chart.groupObjs) {
@@ -507,15 +513,15 @@ function makeDistroChartBox(settings) {
                 if (vOpts.clamp == 0 || vOpts.clamp == -1) { //
                     // When clamp is 0, calculate the min and max that is needed to bring the violin plot to a point
                     // interpolateMax = the Minimum value greater than the max where y = 0
-                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function (d) {
+                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function(d) {
                         return (d.x > chart.groupObjs[cName].metrics.max && d.y == 0)
-                    }), function (d) {
+                    }), function(d) {
                         return d.x;
                     });
                     // interpolateMin = the Maximum value less than the min where y = 0
-                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function (d) {
+                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function(d) {
                         return (d.x < chart.groupObjs[cName].metrics.min && d.y == 0)
-                    }), function (d) {
+                    }), function(d) {
                         return d.x;
                     });
                     // If clamp is -1 we need to extend the axises so that the violins come to a point
@@ -535,7 +541,7 @@ function makeDistroChartBox(settings) {
                         if (!interpolateMin) {
                             var interMinY = kdeTester(chart.groupObjs[cName].metrics.min);
                             var interMinX = chart.groupObjs[cName].metrics.min;
-                            var count = 25;  // Arbitrary limit to make sure we don't get an infinite loop
+                            var count = 25; // Arbitrary limit to make sure we don't get an infinite loop
                             while (count > 0 && interMinY != 0) {
                                 interMinY = kdeTester(interMinX);
                                 interMinX -= 1;
@@ -569,10 +575,10 @@ function makeDistroChartBox(settings) {
                 }
 
                 cViolinPlot.kdedata = cViolinPlot.kdedata
-                    .filter(function (d) {
+                    .filter(function(d) {
                         return (!interpolateMin || d.x >= interpolateMin)
                     })
-                    .filter(function (d) {
+                    .filter(function(d) {
                         return (!interpolateMax || d.x <= interpolateMax)
                     });
             }
@@ -585,19 +591,19 @@ function makeDistroChartBox(settings) {
 
                 var yVScale = d3.scale.linear()
                     .range([width, 0])
-                    .domain([0, d3.max(cViolinPlot.kdedata, function (d) {return d.y;})])
+                    .domain([0, d3.max(cViolinPlot.kdedata, function(d) { return d.y; })])
                     .clamp(true);
 
                 var area = d3.svg.area()
                     .interpolate(vOpts.interpolation)
-                    .x(function (d) {return xVScale(d.x);})
+                    .x(function(d) { return xVScale(d.x); })
                     .y0(width)
-                    .y1(function (d) {return yVScale(d.y);});
+                    .y1(function(d) { return yVScale(d.y); });
 
                 var line = d3.svg.line()
                     .interpolate(vOpts.interpolation)
-                    .x(function (d) {return xVScale(d.x);})
-                    .y(function (d) {return yVScale(d.y)});
+                    .x(function(d) { return xVScale(d.x); })
+                    .y(function(d) { return yVScale(d.y) });
 
                 if (cViolinPlot.objs.left.area) {
                     cViolinPlot.objs.left.area
@@ -624,7 +630,7 @@ function makeDistroChartBox(settings) {
         /**
          * Create the svg elements for the violin plot
          */
-        chart.violinPlots.prepareViolin = function () {
+        chart.violinPlots.prepareViolin = function() {
             var cName, cViolinPlot;
 
             if (vOpts.colors) {
@@ -633,14 +639,14 @@ function makeDistroChartBox(settings) {
                 chart.violinPlots.color = chart.colorFunct
             }
 
-            if (vOpts.show == false) {return}
+            if (vOpts.show == false) { return }
 
             for (cName in chart.groupObjs) {
                 cViolinPlot = chart.groupObjs[cName].violin;
 
                 cViolinPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "violin-plot");
-                cViolinPlot.objs.left = {area: null, line: null, g: null};
-                cViolinPlot.objs.right = {area: null, line: null, g: null};
+                cViolinPlot.objs.left = { area: null, line: null, g: null };
+                cViolinPlot.objs.right = { area: null, line: null, g: null };
 
                 cViolinPlot.objs.left.g = cViolinPlot.objs.g.append("g");
                 cViolinPlot.objs.right.g = cViolinPlot.objs.g.append("g");
@@ -671,15 +677,15 @@ function makeDistroChartBox(settings) {
 
 
         function kernelDensityEstimator(kernel, x) {
-            return function (sample) {
-                return x.map(function (x) {
-                    return {x:x, y:d3.mean(sample, function (v) {return kernel(x - v);})};
+            return function(sample) {
+                return x.map(function(x) {
+                    return { x: x, y: d3.mean(sample, function(v) { return kernel(x - v); }) };
                 });
             };
         }
 
         function eKernel(scale) {
-            return function (u) {
+            return function(u) {
                 return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
             };
         }
@@ -687,8 +693,8 @@ function makeDistroChartBox(settings) {
         // Used to find the roots for adjusting violin axis
         // Given an array, find the value for a single point, even if it is not in the domain
         function eKernelTest(kernel, array) {
-            return function (testX) {
-                return d3.mean(array, function (v) {return kernel(testX - v);})
+            return function(testX) {
+                return d3.mean(array, function(v) { return kernel(testX - v); })
             }
         }
 
@@ -716,7 +722,7 @@ function makeDistroChartBox(settings) {
      * @param [options.colors=chart default] The color mapping for the box plot
      * @returns {*} The chart object
      */
-    chart.renderBoxPlot = function (options) {
+    chart.renderBoxPlot = function(options) {
         chart.boxPlots = {};
 
         // Defaults
@@ -750,7 +756,7 @@ function makeDistroChartBox(settings) {
         /**
          * Calculates all the outlier points for each group
          */
-        !function calcAllOutliers() {
+        ! function calcAllOutliers() {
 
             /**
              * Create lists of the outliers for each content group
@@ -762,7 +768,7 @@ function makeDistroChartBox(settings) {
                 var cOutliers = [];
                 var cOut, idx;
                 for (idx = 0; idx <= cGroup.values.length; idx++) {
-                    cOut = {value: cGroup.values[idx]};
+                    cOut = { value: cGroup.values[idx] };
 
                     if (cOut.value < cGroup.metrics.lowerInnerFence) {
                         if (cOut.value < cGroup.metrics.lowerOuterFence) {
@@ -791,7 +797,7 @@ function makeDistroChartBox(settings) {
          * Take updated options and redraw the box plot
          * @param updateOptions
          */
-        chart.boxPlots.change = function (updateOptions) {
+        chart.boxPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     bOpts[key] = updateOptions[key]
@@ -805,29 +811,29 @@ function makeDistroChartBox(settings) {
             chart.boxPlots.update()
         };
 
-        chart.boxPlots.reset = function () {
+        chart.boxPlots.reset = function() {
             chart.boxPlots.change(defaultOptions)
         };
-        chart.boxPlots.show = function (opts) {
+        chart.boxPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.boxPlots.change(opts)
 
         };
-        chart.boxPlots.hide = function (opts) {
+        chart.boxPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.boxPlots.change(opts)
         };
@@ -835,7 +841,7 @@ function makeDistroChartBox(settings) {
         /**
          * Update the box plot obj values
          */
-        chart.boxPlots.update = function () {
+        chart.boxPlots.update = function() {
             var cName, cBoxPlot;
 
             for (cName in chart.groupObjs) {
@@ -941,7 +947,7 @@ function makeDistroChartBox(settings) {
         /**
          * Create the svg elements for the box plot
          */
-        chart.boxPlots.prepareBoxPlot = function () {
+        chart.boxPlots.prepareBoxPlot = function() {
             var cName, cBoxPlot;
 
             if (bOpts.colors) {
@@ -971,7 +977,7 @@ function makeDistroChartBox(settings) {
 
                 //Plot Median (default show)
                 if (bOpts.showMedian) {
-                    cBoxPlot.objs.median = {line: null, circle: null};
+                    cBoxPlot.objs.median = { line: null, circle: null };
                     cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
                         .attr("class", "median");
                     cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
@@ -982,7 +988,7 @@ function makeDistroChartBox(settings) {
 
                 // Plot Mean (default no plot)
                 if (bOpts.showMean) {
-                    cBoxPlot.objs.mean = {line: null, circle: null};
+                    cBoxPlot.objs.mean = { line: null, circle: null };
                     cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
                         .attr("class", "mean");
                     cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
@@ -993,8 +999,8 @@ function makeDistroChartBox(settings) {
 
                 // Plot Whiskers (default show)
                 if (bOpts.showWhiskers) {
-                    cBoxPlot.objs.upperWhisker = {fence: null, line: null};
-                    cBoxPlot.objs.lowerWhisker = {fence: null, line: null};
+                    cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                    cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
                     cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
                         .attr("class", "upper whisker")
                         .style("stroke", chart.boxPlots.colorFunct(cName));
@@ -1059,7 +1065,7 @@ function makeDistroChartBox(settings) {
      * @param [options.colors=chart default] The color mapping for the notch boxes
      * @returns {*} The chart object
      */
-    chart.renderNotchBoxes = function (options) {
+    chart.renderNotchBoxes = function(options) {
         chart.notchBoxes = {};
 
         //Defaults
@@ -1124,7 +1130,7 @@ function makeDistroChartBox(settings) {
                     [notchBounds.boxRight, chart.yScale(cNotch.metrics.quartile1)]
                 ];
             }
-            return scaledValues.map(function (d) {
+            return scaledValues.map(function(d) {
                 return [d[0], d[1]].join(",");
             }).join(" ");
         }
@@ -1132,7 +1138,7 @@ function makeDistroChartBox(settings) {
         /**
          * Calculate the confidence intervals
          */
-        !function calcNotches() {
+        ! function calcNotches() {
             var cNotch, modifier;
             for (var cName in chart.groupObjs) {
                 cNotch = chart.groupObjs[cName];
@@ -1146,7 +1152,7 @@ function makeDistroChartBox(settings) {
          * Take a new set of options and redraw the notch boxes
          * @param updateOptions
          */
-        chart.notchBoxes.change = function (updateOptions) {
+        chart.notchBoxes.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     nOpts[key] = updateOptions[key]
@@ -1160,28 +1166,28 @@ function makeDistroChartBox(settings) {
             chart.notchBoxes.update();
         };
 
-        chart.notchBoxes.reset = function () {
+        chart.notchBoxes.reset = function() {
             chart.notchBoxes.change(defaultOptions)
         };
-        chart.notchBoxes.show = function (opts) {
+        chart.notchBoxes.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.notchBoxes.change(opts)
         };
-        chart.notchBoxes.hide = function (opts) {
+        chart.notchBoxes.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.notchBoxes.change(opts)
         };
@@ -1189,7 +1195,7 @@ function makeDistroChartBox(settings) {
         /**
          * Update the notch box obj values
          */
-        chart.notchBoxes.update = function () {
+        chart.notchBoxes.update = function() {
             var cName, cGroup;
 
             for (cName in chart.groupObjs) {
@@ -1241,7 +1247,7 @@ function makeDistroChartBox(settings) {
         /**
          * Create the svg elements for the notch boxes
          */
-        chart.notchBoxes.prepareNotchBoxes = function () {
+        chart.notchBoxes.prepareNotchBoxes = function() {
             var cName, cNotch;
 
             if (nOpts && nOpts.colors) {
@@ -1302,7 +1308,7 @@ function makeDistroChartBox(settings) {
      * @returns {*} The chart object
      *
      */
-    chart.renderDataPlots = function (options) {
+    chart.renderDataPlots = function(options) {
         chart.dataPlots = {};
 
 
@@ -1312,7 +1318,7 @@ function makeDistroChartBox(settings) {
             showPlot: false,
             plotType: 'none',
             pointSize: 6,
-            showLines: false,//['median'],
+            showLines: false, //['median'],
             showBeanLines: false,
             beanWidth: 20,
             colors: null
@@ -1335,7 +1341,7 @@ function makeDistroChartBox(settings) {
          * Take updated options and redraw the data plots
          * @param updateOptions
          */
-        chart.dataPlots.change = function (updateOptions) {
+        chart.dataPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     dOpts[key] = updateOptions[key]
@@ -1350,28 +1356,28 @@ function makeDistroChartBox(settings) {
             chart.dataPlots.update()
         };
 
-        chart.dataPlots.reset = function () {
+        chart.dataPlots.reset = function() {
             chart.dataPlots.change(defaultOptions)
         };
-        chart.dataPlots.show = function (opts) {
+        chart.dataPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.dataPlots.change(opts)
         };
-        chart.dataPlots.hide = function (opts) {
+        chart.dataPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.dataPlots.change(opts)
         };
@@ -1379,7 +1385,7 @@ function makeDistroChartBox(settings) {
         /**
          * Update the data plot obj values
          */
-        chart.dataPlots.update = function () {
+        chart.dataPlots.update = function() {
             var cName, cGroup, cPlot;
 
             // Metrics lines
@@ -1387,7 +1393,7 @@ function makeDistroChartBox(settings) {
                 var halfBand = chart.xScale.rangeBand() / 2; // find the middle of each band
                 for (var cMetric in chart.dataPlots.objs.lines) {
                     chart.dataPlots.objs.lines[cMetric].line
-                        .x(function (d) {
+                        .x(function(d) {
                             return chart.xScale(d.x) + halfBand
                         });
                     chart.dataPlots.objs.lines[cMetric].g
@@ -1468,7 +1474,7 @@ function makeDistroChartBox(settings) {
         /**
          * Create the svg elements for the data plots
          */
-        chart.dataPlots.preparePlots = function () {
+        chart.dataPlots.preparePlots = function() {
             var cName, cPlot;
 
             if (dOpts && dOpts.colors) {
@@ -1498,7 +1504,7 @@ function makeDistroChartBox(settings) {
                     }
                     chart.dataPlots.objs.lines[cMetric].line = d3.svg.line()
                         .interpolate("cardinal")
-                        .y(function (d) {
+                        .y(function(d) {
                             return chart.yScale(d.y)
                         });
                     chart.dataPlots.objs.lines[cMetric].g = chart.dataPlots.objs.g.append("path")
@@ -1518,12 +1524,12 @@ function makeDistroChartBox(settings) {
 
                 // Points Plot
                 if (dOpts.showPlot) {
-                    cPlot.objs.points = {g: null, pts: []};
+                    cPlot.objs.points = { g: null, pts: [] };
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
-                            .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", chart.dataPlots.colorFunct(cName)));
                     }
                 }
@@ -1531,7 +1537,7 @@ function makeDistroChartBox(settings) {
 
                 // Bean lines
                 if (dOpts.showBeanLines) {
-                    cPlot.objs.bean = {g: null, lines: []};
+                    cPlot.objs.bean = { g: null, lines: [] };
                     cPlot.objs.bean.g = cPlot.objs.g.append("g").attr("class", "bean-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
                         cPlot.objs.bean.lines.push(cPlot.objs.bean.g.append("line")
@@ -1566,8 +1572,8 @@ function makeDistroChart(settings) {
         axisLables: null,
         yTicks: 1,
         scale: 'linear',
-        chartSize: {width: 800, height: 400},
-        margin: {top: 15, right: 60, bottom: 40, left: 50},
+        chartSize: { width: 800, height: 400 },
+        margin: { top: 15, right: 60, bottom: 40, left: 50 },
         constrainExtremes: false,
         color: d3.scale.category10()
     };
@@ -1594,7 +1600,7 @@ function makeDistroChart(settings) {
     chart.data = chart.settings.data;
 
     chart.groupObjs = {}; //The data organized by grouping and sorted as well as any metadata for the groups
-    chart.objs = {mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null};
+    chart.objs = { mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null };
     chart.colorFunct = null;
 
     /**
@@ -1607,17 +1613,18 @@ function makeDistroChart(settings) {
             return colorOptions
         } else if (Array.isArray(colorOptions)) {
             //  If an array is provided, map it to the domain
-            var colorMap = {}, cColor = 0;
+            var colorMap = {},
+                cColor = 0;
             for (var cName in chart.groupObjs) {
                 colorMap[cName] = colorOptions[cColor];
                 cColor = (cColor + 1) % colorOptions.length;
             }
-            return function (group) {
+            return function(group) {
                 return colorMap[group];
             }
         } else if (typeof colorOptions == 'object') {
             // if an object is provided, assume it maps to  the colors
-            return function (group) {
+            return function(group) {
                 return colorOptions[group];
             }
         } else {
@@ -1632,7 +1639,7 @@ function makeDistroChart(settings) {
      * @returns {{left: null, right: null, middle: null}}
      */
     function getObjWidth(objWidth, gName) {
-        var objSize = {left: null, right: null, middle: null};
+        var objSize = { left: null, right: null, middle: null };
         var width = chart.xScale.rangeBand() * (objWidth / 100);
         var padding = (chart.xScale.rangeBand() - width) / 2;
         var gShift = chart.xScale(gName);
@@ -1673,14 +1680,14 @@ function makeDistroChart(settings) {
      */
     function tooltipHover(groupName, metrics) {
         console.log("groupName, metrics");
-        console.log(groupName, metrics);
+        console.log(d3.event);
         var tooltipString = "Group: " + groupName;
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
         tooltipString += "<br\>Median: " + formatAsFloat(metrics.median);
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
-        return function () {
+        return function() {
             chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
             chart.objs.tooltip.html(tooltipString)
         };
@@ -1689,7 +1696,7 @@ function makeDistroChart(settings) {
     /**
      * Parse the data and calculates base values for the plots
      */
-    !function prepareData() {
+    ! function prepareData() {
         function calcMetrics(values) {
 
             var metrics = { //These are the original non�scaled values
@@ -1771,7 +1778,7 @@ function makeDistroChart(settings) {
     /**
      * Prepare the chart settings and chart div and svg
      */
-    !function prepareSettings() {
+    ! function prepareSettings() {
         //Set base settings
         chart.margin = chart.settings.margin;
         chart.divWidth = chart.settings.chartSize.width;
@@ -1803,7 +1810,7 @@ function makeDistroChart(settings) {
             chart.range = d3.extent(fences);
 
         } else {
-            chart.range = d3.extent(chart.data, function (d) {return d[chart.settings.yName];});
+            chart.range = d3.extent(chart.data, function(d) { return d[chart.settings.yName]; });
         }
 
         chart.colorFunct = getColorFunct(chart.settings.colors);
@@ -1819,7 +1826,7 @@ function makeDistroChart(settings) {
             .tickFormat(chart.yFormatter)
             .outerTickSize(0)
             .innerTickSize(-chart.width + (chart.margin.right + chart.margin.left));
-        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks()*chart.settings.yTicks);
+        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks() * chart.settings.yTicks);
         chart.objs.xAxis = d3.svg.axis().scale(chart.xScale).orient("bottom").tickSize(5);
     }();
 
@@ -1827,7 +1834,7 @@ function makeDistroChart(settings) {
      * Updates the chart based on the current settings and window size
      * @returns {*}
      */
-    chart.update = function () {
+    chart.update = function() {
         // Update chart size based on view port size
         chart.width = parseInt(chart.objs.chartDiv.style("width"), 10) - (chart.margin.left + chart.margin.right);
         chart.height = parseInt(chart.objs.chartDiv.style("height"), 10) - (chart.margin.top + chart.margin.bottom);
@@ -1861,8 +1868,8 @@ function makeDistroChart(settings) {
     /**
      * Prepare the chart html elements
      */
-    !function prepareChart() {
-        
+    ! function prepareChart() {
+
         // Build main div and chart div
         chart.objs.mainDiv = d3.select(chart.settings.selector)
             .style("max-width", chart.divWidth + "px");
@@ -1891,7 +1898,7 @@ function makeDistroChart(settings) {
         console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + chart.height-60 + ")")
+            .attr("transform", "translate(0," + chart.height - 60 + ")")
             .call(chart.objs.xAxis);
         chart.objs.axes.append("g")
             .attr("class", "y axis")
@@ -1908,23 +1915,37 @@ function makeDistroChart(settings) {
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
 
+        console.log("chart.groupObjs");
+        console.log(chart.groupObjs);
         for (var cName in chart.groupObjs) {
-
+            console.log("chart.groupObjs")
+            console.log(chart.groupObjs)
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
-            chart.groupObjs[cName].g.on("mouseover", function () {
-                console.log("cName");
-                console.log(chart.groupObjs[cName]);
-                console.log("d3.event.pageX");
-                console.log(d3.event);
-                console.log(d3.event.pageY);
-                chart.objs.tooltip
-                    .style("display", null)
-                    // .style("position", "absolute")
-                    .style("left", (d3.event.pageX - 200) + "px")
-                    .style("top", (d3.event.pageY - 950) + "px");
-            }).on("mouseout", function () {
-                chart.objs.tooltip.style("display", "none");
-            }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
+            chart.groupObjs[cName].g.on("mouseover", function(e) {
+                    console.log("e");
+                    console.log(e);
+                    console.log("cName");
+                    console.log(chart.groupObjs[cName]);
+                    console.log("d3.event.pageX");
+                    console.log(d3.event.target.getAttribute("val"));
+                    console.log(d3.event);
+                    console.log(d3.event.pageY);
+                    console.log('Span visible testing')
+                    console.log(chart.objs.tooltip);
+                    console.log(chart.objs.tooltip[0][0]);
+                    console.log('Span visible testing')
+
+                    chart.objs.tooltip[0][0].innerHTML = "value " + d3.event.target.getAttribute("val")
+                    chart.objs.tooltip
+                        .style("display", null)
+                        // .style("position", "absolute")
+                        .style("left", (d3.event.pageX - 200) + "px")
+                        .style("top", (d3.event.pageY - 900) + "px");
+                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
+
+                }).on("mouseout", function() {
+                    chart.objs.tooltip.style("display", "none");
+                }) //.on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
         }
         chart.update();
     }();
@@ -1944,7 +1965,7 @@ function makeDistroChart(settings) {
      * @param [options.colors=chart default] The color mapping for the violin plot
      * @returns {*} The chart object
      */
-    chart.renderViolinPlot = function (options) {
+    chart.renderViolinPlot = function(options) {
         chart.violinPlots = {};
 
         var defaultOptions = {
@@ -1974,7 +1995,7 @@ function makeDistroChart(settings) {
          * Take a new set of options and redraw the violin
          * @param updateOptions
          */
-        chart.violinPlots.change = function (updateOptions) {
+        chart.violinPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     vOpts[key] = updateOptions[key]
@@ -1989,30 +2010,30 @@ function makeDistroChart(settings) {
             chart.violinPlots.update();
         };
 
-        chart.violinPlots.reset = function () {
+        chart.violinPlots.reset = function() {
             chart.violinPlots.change(defaultOptions)
         };
-        chart.violinPlots.show = function (opts) {
+        chart.violinPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.violinPlots.change(opts);
 
         };
 
-        chart.violinPlots.hide = function (opts) {
+        chart.violinPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.violinPlots.change(opts);
 
@@ -2021,7 +2042,7 @@ function makeDistroChart(settings) {
         /**
          * Update the violin obj values
          */
-        chart.violinPlots.update = function () {
+        chart.violinPlots.update = function() {
             var cName, cViolinPlot;
 
             for (cName in chart.groupObjs) {
@@ -2041,15 +2062,15 @@ function makeDistroChart(settings) {
                 if (vOpts.clamp == 0 || vOpts.clamp == -1) { //
                     // When clamp is 0, calculate the min and max that is needed to bring the violin plot to a point
                     // interpolateMax = the Minimum value greater than the max where y = 0
-                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function (d) {
+                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function(d) {
                         return (d.x > chart.groupObjs[cName].metrics.max && d.y == 0)
-                    }), function (d) {
+                    }), function(d) {
                         return d.x;
                     });
                     // interpolateMin = the Maximum value less than the min where y = 0
-                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function (d) {
+                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function(d) {
                         return (d.x < chart.groupObjs[cName].metrics.min && d.y == 0)
-                    }), function (d) {
+                    }), function(d) {
                         return d.x;
                     });
                     // If clamp is -1 we need to extend the axises so that the violins come to a point
@@ -2069,7 +2090,7 @@ function makeDistroChart(settings) {
                         if (!interpolateMin) {
                             var interMinY = kdeTester(chart.groupObjs[cName].metrics.min);
                             var interMinX = chart.groupObjs[cName].metrics.min;
-                            var count = 25;  // Arbitrary limit to make sure we don't get an infinite loop
+                            var count = 25; // Arbitrary limit to make sure we don't get an infinite loop
                             while (count > 0 && interMinY != 0) {
                                 interMinY = kdeTester(interMinX);
                                 interMinX -= 1;
@@ -2103,10 +2124,10 @@ function makeDistroChart(settings) {
                 }
 
                 cViolinPlot.kdedata = cViolinPlot.kdedata
-                    .filter(function (d) {
+                    .filter(function(d) {
                         return (!interpolateMin || d.x >= interpolateMin)
                     })
-                    .filter(function (d) {
+                    .filter(function(d) {
                         return (!interpolateMax || d.x <= interpolateMax)
                     });
             }
@@ -2119,19 +2140,19 @@ function makeDistroChart(settings) {
 
                 var yVScale = d3.scale.linear()
                     .range([width, 0])
-                    .domain([0, d3.max(cViolinPlot.kdedata, function (d) {return d.y;})])
+                    .domain([0, d3.max(cViolinPlot.kdedata, function(d) { return d.y; })])
                     .clamp(true);
 
                 var area = d3.svg.area()
                     .interpolate(vOpts.interpolation)
-                    .x(function (d) {return xVScale(d.x);})
+                    .x(function(d) { return xVScale(d.x); })
                     .y0(width)
-                    .y1(function (d) {return yVScale(d.y);});
+                    .y1(function(d) { return yVScale(d.y); });
 
                 var line = d3.svg.line()
                     .interpolate(vOpts.interpolation)
-                    .x(function (d) {return xVScale(d.x);})
-                    .y(function (d) {return yVScale(d.y)});
+                    .x(function(d) { return xVScale(d.x); })
+                    .y(function(d) { return yVScale(d.y) });
 
                 if (cViolinPlot.objs.left.area) {
                     cViolinPlot.objs.left.area
@@ -2158,7 +2179,7 @@ function makeDistroChart(settings) {
         /**
          * Create the svg elements for the violin plot
          */
-        chart.violinPlots.prepareViolin = function () {
+        chart.violinPlots.prepareViolin = function() {
             var cName, cViolinPlot;
 
             if (vOpts.colors) {
@@ -2167,14 +2188,14 @@ function makeDistroChart(settings) {
                 chart.violinPlots.color = chart.colorFunct
             }
 
-            if (vOpts.show == false) {return}
+            if (vOpts.show == false) { return }
 
             for (cName in chart.groupObjs) {
                 cViolinPlot = chart.groupObjs[cName].violin;
 
                 cViolinPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "violin-plot");
-                cViolinPlot.objs.left = {area: null, line: null, g: null};
-                cViolinPlot.objs.right = {area: null, line: null, g: null};
+                cViolinPlot.objs.left = { area: null, line: null, g: null };
+                cViolinPlot.objs.right = { area: null, line: null, g: null };
 
                 cViolinPlot.objs.left.g = cViolinPlot.objs.g.append("g");
                 cViolinPlot.objs.right.g = cViolinPlot.objs.g.append("g");
@@ -2205,15 +2226,15 @@ function makeDistroChart(settings) {
 
 
         function kernelDensityEstimator(kernel, x) {
-            return function (sample) {
-                return x.map(function (x) {
-                    return {x:x, y:d3.mean(sample, function (v) {return kernel(x - v);})};
+            return function(sample) {
+                return x.map(function(x) {
+                    return { x: x, y: d3.mean(sample, function(v) { return kernel(x - v); }) };
                 });
             };
         }
 
         function eKernel(scale) {
-            return function (u) {
+            return function(u) {
                 return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
             };
         }
@@ -2221,8 +2242,8 @@ function makeDistroChart(settings) {
         // Used to find the roots for adjusting violin axis
         // Given an array, find the value for a single point, even if it is not in the domain
         function eKernelTest(kernel, array) {
-            return function (testX) {
-                return d3.mean(array, function (v) {return kernel(testX - v);})
+            return function(testX) {
+                return d3.mean(array, function(v) { return kernel(testX - v); })
             }
         }
 
@@ -2250,7 +2271,7 @@ function makeDistroChart(settings) {
      * @param [options.colors=chart default] The color mapping for the box plot
      * @returns {*} The chart object
      */
-    chart.renderBoxPlot = function (options) {
+    chart.renderBoxPlot = function(options) {
         chart.boxPlots = {};
 
         // Defaults
@@ -2284,7 +2305,7 @@ function makeDistroChart(settings) {
         /**
          * Calculates all the outlier points for each group
          */
-        !function calcAllOutliers() {
+        ! function calcAllOutliers() {
 
             /**
              * Create lists of the outliers for each content group
@@ -2296,7 +2317,7 @@ function makeDistroChart(settings) {
                 var cOutliers = [];
                 var cOut, idx;
                 for (idx = 0; idx <= cGroup.values.length; idx++) {
-                    cOut = {value: cGroup.values[idx]};
+                    cOut = { value: cGroup.values[idx] };
 
                     if (cOut.value < cGroup.metrics.lowerInnerFence) {
                         if (cOut.value < cGroup.metrics.lowerOuterFence) {
@@ -2325,7 +2346,7 @@ function makeDistroChart(settings) {
          * Take updated options and redraw the box plot
          * @param updateOptions
          */
-        chart.boxPlots.change = function (updateOptions) {
+        chart.boxPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     bOpts[key] = updateOptions[key]
@@ -2339,29 +2360,29 @@ function makeDistroChart(settings) {
             chart.boxPlots.update()
         };
 
-        chart.boxPlots.reset = function () {
+        chart.boxPlots.reset = function() {
             chart.boxPlots.change(defaultOptions)
         };
-        chart.boxPlots.show = function (opts) {
+        chart.boxPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.boxPlots.change(opts)
 
         };
-        chart.boxPlots.hide = function (opts) {
+        chart.boxPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.boxPlots.change(opts)
         };
@@ -2369,7 +2390,7 @@ function makeDistroChart(settings) {
         /**
          * Update the box plot obj values
          */
-        chart.boxPlots.update = function () {
+        chart.boxPlots.update = function() {
             var cName, cBoxPlot;
 
             for (cName in chart.groupObjs) {
@@ -2475,7 +2496,7 @@ function makeDistroChart(settings) {
         /**
          * Create the svg elements for the box plot
          */
-        chart.boxPlots.prepareBoxPlot = function () {
+        chart.boxPlots.prepareBoxPlot = function() {
             var cName, cBoxPlot;
 
             if (bOpts.colors) {
@@ -2505,7 +2526,7 @@ function makeDistroChart(settings) {
 
                 //Plot Median (default show)
                 if (bOpts.showMedian) {
-                    cBoxPlot.objs.median = {line: null, circle: null};
+                    cBoxPlot.objs.median = { line: null, circle: null };
                     cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
                         .attr("class", "median");
                     cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
@@ -2516,7 +2537,7 @@ function makeDistroChart(settings) {
 
                 // Plot Mean (default no plot)
                 if (bOpts.showMean) {
-                    cBoxPlot.objs.mean = {line: null, circle: null};
+                    cBoxPlot.objs.mean = { line: null, circle: null };
                     cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
                         .attr("class", "mean");
                     cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
@@ -2527,8 +2548,8 @@ function makeDistroChart(settings) {
 
                 // Plot Whiskers (default show)
                 if (bOpts.showWhiskers) {
-                    cBoxPlot.objs.upperWhisker = {fence: null, line: null};
-                    cBoxPlot.objs.lowerWhisker = {fence: null, line: null};
+                    cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                    cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
                     cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
                         .attr("class", "upper whisker")
                         .style("stroke", chart.boxPlots.colorFunct(cName));
@@ -2593,7 +2614,7 @@ function makeDistroChart(settings) {
      * @param [options.colors=chart default] The color mapping for the notch boxes
      * @returns {*} The chart object
      */
-    chart.renderNotchBoxes = function (options) {
+    chart.renderNotchBoxes = function(options) {
         chart.notchBoxes = {};
 
         //Defaults
@@ -2658,7 +2679,7 @@ function makeDistroChart(settings) {
                     [notchBounds.boxRight, chart.yScale(cNotch.metrics.quartile1)]
                 ];
             }
-            return scaledValues.map(function (d) {
+            return scaledValues.map(function(d) {
                 return [d[0], d[1]].join(",");
             }).join(" ");
         }
@@ -2666,7 +2687,7 @@ function makeDistroChart(settings) {
         /**
          * Calculate the confidence intervals
          */
-        !function calcNotches() {
+        ! function calcNotches() {
             var cNotch, modifier;
             for (var cName in chart.groupObjs) {
                 cNotch = chart.groupObjs[cName];
@@ -2680,7 +2701,7 @@ function makeDistroChart(settings) {
          * Take a new set of options and redraw the notch boxes
          * @param updateOptions
          */
-        chart.notchBoxes.change = function (updateOptions) {
+        chart.notchBoxes.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     nOpts[key] = updateOptions[key]
@@ -2694,28 +2715,28 @@ function makeDistroChart(settings) {
             chart.notchBoxes.update();
         };
 
-        chart.notchBoxes.reset = function () {
+        chart.notchBoxes.reset = function() {
             chart.notchBoxes.change(defaultOptions)
         };
-        chart.notchBoxes.show = function (opts) {
+        chart.notchBoxes.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.notchBoxes.change(opts)
         };
-        chart.notchBoxes.hide = function (opts) {
+        chart.notchBoxes.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.notchBoxes.change(opts)
         };
@@ -2723,7 +2744,7 @@ function makeDistroChart(settings) {
         /**
          * Update the notch box obj values
          */
-        chart.notchBoxes.update = function () {
+        chart.notchBoxes.update = function() {
             var cName, cGroup;
 
             for (cName in chart.groupObjs) {
@@ -2775,7 +2796,7 @@ function makeDistroChart(settings) {
         /**
          * Create the svg elements for the notch boxes
          */
-        chart.notchBoxes.prepareNotchBoxes = function () {
+        chart.notchBoxes.prepareNotchBoxes = function() {
             var cName, cNotch;
 
             if (nOpts && nOpts.colors) {
@@ -2836,7 +2857,7 @@ function makeDistroChart(settings) {
      * @returns {*} The chart object
      *
      */
-    chart.renderDataPlots = function (options) {
+    chart.renderDataPlots = function(options) {
         chart.dataPlots = {};
 
 
@@ -2846,7 +2867,7 @@ function makeDistroChart(settings) {
             showPlot: false,
             plotType: 'none',
             pointSize: 6,
-            showLines: false,//['median'],
+            showLines: false, //['median'],
             showBeanLines: false,
             beanWidth: 20,
             colors: null
@@ -2869,7 +2890,7 @@ function makeDistroChart(settings) {
          * Take updated options and redraw the data plots
          * @param updateOptions
          */
-        chart.dataPlots.change = function (updateOptions) {
+        chart.dataPlots.change = function(updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     dOpts[key] = updateOptions[key]
@@ -2884,28 +2905,28 @@ function makeDistroChart(settings) {
             chart.dataPlots.update()
         };
 
-        chart.dataPlots.reset = function () {
+        chart.dataPlots.reset = function() {
             chart.dataPlots.change(defaultOptions)
         };
-        chart.dataPlots.show = function (opts) {
+        chart.dataPlots.show = function(opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = {show: true};
+                opts = { show: true };
             }
             chart.dataPlots.change(opts)
         };
-        chart.dataPlots.hide = function (opts) {
+        chart.dataPlots.hide = function(opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = {show: false};
+                opts = { show: false };
             }
             chart.dataPlots.change(opts)
         };
@@ -2913,7 +2934,7 @@ function makeDistroChart(settings) {
         /**
          * Update the data plot obj values
          */
-        chart.dataPlots.update = function () {
+        chart.dataPlots.update = function() {
             var cName, cGroup, cPlot;
 
             // Metrics lines
@@ -2921,7 +2942,7 @@ function makeDistroChart(settings) {
                 var halfBand = chart.xScale.rangeBand() / 2; // find the middle of each band
                 for (var cMetric in chart.dataPlots.objs.lines) {
                     chart.dataPlots.objs.lines[cMetric].line
-                        .x(function (d) {
+                        .x(function(d) {
                             return chart.xScale(d.x) + halfBand
                         });
                     chart.dataPlots.objs.lines[cMetric].g
@@ -3002,7 +3023,7 @@ function makeDistroChart(settings) {
         /**
          * Create the svg elements for the data plots
          */
-        chart.dataPlots.preparePlots = function () {
+        chart.dataPlots.preparePlots = function() {
             var cName, cPlot;
 
             if (dOpts && dOpts.colors) {
@@ -3032,7 +3053,7 @@ function makeDistroChart(settings) {
                     }
                     chart.dataPlots.objs.lines[cMetric].line = d3.svg.line()
                         .interpolate("cardinal")
-                        .y(function (d) {
+                        .y(function(d) {
                             return chart.yScale(d.y)
                         });
                     chart.dataPlots.objs.lines[cMetric].g = chart.dataPlots.objs.g.append("path")
@@ -3052,12 +3073,14 @@ function makeDistroChart(settings) {
 
                 // Points Plot
                 if (dOpts.showPlot) {
-                    cPlot.objs.points = {g: null, pts: []};
-                    cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
+                    cPlot.objs.points = { g: null, pts: [] };
+                    cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot this");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
+                        let data = chart.groupObjs[cName].values[pt];
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
-                            .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
+                            .attr("val", data)
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", chart.dataPlots.colorFunct(cName)));
                     }
                 }
@@ -3065,7 +3088,7 @@ function makeDistroChart(settings) {
 
                 // Bean lines
                 if (dOpts.showBeanLines) {
-                    cPlot.objs.bean = {g: null, lines: []};
+                    cPlot.objs.bean = { g: null, lines: [] };
                     cPlot.objs.bean.g = cPlot.objs.g.append("g").attr("class", "bean-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
                         cPlot.objs.bean.lines.push(cPlot.objs.bean.g.append("line")

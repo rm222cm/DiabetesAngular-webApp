@@ -26,21 +26,21 @@ router.get('/tweet-img/cb', auth, tweetImgCb);
 
 //Insulin
 router.post('/insulin', insulin.create);
-router.post('/insulinGetByDate',auth, insulin.get);
+router.post('/insulinGetByDate', auth, insulin.get);
 
 //Activity
 router.post('/activity', activity.create);
-router.post('/activityGetByDate',auth, activity.get);
+router.post('/activityGetByDate', auth, activity.get);
 
 //Carbs
 router.post('/carbs', carbs.create);
 router.get('/carbs', carbs.getall);
-router.post('/carbsGetByDate',auth, carbs.get);
+router.post('/carbsGetByDate', auth, carbs.get);
 
 //Glucose
 router.post('/glucose', glucose.create);
 router.get('/glucose', glucose.getall);
-router.post('/glucoseGetByDate',auth, glucose.get);
+router.post('/glucoseGetByDate', auth, glucose.get);
 router.get('/getLatestGlucoseLevel', glucose.getLatestGlucoseLevel);
 router.post('/getLatestGlucoseLevelByTime', glucose.getLatestGlucoseLevelByTime);
 
@@ -52,5 +52,6 @@ router.get('/exportHistory', exportData.exportHistory);
 router.post('/export', exportData.export);
 router.post('/exportAsReport', exportData.exportAsReport);
 router.post('/exportAsReportInsulin', exportData.exportAsReportInsulin);
+router.post('/exportAsReportActivity', exportData.exportAsReportActivity);
 
 module.exports = router;
