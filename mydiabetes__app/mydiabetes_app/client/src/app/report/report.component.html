@@ -171,7 +171,7 @@
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
                 <div class="col-md-10" [hidden]="!showCarbs">
 
-                    <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj" (select)="onSelect($event)">
+                    <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
                         <ng-template #tooltipTemplate let-model="model">
 
                             <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
@@ -201,8 +201,7 @@
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
                 <div class="col-md-10" [hidden]="!showGlucose">
 
-                    <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj"
-                        (select)="onSelect($event)">
+                    <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj">
                         <ng-template #tooltipTemplate let-model="model">
 
                             <pre style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
