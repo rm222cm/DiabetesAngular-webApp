@@ -890,3 +890,24 @@ input[type="checkbox"]+label {
         padding: 0 !important;
     }
 }
+
+.legend-styles .custom-control{
+    display: inline-block;
+}
+.legend-styles .chart-wrap{
+    width: 60%;
+    margin: 0 auto;
+}
+
+@media (max-width: 767px){
+    .legend-styles{
+        margin: 0 !important;
+    }
+    .legend-styles .chart-wrap{
+        width: 100%;
+    }
+    
+    .legend-styles .custom-control-label{
+        font-size: 12px;
+    }
+}
