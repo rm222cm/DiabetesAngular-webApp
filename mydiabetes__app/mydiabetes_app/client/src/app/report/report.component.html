@@ -2,9 +2,6 @@
     <div class="row">
         <div class="col-md-12">
             <div id="time-range">
-
-
-
                 <button id="clicker" #sliderButton style="display: none;" (click)="slider()"> click me</button>
             </div>
         </div>
@@ -49,14 +46,30 @@
 
         <div class="col-md-12 vh-50">
             <div class="row">
-                <div class="clearfix col-md-12" [hidden]="!showInsulin"></div>
-                <div class="col-md-1" [hidden]="!showInsulin"></div>
-                <div class="col-md-11 text-center" [hidden]="!showInsulin">
-                    <dl><b>Insulin Dosage Chart</b></dl>
-                </div>
 
-                <div class="row" style="width: 100%; margin-bottom: 20px;">
-                    <div class="col-md-10">
+
+                <div class="content-wrapper col-sm-12">
+                    <div class="text-center mb-3 mt-3" [hidden]="!showInsulin">
+                        <dl><b>Insulin Dosage Chart</b></dl>
+                    </div>
+    
+                    <div class="legend-styles" [hidden]="!showInsulin" style="margin-bottom: 20px;">
+                        <div class="text-center">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="insulincustom before-meal custom-control-input" id="beforemeal" [checked]="true" (click)="DosageTypeChange($event.target.checked,'1')">
+                                <label class="custom-control-label " for="beforemeal">Before Meal</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="activitycustom after-meal custom-control-input" id="aftermeal" [checked]="true" (click)="DosageTypeChange($event.target.checked,'2')">
+                                <label class="custom-control-label" for="aftermeal">After Meal</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="carbscustom othertime custom-control-input" id="other1" [checked]="true" (click)="DosageTypeChange($event.target.checked,'3')">
+                                <label class="custom-control-label" for="other1">Othertime</label>
+                            </div>
+    
+                        </div>
+    
                         <!-- <div class="col-md-1 text-white align-top g_h" [hidden]="!showInsulin"></div> -->
                         <div class="chart-wrap" [hidden]="!showInsulin">
                             <!-- <ngx-charts-bar-vertical-2d [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis"
@@ -64,10 +77,10 @@
                     [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
                     (select)="onSelectInsulin($event)">
                     <ng-template #tooltipTemplate let-model="model">
-
+    
                     <pre
                         style="color: antiquewhite; text-align: left ">Dosage Time: {{model.dosageTime | date:'yy-MM-dd HH:mm'}}</pre>
-
+    
                     <pre style="color: antiquewhite; text-align: left;">Dosage Amount: {{model.value}} Units</pre>
                     <pre style="color: antiquewhite; text-align: left;">Insulin Type: {{model.insulinType}}</pre>
                     </ng-template>
@@ -75,59 +88,37 @@
                             <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
                             <div>
                                 <ng5-slider [(value)]="value" [(highValue)]="maxValue" [options]="options" (userChange)="onUserChange($event)"></ng5-slider>
-
+    
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="mt-1">
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="insulincustom before-meal custom-control-input" id="beforemeal" [checked]="true" (click)="DosageTypeChange($event.target.checked,'1')">
-                                <label class="custom-control-label " for="beforemeal">Before Meal</label>
-                            </div>
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="activitycustom after-meal custom-control-input" id="aftermeal" [checked]="true" (click)="DosageTypeChange($event.target.checked,'2')">
-                                <label class="custom-control-label" for="aftermeal">After Meal</label>
-                            </div>
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="carbscustom othertime custom-control-input" id="other1" [checked]="true" (click)="DosageTypeChange($event.target.checked,'3')">
-                                <label class="custom-control-label" for="other1">Othertime</label>
-                            </div>
-
-                        </div>
+    
+                    <div class="text-center mb-3 mt-3" [hidden]="!showActivity">
+                        <dl><b>Activity Chart</b></dl>
                     </div>
-                </div>
-
-                <div class="clearfix col-md-12" [hidden]="!showActivity"></div>
-                <div class="col-md-1" [hidden]="!showActivity"></div>
-                <div class="col-md-11 text-center" [hidden]="!showActivity">
-
-                    <dl><b>Activity Chart</b></dl>
-                </div>
-
-                <div class="row" style="width: 100%; margin-bottom: 20px;">
-                    <div class="col-md-12">
+    
+                    <div class="legend-styles" style="margin-bottom: 20px;">
                         <div class="chart-wrap" [hidden]="!showActivity">
-
+    
                             <div class="chart-wrapper" id="chart-distro2" #dataContainer></div>
-
+    
                             <div>
                                 <ng5-slider [(value)]="value" [(highValue)]="maxValue" [options]="options" (userChange)="onUserChange($event)"></ng5-slider>
-
+    
                             </div>
                             <!-- <ngx-charts-area-chart [scheme]="colorScheme1" [legend]="false" [showXAxisLabel]="showXAxisLabel"
                     [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel1"
                     [yAxisLabel]="yAxisLabel1" [timeline]="timeline" [autoScale]="autoScale" [results]="activityobj"
                     (select)="onSelect($event)">
                     <ng-template #tooltipTemplate let-model="model">
-
+    
                     <pre
                         style="color: antiquewhite; text-align: left ">Activity Time: {{model.activityTime | date:'yy-MM-dd HH:mm'}}</pre>
                     <pre style="color: antiquewhite; text-align: left ">Activity Type: {{model.activityType }}</pre>
                     <pre style="color: antiquewhite; text-align: left ">Activity Duration: {{model.activityDuration }}</pre>
-
+    
                     </ng-template>
-
+    
                     <ng-template #seriesTooltipTemplate let-model="model">
                     <span *ngFor="let mod of model; let i = index">
                         <pre
@@ -139,28 +130,9 @@
                 </ngx-charts-area-chart> -->
                         </div>
                     </div>
-                    <!-- <div class="col-md-2">
-                        <div class="mt-1">
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="insulincustom walking custom-control-input" id="walking" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'walking')">
-                                <label class="custom-control-label " for="walking">Walking</label>
-                            </div>
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="activitycustom jogging custom-control-input" id="Jogging" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'jogging')">
-                                <label class="custom-control-label" for="Jogging">Jogging</label>
-                            </div>
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="carbscustom running custom-control-input" id="running" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'running')">
-                                <label class="custom-control-label" for="running">Running</label>
-                            </div>
-                            <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" class="insulincustom liftingweight custom-control-input" id="weight" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'lifting_weight')">
-                                <label class="custom-control-label" for="weight">Lifting Weight</label>
-                            </div>
-
-                        </div>
-                    </div> -->
                 </div>
+
+                
 
 
                 <div class="clearfix col-md-12" [hidden]="!showCarbs"></div>
@@ -252,3 +224,4 @@
         <!-- <div class=" col-md-2">
       </div> -->
     </div>
+</div>
