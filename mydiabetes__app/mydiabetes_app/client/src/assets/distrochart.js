@@ -652,6 +652,91 @@ function makeDistroChartBox(settings) {
                 cViolinPlot.objs.right.g = cViolinPlot.objs.g.append("g");
 
                 if (vOpts.showViolinPlot !== false) {
+
+
+                    if (cName === "Before Meal") {
+
+                        //Area
+                        cViolinPlot.objs.left.area = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#1f77b4");
+                        cViolinPlot.objs.right.area = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#1f77b4");
+                        
+                        //Lines
+                        cViolinPlot.objs.left.line = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#1f77b4");
+                        cViolinPlot.objs.right.line = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        //Area
+                        cViolinPlot.objs.left.area = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#ffcc9f");
+                        cViolinPlot.objs.right.area = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#ffcc9f");
+                        
+                        //Lines
+                        cViolinPlot.objs.left.line = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#ffcc9f");
+                        cViolinPlot.objs.right.line = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        //Area
+                        cViolinPlot.objs.left.area = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#abd9ab");
+                        cViolinPlot.objs.right.area = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", "#abd9ab");
+
+                        //Lines
+                        cViolinPlot.objs.left.line = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#abd9ab");
+                        cViolinPlot.objs.right.line = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", "#abd9ab");
+
+                    } else {
+
+                        //Area
+                        cViolinPlot.objs.left.area = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", chart.violinPlots.color(cName));
+                        cViolinPlot.objs.right.area = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "area")
+                        .style("fill", chart.violinPlots.color(cName));
+
+                        //Lines
+                        cViolinPlot.objs.left.line = cViolinPlot.objs.left.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", chart.violinPlots.color(cName));
+                        cViolinPlot.objs.right.line = cViolinPlot.objs.right.g.append("path")
+                        .attr("class", "line")
+                        .attr("fill", 'none')
+                        .style("stroke", chart.violinPlots.color(cName));
+
+                    }
+
+
                     //Area
                     cViolinPlot.objs.left.area = cViolinPlot.objs.left.g.append("path")
                         .attr("class", "area")
@@ -723,6 +808,7 @@ function makeDistroChartBox(settings) {
      * @returns {*} The chart object
      */
     chart.renderBoxPlot = function(options) {
+
         chart.boxPlots = {};
 
         // Defaults
@@ -967,23 +1053,93 @@ function makeDistroChartBox(settings) {
 
                 //Plot Box (default show)
                 if (bOpts.showBox) {
-                    cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#1f77b4")
+                        .style("stroke", "#1f77b4");
+
+                    } else if(cName === "After Meal") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#ffcc9f")
+                        .style("stroke", "#ffcc9f");
+
+                    } else if(cName === "Any other time") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#abd9ab")
+                        .style("stroke", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
                         .attr("class", "box")
                         .style("fill", chart.boxPlots.colorFunct(cName))
                         .style("stroke", chart.boxPlots.colorFunct(cName));
+
+                    }
+
+                    // cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                    // .attr("class", "box")
+                    // .style("fill", chart.boxPlots.colorFunct(cName))
+                    // .style("stroke", chart.boxPlots.colorFunct(cName));
+
                     //A stroke is added to the box with the group color, it is
                     // hidden by default and can be shown through css with stroke-width
                 }
 
                 //Plot Median (default show)
                 if (bOpts.showMedian) {
-                    cBoxPlot.objs.median = { line: null, circle: null };
-                    cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "median");
-                    cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                        .attr("class", "median")
-                        .attr('r', bOpts.medianCSize)
-                        .style("fill", chart.boxPlots.colorFunct(cName));
+
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", chart.boxPlots.colorFunct(cName));
+
+                    }
+
+
+
                 }
 
                 // Plot Mean (default no plot)
@@ -999,21 +1155,80 @@ function makeDistroChartBox(settings) {
 
                 // Plot Whiskers (default show)
                 if (bOpts.showWhiskers) {
-                    cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                    cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                    cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                        .attr("class", "upper whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
-                    cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "upper whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
 
-                    cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                        .attr("class", "lower whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
-                    cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "lower whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#1f77b4");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#1f77b4");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#1f77b4");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#ffcc9f");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#ffcc9f");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#ffcc9f");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#abd9ab");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#abd9ab");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#abd9ab");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+
+                    }
                 }
 
                 // Plot outliers (default show)
@@ -1023,20 +1238,74 @@ function makeDistroChartBox(settings) {
                     if (cBoxPlot.objs.outliers.length) {
                         var outDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot outliers");
                         for (pt in cBoxPlot.objs.outliers) {
-                            cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+
+                            if (cName === "Before Meal") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#1f77b4");
+
+                            } else if (cName === "After Meal") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#ffcc9f");
+
+                            } else if (cName === "Any other time") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#abd9ab");
+
+                            } else {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
                                 .attr("class", "outlier")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("fill", chart.boxPlots.colorFunct(cName));
+
+                            }
                         }
                     }
 
                     if (cBoxPlot.objs.extremes.length) {
                         var extDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot extremes");
                         for (pt in cBoxPlot.objs.extremes) {
-                            cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+
+                            if (cName === "Before Meal") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#1f77b4");
+
+                            } else if (cName === "After Meal") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#ffcc9f");
+
+                            } else if (cName === "Any other time") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#abd9ab");
+
+                            } else {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
                                 .attr("class", "extreme")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("stroke", chart.boxPlots.colorFunct(cName));
+
+                            }
+
+
                         }
                     }
                 }
@@ -1559,7 +1828,10 @@ function makeDistroChartBox(settings) {
     return chart;
 }
 
+// TEST
+
 function makeDistroChart(settings) {
+
 
     var chart = {};
 
@@ -1935,7 +2207,7 @@ function makeDistroChart(settings) {
                     console.log(chart.objs.tooltip[0][0]);
                     console.log('Span visible testing')
 
-                    chart.objs.tooltip[0][0].innerHTML = "value " + d3.event.target.getAttribute("val")
+                    chart.objs.tooltip[0][0].innerHTML =  d3.event.target.getAttribute("val")
                     chart.objs.tooltip
                         .style("display", null)
                         // .style("position", "absolute")
@@ -2516,53 +2788,212 @@ function makeDistroChart(settings) {
 
                 //Plot Box (default show)
                 if (bOpts.showBox) {
-                    cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#1f77b4")
+                        .style("stroke", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#ffcc9f")
+                        .style("stroke", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                        .attr("class", "box")
+                        .style("fill", "#abd9ab")
+                        .style("stroke", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
                         .attr("class", "box")
                         .style("fill", chart.boxPlots.colorFunct(cName))
                         .style("stroke", chart.boxPlots.colorFunct(cName));
+
+                    }
+
                     //A stroke is added to the box with the group color, it is
                     // hidden by default and can be shown through css with stroke-width
                 }
 
                 //Plot Median (default show)
                 if (bOpts.showMedian) {
-                    cBoxPlot.objs.median = { line: null, circle: null };
-                    cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "median");
-                    cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                        .attr("class", "median")
-                        .attr('r', bOpts.medianCSize)
-                        .style("fill", chart.boxPlots.colorFunct(cName));
+
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.median = { line: null, circle: null };
+                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "median");
+                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "median")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", chart.boxPlots.colorFunct(cName));
+
+                    }
+
+
                 }
 
                 // Plot Mean (default no plot)
                 if (bOpts.showMean) {
-                    cBoxPlot.objs.mean = { line: null, circle: null };
-                    cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "mean");
-                    cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
-                        .attr("class", "mean")
-                        .attr('r', bOpts.medianCSize)
-                        .style("fill", chart.boxPlots.colorFunct(cName));
+
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.mean = { line: null, circle: null };
+                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "mean");
+                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "mean")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.mean = { line: null, circle: null };
+                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "mean");
+                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "mean")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.mean = { line: null, circle: null };
+                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "mean");
+                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "mean")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", "#abd9ab");
+                    } else {
+                        cBoxPlot.objs.mean = { line: null, circle: null };
+                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "mean");
+                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
+                            .attr("class", "mean")
+                            .attr('r', bOpts.medianCSize)
+                            .style("fill", chart.boxPlots.colorFunct(cName));
+                    }
+
+
                 }
 
                 // Plot Whiskers (default show)
                 if (bOpts.showWhiskers) {
-                    cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                    cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                    cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                        .attr("class", "upper whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
-                    cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "upper whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
 
-                    cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                        .attr("class", "lower whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
-                    cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                        .attr("class", "lower whisker")
-                        .style("stroke", chart.boxPlots.colorFunct(cName));
+                    if (cName === "Before Meal") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#1f77b4");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#1f77b4");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#1f77b4");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#1f77b4");
+
+                    } else if (cName === "After Meal") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#ffcc9f");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#ffcc9f");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#ffcc9f");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#ffcc9f");
+
+                    } else if (cName === "Any other time") {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#abd9ab");
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", "#abd9ab");
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#abd9ab");
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", "#abd9ab");
+
+                    } else {
+
+                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
+                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "upper whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+    
+                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                            .attr("class", "lower whisker")
+                            .style("stroke", chart.boxPlots.colorFunct(cName));
+
+                    }
+
+
                 }
 
                 // Plot outliers (default show)
@@ -2572,20 +3003,74 @@ function makeDistroChart(settings) {
                     if (cBoxPlot.objs.outliers.length) {
                         var outDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot outliers");
                         for (pt in cBoxPlot.objs.outliers) {
-                            cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+
+                            if (cName === "Before Meal") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#1f77b4");
+
+                            } else if (cName === "After Meal") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#ffcc9f");
+
+                            } else if (cName === "Any other time") {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                                .attr("class", "outlier")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("fill", "#abd9ab");
+
+                            } else {
+
+                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
                                 .attr("class", "outlier")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("fill", chart.boxPlots.colorFunct(cName));
+
+                            }
+
+
                         }
                     }
 
                     if (cBoxPlot.objs.extremes.length) {
                         var extDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot extremes");
                         for (pt in cBoxPlot.objs.extremes) {
-                            cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+
+                            if (cName === "Before Meal") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#1f77b4");
+
+                            } else if (cName === "After Meal") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#ffcc9f");
+
+                            } else if (cName === "Any other time") {
+
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                                .attr("class", "extreme")
+                                .attr('r', bOpts.outlierCSize)
+                                .style("stroke", "#abd9ab");
+
+                            } else {
+                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
                                 .attr("class", "extreme")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("stroke", chart.boxPlots.colorFunct(cName));
+                            }
+
+
                         }
                     }
                 }
@@ -3079,7 +3564,7 @@ function makeDistroChart(settings) {
                         let data = chart.groupObjs[cName].values[pt];
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
-                            .attr("val", data)
+                            .attr("val", cName + " " + data)
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", chart.dataPlots.colorFunct(cName)));
                     }
