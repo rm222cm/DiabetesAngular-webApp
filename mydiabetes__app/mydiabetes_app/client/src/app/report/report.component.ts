@@ -140,6 +140,7 @@ export class ReportComponent implements OnInit {
     this.getReportData();
   }
   onUserChange(changeContext: ChangeContext): void {
+
     console.log("changeContext");
     console.log(changeContext);
     this.startDate = new Date(changeContext.value).toDateString();
