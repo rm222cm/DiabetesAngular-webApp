@@ -1,5 +1,7 @@
 /*------------------------------------------*/
-
+body{
+    font-family: 'Poppins', sans-serif !important;
+}
 
 /*------------------------------------------*/
 
@@ -175,7 +177,7 @@
 }
 
 .chart-wrapper text {
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
 }
 
@@ -203,7 +205,7 @@
     position: absolute;
     text-align: left;
     padding: 3px;
-    font: 12px sans-serif;
+    font: 12px Poppins;
     background: lightcyan;
     border: 0px;
     border-radius: 1px;
@@ -289,10 +291,10 @@
 .chart-options {
     min-width: 200px;
     font-size: 13px;
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
-.chart-options button {
+.chart-options button { 
     margin: 3px;
     padding: 3px;
     font-size: 12px;
@@ -910,4 +912,24 @@ input[type="checkbox"]+label {
     .legend-styles .custom-control-label{
         font-size: 12px;
     }
+
+    .chart-area .tick  text{
+        transform: rotate(-45)
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+    .chart-area .tick  text{
+        font-size: 9px;
+    }
+    
+}
+
+.ng5-slider .ng5-slider-pointer {
+    background-color: brown !important;
+}
+
+.ng5-slider .ng5-slider-selection {
+    background-color: brown !important;
 }

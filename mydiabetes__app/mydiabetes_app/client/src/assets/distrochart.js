@@ -142,11 +142,11 @@ function makeDistroChartBox(settings) {
         // console.log("groupName, metrics");
         // console.log(groupName, metrics);
         var tooltipString = "Group: " + groupName;
-        tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
-        tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
-        tooltipString += "<br\>Median: " + formatAsFloat(metrics.median);
-        tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
-        tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
+        tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1) + " Units";
+        tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3)+ " Units";
+        tooltipString += "<br\>Median: " + formatAsFloat(metrics.median)+ " Units";
+        tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1)+ " Units";
+        tooltipString += "<br\>Min: " + formatAsFloat(metrics.min)+ " Units";
         return function() {
             chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
             chart.objs.tooltip.html(tooltipString)
@@ -314,7 +314,7 @@ function makeDistroChartBox(settings) {
         chart.objs.g.select('.x.axis').attr("transform", "translate(0," + chart.height + ")").call(chart.objs.xAxis)
             .selectAll("text")
             .attr("y", 10)
-            .attr("x", 25)
+            .attr("x", 35)
             // .attr("transform", "rotate(-45)")
             .style("text-anchor", "end");
         chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
@@ -392,8 +392,8 @@ function makeDistroChartBox(settings) {
                 chart.objs.tooltip
                     .style("display", null)
                     // .style("position", "absolute")
-                    .style("left", (d3.event.pageX - 200) + "px")
-                    .style("top", (d3.event.pageY - 400) + "px");
+                    .style("left", (d3.event.pageX - 150) + "px")
+                    .style("top", (d3.event.pageY - 300) + "px");
             }).on("mouseout", function() {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
@@ -2210,9 +2210,11 @@ function makeDistroChart(settings) {
                     chart.objs.tooltip[0][0].innerHTML =  d3.event.target.getAttribute("val")
                     chart.objs.tooltip
                         .style("display", null)
-                        // .style("position", "absolute")
-                        .style("left", (d3.event.pageX - 200) + "px")
-                        .style("top", (d3.event.pageY - 900) + "px");
+                        
+                        // .style("left", (d3.event.pageX - 200) + "px")
+                        // .style("top", (d3.event.pageY - 900) + "px");
+                        .style("left", (d3.event.pageX - 50 ) + "px")
+                        .style("top", (d3.event.pageY  - 220  ) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
 
                 }).on("mouseout", function() {
