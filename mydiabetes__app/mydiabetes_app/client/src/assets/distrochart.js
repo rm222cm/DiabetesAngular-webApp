@@ -139,8 +139,7 @@ function makeDistroChartBox(settings) {
      * @returns {Function} A function that provides the values for the tooltip
      */
     function tooltipHover(groupName, metrics) {
-        // console.log("groupName, metrics");
-        // console.log(groupName, metrics);
+
         var tooltipString = "Group: " + groupName;
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1) + " Units";
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3)+ " Units";
@@ -216,6 +215,10 @@ function makeDistroChartBox(settings) {
 
         // Group the values
         for (current_row = 0; current_row < chart.data.length; current_row++) {
+
+            //console.log(chart.data[current_row][chart.settings.xName])
+            //console.log(chart.data[current_row][chart.settings.yName])
+
             current_x = chart.data[current_row][chart.settings.xName];
             current_y = chart.data[current_row][chart.settings.yName];
 
@@ -354,8 +357,8 @@ function makeDistroChartBox(settings) {
 
         // Create axes
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
-        console.log("chart.objs.xAxis")
-        console.log(chart.height)
+        //console.log("chart.objs.xAxis")
+        //console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height - 60 + ")")
@@ -376,19 +379,19 @@ function makeDistroChartBox(settings) {
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
 
         for (var cName in chart.groupObjs) {
-            console.log('.......testing..........');
-            console.log('........testing.........');
+            //console.log('.......testing..........');
+            //console.log('........testing.........');
 
-            console.log('.......testing..........');
-            console.log('........testing.........');
+            //console.log('.......testing..........');
+            //console.log('........testing.........');
 
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
             chart.groupObjs[cName].g.on("mouseover", function() {
-                console.log("cName");
-                console.log(chart.groupObjs[cName]);
-                console.log("d3.event.pageX");
-                console.log(d3.event.pageX);
-                console.log(d3.event.pageY);
+                //console.log("cName");
+                //console.log(chart.groupObjs[cName]);
+                //console.log("d3.event.pageX");
+                //console.log(d3.event.pageX);
+                //console.log(d3.event.pageY);
                 chart.objs.tooltip
                     .style("display", null)
                     // .style("position", "absolute")
@@ -1786,16 +1789,19 @@ function makeDistroChartBox(settings) {
             }
 
 
+            debugger;
             for (cName in chart.groupObjs) {
 
                 cPlot = chart.groupObjs[cName].dataPlots;
                 cPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "data-plot");
 
                 // Points Plot
+                debugger;
                 if (dOpts.showPlot) {
                     cPlot.objs.points = { g: null, pts: [] };
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
+                        debugger;
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
@@ -1951,8 +1957,7 @@ function makeDistroChart(settings) {
      * @returns {Function} A function that provides the values for the tooltip
      */
     function tooltipHover(groupName, metrics) {
-        console.log("groupName, metrics");
-        console.log(d3.event);
+
         var tooltipString = "Group: " + groupName;
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
@@ -2028,19 +2033,32 @@ function makeDistroChart(settings) {
 
         // Group the values
         for (current_row = 0; current_row < chart.data.length; current_row++) {
+
             current_x = chart.data[current_row][chart.settings.xName];
             current_y = chart.data[current_row][chart.settings.yName];
+            let activityTime = chart.data[current_row].activityTime;
+            let activityDuration = chart.data[current_row].activityDuration;
+
+            const obj = {
+                value: current_y,
+                activityTime: activityTime,
+                activityDuration: activityDuration
+            };
 
             if (chart.groupObjs.hasOwnProperty(current_x)) {
+                
                 chart.groupObjs[current_x].values.push(current_y);
+                chart.groupObjs[current_x].timeduration.push(obj);
             } else {
                 chart.groupObjs[current_x] = {};
                 chart.groupObjs[current_x].values = [current_y];
+                chart.groupObjs[current_x].timeduration = [obj];
             }
         }
 
         for (var cName in chart.groupObjs) {
             chart.groupObjs[cName].values.sort(d3.ascending);
+            chart.groupObjs[cName].timeduration.sort((a,b) => (a.value > b.value) ? 1 : ((b.value > a.value) ? -1 : 0));
             chart.groupObjs[cName].metrics = {};
             chart.groupObjs[cName].metrics = calcMetrics(chart.groupObjs[cName].values);
 
@@ -2166,8 +2184,8 @@ function makeDistroChart(settings) {
 
         // Create axes
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
-        console.log("chart.objs.xAxis")
-        console.log(chart.height)
+        //console.log("chart.objs.xAxis")
+        //console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height - 60 + ")")
@@ -2186,40 +2204,47 @@ function makeDistroChart(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
-
-        console.log("chart.groupObjs");
-        console.log(chart.groupObjs);
         for (var cName in chart.groupObjs) {
-            console.log("chart.groupObjs")
-            console.log(chart.groupObjs)
+
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
             chart.groupObjs[cName].g.on("mouseover", function(e) {
-                    console.log("e");
-                    console.log(e);
-                    console.log("cName");
-                    console.log(chart.groupObjs[cName]);
-                    console.log("d3.event.pageX");
-                    console.log(d3.event.target.getAttribute("val"));
-                    console.log(d3.event);
-                    console.log(d3.event.pageY);
-                    console.log('Span visible testing')
-                    console.log(chart.objs.tooltip);
-                    console.log(chart.objs.tooltip[0][0]);
-                    console.log('Span visible testing')
 
-                    chart.objs.tooltip[0][0].innerHTML =  d3.event.target.getAttribute("val")
+                    var val = d3.event.target.getAttribute("val");
+                    var timeValue = d3.event.target.getAttribute("time");
+                    var durationValue = d3.event.target.getAttribute("duration");
+                    var date = new Date(timeValue);
+                    var day = date.getDay();
+
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    var hours = date.getHours();
+                    var minutes = date.getMinutes();
+                    var seconds = date.getSeconds();
+
+                    if (day < 10) {
+                        day = '0'+ day;
+                    }
+
+                    if (month < 10) {
+                        month = '0' + month;
+                    }
+
+
+                    var tooltipHTML = `
+                                      <span>Time of Activity: ${day}-${month}-${year} (${hours}:${minutes}:${seconds})</span><br>
+                                      <span>Duration: ${durationValue}</span>`;
+
+                    chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
                     chart.objs.tooltip
                         .style("display", null)
                         
-                        // .style("left", (d3.event.pageX - 200) + "px")
-                        // .style("top", (d3.event.pageY - 900) + "px");
                         .style("left", (d3.event.pageX - 50 ) + "px")
                         .style("top", (d3.event.pageY  - 220  ) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
-                }) //.on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
+                })
         }
         chart.update();
     }();
@@ -3564,11 +3589,61 @@ function makeDistroChart(settings) {
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot this");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
                         let data = chart.groupObjs[cName].values[pt];
-                        cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                        let time = chart.groupObjs[cName].timeduration[pt].activityTime;
+                        let duration = chart.groupObjs[cName].timeduration[pt].activityDuration;
+
+                        if (cName === "walking") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
                             .attr("val", cName + " " + data)
+                            .attr("time", time)
+                            .attr("duration", duration)
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
+                            .style("fill", "#1f77b4"));
+
+                        } else if (cName === "jogging") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("val", cName + " " + data)
+                            .attr("time", time)
+                            .attr("duration", duration)
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
+                            .style("fill", "#ff7f0e"));
+
+                        } else if (cName === "running") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("val", cName + " " + data)
+                            .attr("time", time)
+                            .attr("duration", duration)
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
+                            .style("fill", "#2ca02c"));
+
+                        } else if (cName === "lifting_weight") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("val", cName + " " + data)
+                            .attr("time", time)
+                            .attr("duration", duration)
+                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
+                            .style("fill", "#d62728"));
+
+                        } else {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("val", cName + " " + data)
+                            .attr("time", time)
+                            .attr("duration", duration)
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", chart.dataPlots.colorFunct(cName)));
+
+                        }
+
                     }
                 }
 
