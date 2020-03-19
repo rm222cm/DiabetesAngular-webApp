@@ -373,8 +373,8 @@ function makeDistroChartBox(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
-        chart.objs.tooltip.transition().duration(200).style("opacity", 1);
-        chart.objs.tooltip.style("background-color", "#0097ff");
+        chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
+        chart.objs.tooltip.style("background-color", "#ffffff");
         chart.objs.tooltip.style("font-weight", "bold");
 
         for (var cName in chart.groupObjs) {
@@ -1952,7 +1952,7 @@ function makeDistroChart(settings) {
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
         return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 1);
+            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -2236,8 +2236,8 @@ function makeDistroChart(settings) {
                         
                         .style("left", (d3.event.pageX - 50 ) + "px")
                         .style("top", (d3.event.pageY  - 220  ) + "px");
-                    chart.objs.tooltip.transition().duration(200).style("opacity", 1);
-                    chart.objs.tooltip.style("background-color", "#0097ff");
+                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
+                    chart.objs.tooltip.style("background-color", "#ffffff");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
