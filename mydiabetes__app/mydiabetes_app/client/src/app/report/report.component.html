@@ -96,6 +96,29 @@
                     <div class="text-center mb-3 mt-3" [hidden]="!showActivity">
                         <dl><b>Activity Chart</b></dl>
                     </div>
+
+                    <div class="legend-styles" [hidden]="!showActivity" style="margin-bottom: 20px;">
+                        <div class="text-center">
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="insulincustom walking custom-control-input" id="walking" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'walking')">
+                                <label class="custom-control-label " for="walking">Walking</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="activitycustom jogging custom-control-input" id="Jogging" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'jogging')">
+                                <label class="custom-control-label" for="Jogging">Jogging</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="carbscustom running custom-control-input" id="running" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'running')">
+                                <label class="custom-control-label" for="running">Running</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="insulincustom liftingweight custom-control-input" id="weight" [checked]="true" (click)="activitiesTypeChange($event.target.checked,'lifting_weight')">
+                                <label class="custom-control-label" for="weight">Lifting Weight</label>
+                            </div>
+
+                        </div>
+                    </div>
     
                     <div class="legend-styles" style="margin-bottom: 20px;">
                         <div class="chart-wrap" [hidden]="!showActivity">
