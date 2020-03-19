@@ -216,9 +216,6 @@ function makeDistroChartBox(settings) {
         // Group the values
         for (current_row = 0; current_row < chart.data.length; current_row++) {
 
-            //console.log(chart.data[current_row][chart.settings.xName])
-            //console.log(chart.data[current_row][chart.settings.yName])
-
             current_x = chart.data[current_row][chart.settings.xName];
             current_y = chart.data[current_row][chart.settings.yName];
 
@@ -357,8 +354,7 @@ function makeDistroChartBox(settings) {
 
         // Create axes
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
-        //console.log("chart.objs.xAxis")
-        //console.log(chart.height)
+
         chart.objs.axes.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height - 60 + ")")
@@ -377,21 +373,15 @@ function makeDistroChartBox(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
+        chart.objs.tooltip.transition().duration(200).style("opacity", 1);
+        chart.objs.tooltip.style("background-color", "#0097ff");
+        chart.objs.tooltip.style("font-weight", "bold");
 
         for (var cName in chart.groupObjs) {
-            //console.log('.......testing..........');
-            //console.log('........testing.........');
-
-            //console.log('.......testing..........');
-            //console.log('........testing.........');
 
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
             chart.groupObjs[cName].g.on("mouseover", function() {
-                //console.log("cName");
-                //console.log(chart.groupObjs[cName]);
-                //console.log("d3.event.pageX");
-                //console.log(d3.event.pageX);
-                //console.log(d3.event.pageY);
+
                 chart.objs.tooltip
                     .style("display", null)
                     // .style("position", "absolute")
@@ -1788,20 +1778,17 @@ function makeDistroChartBox(settings) {
 
             }
 
-
-            debugger;
             for (cName in chart.groupObjs) {
 
                 cPlot = chart.groupObjs[cName].dataPlots;
                 cPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "data-plot");
 
                 // Points Plot
-                debugger;
                 if (dOpts.showPlot) {
                     cPlot.objs.points = { g: null, pts: [] };
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
-                        debugger;
+
                         cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
@@ -1965,7 +1952,7 @@ function makeDistroChart(settings) {
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
         return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
+            chart.objs.tooltip.transition().duration(200).style("opacity", 1);
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -2184,8 +2171,6 @@ function makeDistroChart(settings) {
 
         // Create axes
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
-        //console.log("chart.objs.xAxis")
-        //console.log(chart.height)
         chart.objs.axes.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height - 60 + ")")
@@ -2229,10 +2214,21 @@ function makeDistroChart(settings) {
                         month = '0' + month;
                     }
 
+                    if ( Number(hours) < 10) {
+                        hours = '0' + hours;
+                    }
+
+                    if ( Number(minutes) < 10 ) {
+                        minutes = '0' + minutes;
+                    }
+
+                    if ( Number(seconds) < 10 ) {
+                        seconds = '0' + seconds;
+                    }
 
                     var tooltipHTML = `
-                                      <span>Time of Activity: ${day}-${month}-${year} (${hours}:${minutes}:${seconds})</span><br>
-                                      <span>Duration: ${durationValue}</span>`;
+                                      <strong>Time of Activity: ${day}-${month}-${year} (${hours}:${minutes}:${seconds})</strong><br>
+                                      <strong>Duration: ${durationValue}</strong>`;
 
                     chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
                     chart.objs.tooltip
@@ -2240,7 +2236,8 @@ function makeDistroChart(settings) {
                         
                         .style("left", (d3.event.pageX - 50 ) + "px")
                         .style("top", (d3.event.pageY  - 220  ) + "px");
-                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
+                    chart.objs.tooltip.transition().duration(200).style("opacity", 1);
+                    chart.objs.tooltip.style("background-color", "#0097ff");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
