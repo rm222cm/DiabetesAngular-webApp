@@ -7,7 +7,6 @@ import {
 } from "@angular/core";
 import { InsulinDosagesService } from "../services/insulin-dosages.service";
 import { single, multi1, multi, linear } from "../data/data.model";
-// import * as d3 from 'd3';
 import * as Jquery from "jquery";
 import { Options, LabelType, ChangeContext } from "ng5-slider";
 
@@ -37,8 +36,8 @@ export class ReportComponent implements OnInit {
     Object.assign(this, { single });
     Object.assign(this, { linear });
     // Object.assign(this, { multi1 });
-    console.log("multi1");
-    console.log(multi1);
+    //console.log("multi1");
+    //console.log(multi1);
   }
 
   single: any[];
@@ -131,29 +130,26 @@ export class ReportComponent implements OnInit {
 
       dates.push(new_date);
     }
-    console.log(dates);
 
     return dates;
   }
+
   ngOnInit() {
-    console.log(this.startDate + "  " + this.endDate);
     this.getReportData();
   }
+
   onUserChange(changeContext: ChangeContext): void {
 
-    console.log("changeContext");
-    console.log(changeContext);
     this.startDate = new Date(changeContext.value).toDateString();
     this.endDate = new Date(changeContext.highValue).toDateString();
-    console.log("this.startDate");
-    console.log(this.startDate);
-    console.log(changeContext.value);
     this.getReportData();
   }
+
   zeroPad(num, places) {
     var zero = places - num.toString().length + 1;
     return Array(+(zero > 0 && zero)).join("0") + num;
   }
+
   formatDT(__dt) {
     var year = __dt.getFullYear();
     var month = this.zeroPad(__dt.getMonth() + 1, 2);
@@ -175,10 +171,11 @@ export class ReportComponent implements OnInit {
       seconds
     );
   }
+
   slider() {}
 
   DosageTypeChange(event, target) {
-    console.log(this.legendsarray);
+
 
     if (event) {
       this.legendsarray.push(target);
@@ -193,28 +190,23 @@ export class ReportComponent implements OnInit {
   }
 
   activitiesTypeChange(event, target) {
-    console.log(this.legendsactivity);
+
     if (event) {
       this.legendsactivity.push(target);
-      console.log(this.legendsactivity);
+
     } else {
       let found = this.legendsactivity.find(e => e == target);
       if (found) {
         let index = this.legendsactivity.indexOf(target);
         this.legendsactivity.splice(index, 1);
-        console.log(this.legendsactivity);
       }
     }
     this.getActivityReportData(this.legendsactivity)
   }
 
   boxPlot(this_data) {
-    // this.dataContainer.nativeElement.innerHTML = '';
     let chart1;
-    // d3.csv(this_data, function(error, data) {
-    // d3.csv('../../assets/DATA.CSV', function(error, data) {
-    console.log("this_data");
-    console.log(this_data);
+
     this_data.forEach(function(d) {
       d.value = +d.value;
     });
@@ -229,23 +221,13 @@ export class ReportComponent implements OnInit {
       chartSize: { height: 530, width: 960 },
       constrainExtremes: true
     });
-    // this.legend:true;
     chart1.renderBoxPlot();
-    console.log("after", this_data);
-    // chart1.renderDataPlots();
-    // chart1.renderNotchBoxes({showNotchBox:false});
-    // chart1.renderViolinPlot({showViolinPlot: true});
-
-    // }); // d3.csv
   }
 
   scatterPlot(this_data) {
-    // this.dataContainer.nativeElement.innerHTML = '';
+
     let chart2;
-    // d3.csv(this_data, function(error, data) {
-    // d3.csv('../../assets/DATA.CSV', function(error, data) {
-    console.log("this_data");
-    console.log(this_data);
+
     this_data.forEach(function(d) {
       d.value = +d.value;
     });
@@ -268,11 +250,6 @@ export class ReportComponent implements OnInit {
       colors: null
     });
     this.sliderButton.nativeElement.click();
-    // chart1.renderDataPlots();
-    // chart1.renderNotchBoxes({showNotchBox:false});
-    // chart1.renderViolinPlot({showViolinPlot: true});
-
-    // }); // d3.csv
   }
 
   onSelectInsulin(event) {
@@ -347,6 +324,7 @@ export class ReportComponent implements OnInit {
       this.showGlucose = !this.showGlucose;
     }
   }
+
   previousDayData() {
     const day = new Date(this.startDate);
     this.startDate = new Date(
@@ -354,7 +332,6 @@ export class ReportComponent implements OnInit {
     )
       .toISOString()
       .substring(0, 10);
-    console.log(this.startDate); // May 01 2000
     this.getReportData();
   }
 
@@ -363,7 +340,6 @@ export class ReportComponent implements OnInit {
     this.endDate = new Date(new Date(this.endDate).setDate(day.getDate() + 1))
       .toISOString()
       .substring(0, 10);
-    // console.log(this.endDate); // May 01 2000
     this.getReportData();
   }
 
@@ -374,21 +350,21 @@ export class ReportComponent implements OnInit {
         endDate: this.endDate
       })
       .subscribe((res: any) => {
-        console.log(res);
+
         this.insulinService.downloadFile(res.data, "jsontocsv");
       }),
-      error => console.log("Error downloading the file."),
+      error =>
       () => console.info("OK");
   }
 
   generateHistoricalCSV() {
     this.insulinService.getHistoricalCsvData({}).subscribe((res: any) => {
-      console.log(res);
       this.insulinService.downloadFile(res.data, "jsontocsv");
     }),
-      error => console.log("Error downloading the file."),
+      error =>
       () => console.info("OK");
   }
+
   groupBy(xs, key) {
     if (xs) {
       return xs.reduce(function(rv, x) {
@@ -399,10 +375,9 @@ export class ReportComponent implements OnInit {
       return {};
     }
   }
+
   groupByCustom(xs, key) {
     if (xs) {
-      // console.log('xs,key');
-      // console.log(xs, key);
       return xs.reduce(function(rv, x) {
         rv[x[key]] = rv[x[key]] || [];
         return rv;
@@ -413,7 +388,7 @@ export class ReportComponent implements OnInit {
   }
 
   getReportData() {
-    // console.log('getReportData');
+
     const data = {
       startDate: this.startDate,
       endDate: this.endDate
@@ -423,7 +398,7 @@ export class ReportComponent implements OnInit {
       (res: any) => {
         this.reportData = this.parseData(res.data);
         this.reportData.map(elem => {
-          const myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
+          const myDate = elem.entryTime;
           elem["commonTime"] = myDate;
           if (elem.type == "insulin") {
             if (elem.insulinType) {
@@ -450,9 +425,9 @@ export class ReportComponent implements OnInit {
           }
           return elem;
         });
-        // console.log('reportData', this.reportData);
+
         this.groupedReport = this.groupBy(this.reportData, "type");
-        // console.log('groupedReport', this.groupedReport);
+
         const insulin = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
         const activity = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
         const carbs = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
@@ -467,9 +442,7 @@ export class ReportComponent implements OnInit {
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
-        console.log("insulin.length");
-        console.log(insulin.length);
-        console.log(insulin);
+
         for (let [key, value] of Object.entries(insulin)) {
           obj1[count] = {};
           objvoilin[count] = {};
@@ -495,19 +468,16 @@ export class ReportComponent implements OnInit {
             }
           ];
           count++;
-          // console.log('count');
-          // console.log(count);
+
           this.multi = obj1;
           if (count === insulin.length) {
-            // console.log("this.objvoilin");
-            // console.log( objvoilin);
             objvoilin.sort((a, b) =>
               a.order > b.order ? 1 : b.order > a.order ? -1 : 0
             );
 
             this.boxPlot(objvoilin);
           }
-          // }
+
         }
         for (let [key, value] of Object.entries(activity)) {
           obj2[0].series[count2] = {};
@@ -532,11 +502,15 @@ export class ReportComponent implements OnInit {
             value["activityDuration"]["minute"] +
             minute_text;
 
+          // Added activity time and duration
+          objscatter[count2].activityTime = obj2[0].series[count2].activityTime;
+          objscatter[count2].activityDuration = obj2[0].series[count2].activityDuration;
+
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
-            console.log("this.objscatter");
-            console.log(objscatter);
+            //console.log("this.objscatter");
+            //console.log(objscatter);
 
             this.scatterPlot(objscatter);
           }
@@ -572,14 +546,14 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     );
   }
 
   getActivityReportData(activityType) {
     const activity = this.groupedReport.activity;
-    console.log("getInsulinReportData");
+
     const data = {
       startDate: this.startDate,
       endDate: this.endDate,
@@ -588,13 +562,36 @@ export class ReportComponent implements OnInit {
     this.isLoading = true;
     this.insulinService.getactivityReportData(data).subscribe(
       (res: any) => {
-        this.reportData = this.parseData(res.data);
-        console.log(this.reportData);
+        let new_data_activity = this.parseData(res.data);
+
+        // -------------------------------------------- //
+        // --------------------------------------------//
+        // --------------------------------------------//
+        new_data_activity.map(elem => {
+          const myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
+          elem["commonTime"] = myDate;
+            if (elem.type == "activity") {
+            elem["value"] = Math.abs(
+              elem.activityDuration.hour * 60 + elem.activityDuration.minute
+            );
+            elem["name"] = this.datePipe.transform(elem.entryTime, "MMM,y");
+          }
+          return elem;
+        });
+        console.log("new_data_activity")
+        console.log(new_data_activity)
+        let groupedDataActivity = this.groupBy(new_data_activity, "type");
+        console.log("groupedDataActivity")
+        console.log(groupedDataActivity)
+        const activity = groupedDataActivity.activity;
+        // --------------------------------------------//
+        // --------------------------------------------//
         let obj2 = [{ name: "Activity", series: [] }];
         let count2 = 0;
         let objscatter = [];
 
         for (let [key, value] of Object.entries(activity)) {
+          console.log(count2, activity.length)
           obj2[0].series[count2] = {};
           objscatter[count2] = {};
           obj2[0].series[count2].name = new Date(value["activityTime"]);
@@ -617,6 +614,10 @@ export class ReportComponent implements OnInit {
             value["activityDuration"]["minute"] +
             minute_text;
 
+          // Added activity time and duration
+          objscatter[count2].activityTime = obj2[0].series[count2].activityTime;
+          objscatter[count2].activityDuration = obj2[0].series[count2].activityDuration;
+
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
@@ -630,15 +631,13 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     );
   }
 
-
-
   getInsulinReportData(dosageType) {
-    console.log("getInsulinReportData");
+
     const data = {
       startDate: this.startDate,
       endDate: this.endDate,
@@ -669,7 +668,7 @@ export class ReportComponent implements OnInit {
           }
           return elem;
         });
-        console.log("reportData", this.reportData);
+        //console.log("reportData", this.reportData);
         this.groupedReport = this.groupBy(this.reportData, "type");
         const insulin = this.groupedReport.insulin;
 
@@ -701,12 +700,12 @@ export class ReportComponent implements OnInit {
               }
             ];
             count++;
-            // console.log('count');
-            // console.log(count);
+            // //console.log('count');
+            // //console.log(count);
             this.multi = obj1;
             if (count === insulin.length) {
-              // console.log("this.objvoilin");
-              // console.log( objvoilin);
+              // //console.log("this.objvoilin");
+              // //console.log( objvoilin);
               obj1.sort((a, b) =>
                 a.order > b.order ? 1 : b.order > a.order ? -1 : 0
               );
@@ -723,10 +722,11 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        console.log(error);
+        //console.log(error);
       }
     );
   }
+
   replaceKeys(obj, find, replace) {
     return Object.keys(obj).reduce(
       (acc, key) =>
@@ -734,8 +734,8 @@ export class ReportComponent implements OnInit {
       {}
     );
   }
+
   onDateChange(value, type) {
-    console.log(value);
 
     if (type == "START") {
       this.startDate = value;
