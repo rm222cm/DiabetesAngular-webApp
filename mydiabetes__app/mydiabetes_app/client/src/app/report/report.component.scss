@@ -933,3 +933,9 @@ input[type="checkbox"]+label {
 .ng5-slider .ng5-slider-selection {
     background-color: brown !important;
 }
+
+.ng5-slider{
+    display: block !important;
+    width: 75% !important;
+    margin: 35px auto 15px !important;
+}
