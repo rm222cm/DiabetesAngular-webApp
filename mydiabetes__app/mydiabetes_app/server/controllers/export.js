@@ -194,6 +194,47 @@ exports.exportAsReportActivity = async(req, res) => {
         data: mapToArray
     });
 };
+exports.exportAsReportCarbs = async(req, res) => {
+
+    let fromDate = new Date(req.body.toDate)
+    let toDate = new Date(req.body.fromDate)
+    let carbsType = req.body.carbsType
+    toDate.setDate(toDate.getDate() + 1)
+
+    //making time as empty
+    fromDate.setHours(0, 0, 0)
+    toDate.setHours(0, 0, 0)
+    let carbsRecord = await Carbs.find({ $and: [{ "carbsTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }, { "carbsType": { $in: carbsType } }] });
+
+    // let activityRecord = await Activity.find({ $and: [{ "activityTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }, { "activityType": { $in: activityType } }] });
+
+    let map = new Map();
+
+    exports.addCarbsElementsToMap(carbsRecord, map);
+
+    var mapAsc = new Map([...map.entries()].sort());
+    let mapToArray = Array.from(mapAsc.values());
+    const index1 = carbsType.indexOf(1);
+    const index2 = carbsType.indexOf(2);
+    const index3 = carbsType.indexOf(3);
+
+    if (index1 > -1) {
+        mapToArray.push({ "_id": "", "carbsItem": "", "carbsType": "1", "carbsTime": "2020-01-07T18:40:00.648Z", "latestGlucoseLevelUnits": "", "entryTime": "", "latestGlucoseLevelUnits": "", "email": req.session.user.email, "__v": 0 });
+    }
+    if (index2 > -1) {
+        mapToArray.push({ "_id": "", "carbsItem": "", "carbsType": "2", "carbsTime": "2020-01-07T18:40:00.648Z", "latestGlucoseLevelUnits": "", "entryTime": "", "latestGlucoseLevelUnits": "", "email": req.session.user.email, "__v": 0 });
+    }
+    if (index3 > -1) {
+        mapToArray.push({ "_id": "", "carbsItem": "", "carbsType": "3", "carbsTime": "2020-01-07T18:40:00.648Z", "latestGlucoseLevelUnits": "", "entryTime": "", "latestGlucoseLevelUnits": "", "email": req.session.user.email, "__v": 0 });
+    }
+
+    res.json({
+        msg: 'success',
+        redirect: '/home',
+        data: mapToArray
+    });
+};
+
 
 exports.export = async(req, res) => {
 
