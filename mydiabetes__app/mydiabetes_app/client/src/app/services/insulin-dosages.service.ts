@@ -49,7 +49,12 @@ export class InsulinDosagesService {
   public getInsulinReportData(body) {
     return this.http.post('api/exportAsReportInsulin', body);
   }
+
   public getactivityReportData(body) {
     return this.http.post('api/exportAsReportActivity', body);
+  }
+
+  public getCarbsReportData(body) {
+    return this.http.post('api/exportAsReportCarbs', body);
   }
 }
