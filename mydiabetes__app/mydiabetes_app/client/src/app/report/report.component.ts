@@ -103,6 +103,8 @@ export class ReportComponent implements OnInit {
   htmlData = false;
   legendsarray: any = ["1", "2", "3"];
   legendsactivity: any = ["walking", "jogging", "running", "lifting_weight"];
+  // legendscarbs: any = ['carbohydrates', 'proteins', 'fibers'];
+  legendscarbs: any = [ "1", "2", "3"];
 
   dateRange: Date[] = this.createDateRange();
   value: number = new Date(this.startDate).getTime();
@@ -201,7 +203,51 @@ export class ReportComponent implements OnInit {
         this.legendsactivity.splice(index, 1);
       }
     }
-    this.getActivityReportData(this.legendsactivity)
+    this.getActivityReportData(this.legendsactivity);
+  }
+
+  carbsTypeChange(event, target) {
+
+    if (event) {
+      this.legendscarbs.push(target);
+    } else {
+      const found = this.legendscarbs.find(e => e == target);
+      if (found) {
+        const index = this.legendscarbs.indexOf(target);
+        this.legendscarbs.splice(index, 1);
+      }
+    }
+
+    this.getCarbsReportData(this.legendscarbs);
+
+  }
+
+  getCarbsReportData(query) {
+
+    const data = {
+      toDate: this.startDate,
+      fromDate: this.endDate,
+      carbsType: query
+    };
+    this.isLoading = true;
+
+    this.insulinService.getCarbsReportData(data).subscribe((res: any) => {
+
+      let count3 = 0;
+      let obj3 = [{ name: "Crabs", series: [] }];
+
+      for (let [key, value] of Object.entries(res.data)) {
+        obj3[0].series[count3] = {};
+        obj3[0].series[count3].name = new Date(value["carbsTime"]);
+        obj3[0].series[count3].value = 5;
+        obj3[0].series[count3].carbsTime = new Date(value["carbsTime"]);
+        obj3[0].series[count3].carbsType = this.carbsType[value["carbsType"]];
+        obj3[0].series[count3].carbsItem = value["carbsItem"];
+        count3++;
+        this.carbsobj = obj3;
+      }
+    });
+
   }
 
   boxPlot(this_data) {
@@ -518,6 +564,7 @@ export class ReportComponent implements OnInit {
         // -------------------------------Carb charts ---------------------------------//
         // -------------------------------Carb charts ---------------------------------//
         // -------------------------------Carb charts ---------------------------------//
+
         for (let [key, value] of Object.entries(carbs)) {
           obj3[0].series[count3] = {};
           obj3[0].series[count3].name = new Date(value["carbsTime"]);
@@ -528,6 +575,7 @@ export class ReportComponent implements OnInit {
           count3++;
           this.carbsobj = obj3;
         }
+
         // -------------------------------glucose charts ---------------------------------//
         // -------------------------------glucose charts ---------------------------------//
         // -------------------------------glucose charts ---------------------------------//
