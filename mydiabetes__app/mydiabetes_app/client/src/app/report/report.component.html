@@ -86,10 +86,10 @@
                     </ng-template>
                 </ngx-charts-bar-vertical-2d> -->
                             <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
-                            <div>
+                            <!-- <div>
                                 <ng5-slider style="color:brown" [(value)]="value" [(highValue)]="maxValue" [options]="options" (userChange)="onUserChange($event)"></ng5-slider>
     
-                            </div>
+                            </div> -->
                         </div>
                     </div>
     
@@ -161,26 +161,60 @@
                 <div class="clearfix col-md-12" [hidden]="!showCarbs"></div>
                 <div class="col-md-1" [hidden]="!showCarbs"></div>
                 <div class="col-md-11 text-center" [hidden]="!showCarbs">
-                    <dl><b>Crabs Chart</b></dl>
-                </div>
-                <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
-                <div class="col-md-10" [hidden]="!showCarbs">
+                    <dl><b>Carbs Chart</b></dl>
 
+                    <div class="custom-control custom-checkbox" style="display: inline-block;">
+                        <input type="checkbox" class="insulincustom carbohydrates custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')">
+                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label>
+                    </div>
+
+                    <div class="custom-control custom-checkbox" style="display: inline-block;">
+                        <input type="checkbox" class="activitycustom proteins custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
+                        <label class="custom-control-label" for="proteins">Proteins</label>
+                    </div>
+                    <div class="custom-control custom-checkbox" style="display: inline-block;">
+                        <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')">
+                        <label class="custom-control-label" for="fibers">Fibers</label>
+                    </div>
+
+                </div>
+
+                <!-- <div class="text-center">
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="insulincustom carbohydrates custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')">
+                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="activitycustom proteins custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
+                        <label class="custom-control-label" for="proteins">Proteins</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')">
+                        <label class="custom-control-label" for="fibers">Fibers</label>
+                    </div>
+
+                </div> -->
+
+
+                <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
+
+                <div class="col-md-10" [hidden]="!showCarbs">
                     <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
                         <ng-template #tooltipTemplate let-model="model">
 
-                            <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
-                            <pre style="color: antiquewhite; text-align: left ">Carb Type: {{model.carbsType }}</pre>
-                            <pre style="color: antiquewhite; text-align: left ">Eating Time: {{model.carbsTime  | date:'y-MM-dd HH:mm'}}</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Carb Type: {{model.carbsType }}</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Eating Time: {{model.carbsTime  | date:'y-MM-dd HH:mm'}}</pre>
 
                         </ng-template>
 
                         <ng-template #seriesTooltipTemplate let-model="model">
                             <span *ngFor="let mod of model; let i = index">
-                <pre style="color: antiquewhite; text-align: left ">Food Eaten: {{mod.carbsItem }}</pre>
-                <pre style="color: antiquewhite; text-align: left ">Carb Type: {{mod.carbsType }}</pre>
+                <pre style="font-weight: bold; color: black; text-align: left ">Food Eaten: {{mod.carbsItem }}</pre>
+                <pre style="font-weight: bold; color: black; text-align: left ">Carb Type: {{mod.carbsType }}</pre>
                 <pre
-                  style="color: antiquewhite; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
+                  style="font-weight: bold; color: black; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
               </span>
                         </ng-template>
                     </ngx-charts-line-chart>
@@ -199,20 +233,20 @@
                     <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj">
                         <ng-template #tooltipTemplate let-model="model">
 
-                            <pre style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
-                            <pre style="color: antiquewhite; text-align: left ">Glucose Level: {{model.glucoseLevelUnits}} mmol/L</pre>
-                            <pre style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{model.glucoseTime  | date:'HH:mm'}}</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Level: {{model.glucoseLevelUnits}} mmol/L</pre>
+                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Checking Time: {{model.glucoseTime  | date:'HH:mm'}}</pre>
 
                         </ng-template>
 
                         <ng-template #seriesTooltipTemplate let-model="model">
                             <span *ngFor="let mod of model; let i = index">
                 <pre
-                  style="color: antiquewhite; text-align: left ">Glucose Specification Time: {{mod.glucoseType }}</pre>
+                  style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{mod.glucoseType }}</pre>
                 <pre
-                  style="color: antiquewhite; text-align: left ">Glucose Level: {{mod.glucoseLevelUnits}} mmol/L</pre>
+                  style="font-weight: bold; color: black; text-align: left ">Glucose Level: {{mod.glucoseLevelUnits}} mmol/L</pre>
                 <pre
-                  style="color: antiquewhite; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
+                  style="font-weight: bold; color: black; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
               </span>
                         </ng-template>
                     </ngx-charts-line-chart>
