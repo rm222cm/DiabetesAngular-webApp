@@ -21,7 +21,7 @@
  */
 function makeDistroChartBox(settings) {
 
-    var chart = {};
+    var chart = {}; 
 
     // Defaults
     chart.settings = {
