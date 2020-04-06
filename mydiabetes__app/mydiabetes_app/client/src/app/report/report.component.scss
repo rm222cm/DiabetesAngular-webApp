@@ -152,13 +152,14 @@ body{
     max-width: 800px;
     /*Overwritten by the JS*/
     min-width: 304px;
+    margin: 0 auto;
     margin-bottom: 8px;
     background-color: rgb(255, 255, 255);
 }
 
 .chart-wrapper .inner-wrapper {
     position: relative;
-    padding-bottom: 32%;
+    padding-bottom: 25%;
     /*Overwritten by the JS*/
     width: 100%;
 }
@@ -782,8 +783,9 @@ $main-color: brown;
 
 .after-meal:checked~.custom-control-label::before {
     color: #fff;
-    border-color: rgb(255, 127, 14);
-    background-color: rgba(255, 127, 14, 0.5);
+    // border-color: rgb(255, 127, 14);
+    border-color: rgb(255, 127, 14) !important;
+    background-color: rgb(255, 127, 14);
 }
 
 .carbscustom:checked~.custom-control-label::before {
@@ -795,30 +797,30 @@ $main-color: brown;
 .othertime:checked~.custom-control-label::before {
     color: #fff;
     border-color: rgb(44, 160, 44);
-    background-color: rgba(44, 160, 44, 0.5);
+    background-color: rgb(44, 160, 44);
 }
 
 .walking:checked~.custom-control-label::before {
     color: #fff;
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(31, 119, 180);
     background-color: rgb(31, 119, 180);
 }
 
 .jogging:checked~.custom-control-label::before {
     color: #fff;
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(255, 127, 14);
     background-color: rgb(255, 127, 14);
 }
 
 .running:checked~.custom-control-label::before {
     color: #fff;
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(44, 160, 44);
     background-color: rgb(44, 160, 44);
 }
 
 .liftingweight:checked~.custom-control-label::before {
     color: #fff;
-    border-color: rgb(0, 0, 0);
+    border-color: rgb(214, 39, 40);
     background-color: rgb(214, 39, 40);
 }
 
@@ -897,7 +899,7 @@ input[type="checkbox"]+label {
     display: inline-block;
 }
 .legend-styles .chart-wrap{
-    width: 60%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -937,6 +939,19 @@ input[type="checkbox"]+label {
 
 .ng5-slider{
     display: block !important;
-    width: 60% !important;
+    width: 70% !important;
     margin: 35px auto 15px !important;
+}
+
+
+@media (max-width: 768px) {
+
+    .chart-wrapper .inner-wrapper {
+        padding-bottom: 50%;
+    }
+
+    .chart-wrapper text {
+        font-size: 9px;
+    }
+
 }
