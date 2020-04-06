@@ -35,9 +35,6 @@ export class ReportComponent implements OnInit {
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
-    // Object.assign(this, { multi1 });
-    //console.log("multi1");
-    //console.log(multi1);
   }
 
   single: any[];
@@ -103,7 +100,6 @@ export class ReportComponent implements OnInit {
   htmlData = false;
   legendsarray: any = ["1", "2", "3"];
   legendsactivity: any = ["walking", "jogging", "running", "lifting_weight"];
-  // legendscarbs: any = ['carbohydrates', 'proteins', 'fibers'];
   legendscarbs: any = [ "1", "2", "3"];
 
   dateRange: Date[] = this.createDateRange();
@@ -275,8 +271,10 @@ export class ReportComponent implements OnInit {
     let chart2;
 
     this_data.forEach(function(d) {
-      d.value = +d.value;
+      d.value = +d.value % 60;
+      // d.value = +d.value;
     });
+
 
     document.getElementById("chart-distro2").innerHTML = "";
     chart2 = makeDistroChart({
@@ -291,7 +289,7 @@ export class ReportComponent implements OnInit {
     chart2.renderDataPlots();
     chart2.dataPlots.show({
       showPlot: true,
-      plotType: 40,
+      plotType: 9,
       showBeanLines: false,
       colors: null
     });
@@ -555,9 +553,6 @@ export class ReportComponent implements OnInit {
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
-            //console.log("this.objscatter");
-            //console.log(objscatter);
-
             this.scatterPlot(objscatter);
           }
         }
@@ -594,7 +589,6 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        //console.log(error);
       }
     );
   }
@@ -626,11 +620,7 @@ export class ReportComponent implements OnInit {
           }
           return elem;
         });
-        console.log("new_data_activity")
-        console.log(new_data_activity)
         let groupedDataActivity = this.groupBy(new_data_activity, "type");
-        console.log("groupedDataActivity")
-        console.log(groupedDataActivity)
         const activity = groupedDataActivity.activity;
         // --------------------------------------------//
         // --------------------------------------------//
@@ -639,7 +629,6 @@ export class ReportComponent implements OnInit {
         let objscatter = [];
 
         for (let [key, value] of Object.entries(activity)) {
-          console.log(count2, activity.length)
           obj2[0].series[count2] = {};
           objscatter[count2] = {};
           obj2[0].series[count2].name = new Date(value["activityTime"]);
@@ -669,9 +658,6 @@ export class ReportComponent implements OnInit {
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
-            console.log("this.objscatter");
-            console.log(objscatter);
-
             this.scatterPlot(objscatter);
           }
         }
@@ -679,7 +665,6 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        //console.log(error);
       }
     );
   }
@@ -716,7 +701,6 @@ export class ReportComponent implements OnInit {
           }
           return elem;
         });
-        //console.log("reportData", this.reportData);
         this.groupedReport = this.groupBy(this.reportData, "type");
         const insulin = this.groupedReport.insulin;
 
@@ -748,12 +732,8 @@ export class ReportComponent implements OnInit {
               }
             ];
             count++;
-            // //console.log('count');
-            // //console.log(count);
             this.multi = obj1;
             if (count === insulin.length) {
-              // //console.log("this.objvoilin");
-              // //console.log( objvoilin);
               obj1.sort((a, b) =>
                 a.order > b.order ? 1 : b.order > a.order ? -1 : 0
               );
@@ -770,7 +750,6 @@ export class ReportComponent implements OnInit {
         this.isLoading = false;
       },
       error => {
-        //console.log(error);
       }
     );
   }
