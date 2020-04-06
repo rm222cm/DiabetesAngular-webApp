@@ -47,7 +47,6 @@
         <div class="col-md-12 vh-50">
             <div class="row">
 
-
                 <div class="content-wrapper col-sm-12">
                     <div class="text-center mb-3 mt-3" [hidden]="!showInsulin">
                         <dl><b>Insulin Dosage Chart</b></dl>
@@ -155,9 +154,6 @@
                     </div>
                 </div>
 
-                
-
-
                 <div class="clearfix col-md-12" [hidden]="!showCarbs"></div>
                 <!-- <div class="col-md-1" [hidden]="!showCarbs"></div> -->
                 <div class="col-md-12 text-center" [hidden]="!showCarbs">
@@ -169,7 +165,7 @@
                     </div>
 
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="activitycustom proteins custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
+                        <input type="checkbox" class="activitycustom jogging custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
                         <label class="custom-control-label" for="proteins">Proteins</label>
                     </div>
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
@@ -179,27 +175,9 @@
 
                 </div>
 
-                <!-- <div class="text-center">
-
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="insulincustom carbohydrates custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')">
-                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="activitycustom proteins custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
-                        <label class="custom-control-label" for="proteins">Proteins</label>
-                    </div>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')">
-                        <label class="custom-control-label" for="fibers">Fibers</label>
-                    </div>
-
-                </div> -->
-
-
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
 
-                <div class="col-md-10" [hidden]="!showCarbs">
+                <div class="col-md-9" [hidden]="!showCarbs">
                     <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
                         <ng-template #tooltipTemplate let-model="model">
 
@@ -228,7 +206,7 @@
                     <dl><b>Glucose Level Chart</b></dl>
                 </div>
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
-                <div class="col-md-10" [hidden]="!showGlucose">
+                <div class="col-md-9" [hidden]="!showGlucose">
 
                     <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj">
                         <ng-template #tooltipTemplate let-model="model">
@@ -266,7 +244,7 @@
             <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
         </div>
         <div class="form-row row mb-5">
-            <div class="col-md-10 offset-1">
+            <div class="col-md-9 offset-1">
                 <div class="row m-0 manage-margin">
                     <div class="form-group col-md-6 pl-1">
                         <button type="button" class="btn btn-default-form btn-form btn-sm col-md-12" (click)="generateHistoricalCSV()">{{ 'report.historicalcsv' | translate }}</button>
