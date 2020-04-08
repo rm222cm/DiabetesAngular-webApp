@@ -178,7 +178,10 @@
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
 
                 <div class="col-md-9" [hidden]="!showCarbs">
-                    <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
+
+                    <div class="chart-wrapper" id="chart-distro3" #dataContainer></div>
+
+                    <!-- <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
                         <ng-template #tooltipTemplate let-model="model">
 
                             <pre style="font-weight: bold; color: black; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
@@ -195,7 +198,7 @@
                   style="font-weight: bold; color: black; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
               </span>
                         </ng-template>
-                    </ngx-charts-line-chart>
+                    </ngx-charts-line-chart> -->
                 </div>
                 <div class="col-md-1"></div>
 
@@ -208,7 +211,7 @@
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
                 <div class="col-md-9" [hidden]="!showGlucose">
 
-                    <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" [results]="golucoseobj">
+                    <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" (deactivate)="onActivateAndDeactivate()" (active)="onActivateAndDeactivate()" [activeEntries]="golucoseobj" [results]="golucoseobj">
                         <ng-template #tooltipTemplate let-model="model">
 
                             <pre style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
