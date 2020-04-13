@@ -2237,6 +2237,7 @@ function makeDistroChart(settings) {
                         .style("top", (d3.event.pageY  - 220  ) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
                     chart.objs.tooltip.style("background-color", "#ffffff");
+                    chart.objs.tooltip.style("width", "20%");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
@@ -3951,9 +3952,9 @@ function makeDistroCrabsChart(settings) {
         var minDate = chart.settings.data[0].carabsTime;
         var maxDate = chart.settings.data[chart.settings.data.length - 1].carabsTime; 
 
-        console.log(minDate);
-        console.log(maxDate);
-        console.log(chart.range);
+        // console.log(minDate);
+        // console.log(maxDate);
+        // console.log(chart.range);
         
         d3.time.scale().domain([minDate, maxDate]).range([minDate, maxDate]);
 
@@ -4101,10 +4102,11 @@ function makeDistroCrabsChart(settings) {
                     chart.objs.tooltip
                         .style("display", null)
                         
-                        .style("left", (d3.event.pageX - 47) + "px")
-                        .style("top", (d3.event.pageY  - 214) + "px");
+                        .style("left", (d3.event.pageX - 150) + "px")
+                        .style("top", (d3.event.pageY  - 1050) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
                     chart.objs.tooltip.style("background-color", "#ffffff");
+                    chart.objs.tooltip.style("width", "20%");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
@@ -5456,9 +5458,9 @@ function makeDistroCrabsChart(settings) {
                         let carbsItem = chart.groupObjs[cName].carbsValues[pt].carbsItem;
                         let carbsType = chart.groupObjs[cName].carbsValues[pt].carbsType;
 
-                        console.log(data);
-                        console.log(carbsItem);
-                        console.log(carbsType);
+                        // console.log(data);
+                        // console.log(carbsItem);
+                        // console.log(carbsType);
 
                         if (cName === "walking") {
 

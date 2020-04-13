@@ -18,6 +18,7 @@ declare var makeDistroChartBox: any;
 declare var makeDistroCrabsChart: any;
 declare var rSlider: any;
 declare var d3: any;
+declare var d3version4: any;
 
 @Component({
   selector: 'app-report',
@@ -247,6 +248,281 @@ export class ReportComponent implements OnInit {
 
   }
 
+  drawGolucoseLineChart123(lineData) {
+
+//I increased the bottom margin a little bit because the x label is tied to it; so I could lower the x label a little bit
+var margin = {top: 50, right: 20, bottom: 60, left: 90},
+    width = 1200 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+	.ticks(d3.time.hours,24)
+	//makes the xAxis ticks a little longer than the xMinorAxis ticks
+    .tickSize(4)
+    .orient("bottom");
+
+var xMinorAxis = d3.svg.axis()
+    .scale(x)
+	.ticks(d3.time.hours,12)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.total_km); });
+
+var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//The format in the CSV, which d3 will read
+var parseDate = d3.time.format("%Y-%m-%d %X");
+
+//format for tooltip
+//https://github.com/mbostock/d3/wiki/Time-Formatting
+//var formatTime = d3.time.format("%e %b");
+var formatTime = d3.time.format("%e %b %-I:%M %p");
+var formatCount = d3.format(",");
+
+// function for the y grid lines
+function make_y_axis() {
+  return d3.svg.axis()
+      .scale(y)
+      .orient("left")
+      //.ticks(5)
+}
+
+//reading in CSV which contains data
+// d3.csv("roads_built.csv", function(error, data) {
+  var data = lineData
+  data.forEach(function(d) {
+    console.log(d.date_time)
+    d.date = d.date_time;//parseDate.parse(d.date_time);
+	console.log(d.date);
+    d.total_km = +d.total_km;
+    console.log(d.total_km);
+  });
+
+  //using imported data to define extent of x and y domains
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.total_km; }));
+
+// Draw the y Grid lines
+	svg.append("g")            
+		.attr("class", "grid")
+		.call(make_y_axis()
+			.tickSize(-width, 0, 0)
+			.tickFormat("")
+		)
+  
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+
+//taken from http://bl.ocks.org/mbostock/3887118
+//and http://www.d3noob.org/2013/01/change-line-chart-into-scatter-plot.html
+//creating a group(g) and will append a circle and 2 lines inside each group
+var g = svg.selectAll()
+        .data(data).enter().append("g");
+
+   //The markers on the line
+	 g.append("circle")
+         //circle radius is increased
+        .attr("r", 4.5)
+        .attr("cx", function(d) { return x(d.date); })
+        .attr("cy", function(d) { return y(d.total_km); });
+   
+   //The horizontal dashed line that appears when a circle marker is moused over
+	 g.append("line")
+        .attr("class", "x")
+        .attr("id", "dashedLine")
+        .style("stroke", "steelblue")
+        .style("stroke-dasharray", "3,3")
+        .style("opacity", 0)
+        .attr("x1", function(d) { return x(d.date); })
+        .attr("y1", function(d) { return y(d.total_km); })
+		    //d3.min gets the min date from the date x-axis scale
+		    .attr("x2", function(d) { return x(d3.min(x)); })
+        .attr("y2", function(d) { return y(d.total_km); });
+
+  //The vertical dashed line that appears when a circle marker is moused over
+	g.append("line")
+        .attr("class", "y")
+        .attr("id", "dashedLine")
+        .style("stroke", "steelblue")
+        .style("stroke-dasharray", "3,3")
+        .style("opacity", 0)
+        .attr("x1", function(d) { return x(d.date); })
+        .attr("y1", function(d) { return y(d.total_km); })
+		    .attr("x2", function(d) { return x(d.date); })
+        .attr("y2", height);
+    
+   //circles are selected again to add the mouseover functions
+ 	 g.selectAll("circle")
+			.on("mouseover", function(d) {		
+            div.transition()		
+               .duration(200)		
+               .style("opacity", .9);	
+               let date = new Date(d.date);
+               var day :any;
+               var month :any;
+               var hours :any;
+               var minutes :any;
+               var seconds :any;
+                day = date.getDay();
+
+                month = date.getMonth() + 1;
+               var year = date.getFullYear();
+                hours = date.getHours();
+                minutes = date.getMinutes();
+                seconds = date.getSeconds();
+
+               if (day < 10) {
+                   day = '0'+ day;
+               }
+
+               if (month < 10) {
+                   month = '0' + month;
+               }
+
+               if ( Number(hours) < 10) {
+                   hours = '0' + hours;
+               }
+
+               if ( Number(minutes) < 10 ) {
+                   minutes = '0' + minutes;
+               }
+
+               if ( Number(seconds) < 10 ) {
+                   seconds = '0' + seconds;
+               }
+            div.html("Glucose Specification Time: "+ d.glucoseType + " mmol/L" + "<br/>" +"Glucose Level: "+ formatCount(d.total_km) + " mmol/L" + "<br/>" + "Glucose checking Time: "+`${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
+               .style("left", (d3.event.pageX - 20) + "px")
+      		     .style("top", (d3.event.pageY + 6) + "px")
+      		     .style("width", "30%");
+	          //selects the horizontal dashed line in the group
+			      d3.select(this.nextElementSibling).transition()		
+                .duration(200)		
+                .style("opacity", .9);
+            //selects the vertical dashed line in the group
+			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
+                .duration(200)		
+                .style("opacity", .9);	
+            })	
+				
+      .on("mouseout", function(d) {		
+            div.transition()		
+               .duration(500)		
+               .style("opacity", 0);
+
+			      d3.select(this.nextElementSibling).transition()		
+                .duration(500)		
+                .style("opacity", 0);
+
+			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        });
+
+svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+	    .selectAll(".tick text")
+      .call(wrap, 35);
+
+svg.append("g")
+    .attr("class","xMinorAxis")
+    .attr("transform", "translate(0," + height + ")")
+    .style({ 'stroke': 'Black', 'fill': 'none', 'stroke-width': '1px'})
+    .call(xMinorAxis)
+    .selectAll("text").remove();
+
+//http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
+svg.append("text")      // text label for the x-axis
+        .attr("x", width / 2 )
+        .attr("y",  height + margin.bottom)
+        .style("text-anchor", "middle")
+        .text("Date");
+
+svg.append("text")      // text label for the y-axis
+        .attr("y",30 - margin.left)
+        .attr("x",50 - (height / 2))
+        .attr("transform", "rotate(-90)")
+        .style("text-anchor", "end")
+        .style("font-size", "16px")
+        .text("Glucose Level");
+
+//http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
+svg.append("text")      // text label for chart Title
+        .attr("x", width / 2 )
+        .attr("y", 0 - (margin.top/2))
+        .style("text-anchor", "middle")
+		.style("font-size", "16px") 
+        .style("text-decoration", "underline") 
+        .text("Glucose Level Chart");
+
+
+svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    //text label for the y-axis inside chart
+    /*
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("font-size", "16px") 
+      .style("background-color","red")
+      .text("road length (km)");
+    */
+
+//http://bl.ocks.org/mbostock/7555321
+//This code wraps label text if it has too much text
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+
+// });
+  }
   boxPlot(this_data) {
     let chart1;
 
@@ -315,7 +591,7 @@ export class ReportComponent implements OnInit {
     chart3.renderDataPlots();
     chart3.dataPlots.show({
       showPlot: true,
-      plotType: 40,
+      plotType: 9,
       showBeanLines: false,
       colors: null
     });
@@ -613,9 +889,15 @@ export class ReportComponent implements OnInit {
         // -------------------------------glucose charts ---------------------------------//
         for (let [key, value] of Object.entries(glucose)) {
           obj4[0].series[count4] = {};
-          obj4[0].series[count4].name = new Date(value['glucoseTime']);
-          obj4[0].series[count4].value = value['glucoseLevelUnits'];
-          obj4[0].series[count4].glucoseTime = new Date(value['glucoseTime']).getFullYear();
+          obj4[0].series[count4].date_time = new Date(value['glucoseTime']);
+          if(isNaN(value['glucoseLevelUnits'])){
+            value['glucoseLevelUnits'] = 0
+          }
+          if(value['glucoseLevelUnits']>90){
+            value['glucoseLevelUnits'] = 30
+          } 
+          obj4[0].series[count4].total_km = value['glucoseLevelUnits'];
+          obj4[0].series[count4].name = new Date(value['glucoseTime']).getFullYear();
           obj4[0].series[count4].glucoseType = this.glucoseType[
             value['glucoseType']
           ];
@@ -623,7 +905,7 @@ export class ReportComponent implements OnInit {
           count4++;
           this.golucoseobj = obj4;
         }
-        this.drawGolucoseLineChart(this.golucoseobj[0].series);
+        this.drawGolucoseLineChart123(this.golucoseobj[0].series);
 
         this.isLoading = false;
       },

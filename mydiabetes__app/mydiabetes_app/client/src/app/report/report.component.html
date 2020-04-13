@@ -210,8 +210,9 @@
                 </div>
                 <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
                 <div class="col-md-9" [hidden]="!showGlucose">
+                    <div id="chartArea" style="margin: 10px;"></div>
 
-                    <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" (deactivate)="onActivateAndDeactivate()" (active)="onActivateAndDeactivate()" [activeEntries]="golucoseobj" [results]="golucoseobj">
+                    <!-- <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" (deactivate)="onActivateAndDeactivate()" (active)="onActivateAndDeactivate()" [activeEntries]="golucoseobj" [results]="golucoseobj">
                         <ng-template #tooltipTemplate let-model="model">
 
                             <pre style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
@@ -230,7 +231,7 @@
                   style="font-weight: bold; color: black; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
               </span>
                         </ng-template>
-                    </ngx-charts-line-chart>
+                    </ngx-charts-line-chart> -->
                 </div>
 
                 <div class="col">
