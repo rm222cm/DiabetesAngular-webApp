@@ -9,17 +9,17 @@
         <div class=" col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" hidden="true">Start Date</span>
+                    <span class="input-group-text">Start Date</span>
                 </div>
-                <input hidden="true" id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value ,'START')">
+                <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value ,'START')">
             </div>
         </div>
         <div class="col-md-offset-1 col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" hidden="true">End Date</span>
+                    <span class="input-group-text">End Date</span>
                 </div>
-                <input hidden="true" id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value,'END')">
+                <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value,'END')">
             </div>
         </div>
         <div class=" col-md-3"></div>
@@ -155,7 +155,6 @@
                 </div>
 
                 <div class="clearfix col-md-12" [hidden]="!showCarbs"></div>
-                <!-- <div class="col-md-1" [hidden]="!showCarbs"></div> -->
                 <div class="col-md-12 text-center" [hidden]="!showCarbs">
                     <dl><b>Carbs Chart</b></dl>
 
@@ -175,73 +174,26 @@
 
                 </div>
 
-                <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div>
+                <!-- <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div> -->
 
-                <div class="col-md-9" [hidden]="!showCarbs">
-
+                <div class="chart-wrap" style="width: 100%; margin: 0 auto;" [hidden]="!showCarbs">   
                     <div class="chart-wrapper" id="chart-distro3" #dataContainer></div>
-
-                    <!-- <ngx-charts-line-chart [scheme]="colorSchemeCarbs" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="" [timeline]="timeline" [results]="carbsobj">
-                        <ng-template #tooltipTemplate let-model="model">
-
-                            <pre style="font-weight: bold; color: black; text-align: left ">Food Eaten: {{model.carbsItem}}</pre>
-                            <pre style="font-weight: bold; color: black; text-align: left ">Carb Type: {{model.carbsType }}</pre>
-                            <pre style="font-weight: bold; color: black; text-align: left ">Eating Time: {{model.carbsTime  | date:'y-MM-dd HH:mm'}}</pre>
-
-                        </ng-template>
-
-                        <ng-template #seriesTooltipTemplate let-model="model">
-                            <span *ngFor="let mod of model; let i = index">
-                <pre style="font-weight: bold; color: black; text-align: left ">Food Eaten: {{mod.carbsItem }}</pre>
-                <pre style="font-weight: bold; color: black; text-align: left ">Carb Type: {{mod.carbsType }}</pre>
-                <pre
-                  style="font-weight: bold; color: black; text-align: left ">Eating Time: {{mod.carbsTime | date:'y-MM-dd HH:mm'}}</pre>
-              </span>
-                        </ng-template>
-                    </ngx-charts-line-chart> -->
                 </div>
                 <div class="col-md-1"></div>
 
-
                 <div class="clearfix col-md-12" [hidden]="!showGlucose"></div>
-                <!-- <div class="col-md-1" [hidden]="!showGlucose"></div> -->
-                <div class="col-md-12 text-center" [hidden]="!showGlucose">
-                    <dl><b>Glucose Level Chart</b></dl>
-                </div>
-                <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div>
-                <div class="col-md-9" [hidden]="!showGlucose">
-                    <div id="chartArea" style="margin: 10px;"></div>
-
-                    <!-- <ngx-charts-line-chart [scheme]="colorSchemeGlucose" [legend]="false" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="true" [xAxis]="xAxis" [yAxis]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabelGlucose" [timeline]="timeline" (deactivate)="onActivateAndDeactivate()" (active)="onActivateAndDeactivate()" [activeEntries]="golucoseobj" [results]="golucoseobj">
-                        <ng-template #tooltipTemplate let-model="model">
-
-                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{model.glucoseType }}</pre>
-                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Level: {{model.glucoseLevelUnits}} mmol/L</pre>
-                            <pre style="font-weight: bold; color: black; text-align: left ">Glucose Checking Time: {{model.glucoseTime  | date:'HH:mm'}}</pre>
-
-                        </ng-template>
-
-                        <ng-template #seriesTooltipTemplate let-model="model">
-                            <span *ngFor="let mod of model; let i = index">
-                <pre
-                  style="font-weight: bold; color: black; text-align: left ">Glucose Specification Time: {{mod.glucoseType }}</pre>
-                <pre
-                  style="font-weight: bold; color: black; text-align: left ">Glucose Level: {{mod.glucoseLevelUnits}} mmol/L</pre>
-                <pre
-                  style="font-weight: bold; color: black; text-align: left ">Glucose Checking Time: {{mod.glucoseTime  | date:'HH:mm'}}</pre>
-              </span>
-                        </ng-template>
-                    </ngx-charts-line-chart> -->
+                <!-- <div class="col-md-1 text-white align-top g_h" [hidden]="!showGlucose"></div> -->
+                <div class="chart-wrap" style="width: 100%; margin: 0 auto;" [hidden]="!showGlucose">
+                    <div id="chartArea" class="chart-wrapper" style="max-width: 1022px;"></div>
                 </div>
 
                 <div class="col">
-                    <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
-                    <!-- <div class="chart-wrapper" id="chart-distro"></div> -->
+
                 </div>
             </div>
         </div>
     </div>
-    <!-- <app-bar-chart [reportData]='reportData' [insulinData]="groupedReport"></app-bar-chart> -->
+
 
     <div class="container-fluid btn-container">
         <div class="row justify-content-center my-5" *ngIf="isLoading">
@@ -260,7 +212,6 @@
             </div>
             <div class="col-md-1"></div>
         </div>
-        <!-- <div class=" col-md-2">
-      </div> -->
+
     </div>
 </div>
