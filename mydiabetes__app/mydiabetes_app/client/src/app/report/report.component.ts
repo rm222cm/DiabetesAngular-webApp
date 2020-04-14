@@ -250,143 +250,109 @@ export class ReportComponent implements OnInit {
 
   drawGolucoseLineChart123(lineData) {
 
-//I increased the bottom margin a little bit because the x label is tied to it; so I could lower the x label a little bit
-var margin = {top: 50, right: 20, bottom: 60, left: 90},
-    width = 1200 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+  var node = document.querySelector('#chartArea');
+  node.innerHTML = '';
 
-var x = d3.time.scale()
-    .range([0, width]);
+  var margin = {top: 50, right: 10, bottom: 60, left: 80},
+      width = 950 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+  var x = d3.time.scale()
+      .range([0, width]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-	.ticks(d3.time.hours,24)
-	//makes the xAxis ticks a little longer than the xMinorAxis ticks
-    .tickSize(4)
-    .orient("bottom");
+  var y = d3.scale.linear()
+      .range([height, 0]);
 
-var xMinorAxis = d3.svg.axis()
-    .scale(x)
-	.ticks(d3.time.hours,12)
-    .orient("bottom");
+  var xAxis = d3.svg.axis().scale(x).ticks(d3.time.hours, 24).tickSize(4).orient('bottom');
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+  var xMinorAxis = d3.svg.axis().scale(x).ticks(d3.time.hours, 12).orient('bottom');
 
-var line = d3.svg.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.total_km); });
-
-var div = d3.select("body").append("div")   
-    .attr("class", "tooltip")               
-    .style("opacity", 0);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-//The format in the CSV, which d3 will read
-var parseDate = d3.time.format("%Y-%m-%d %X");
-
-//format for tooltip
-//https://github.com/mbostock/d3/wiki/Time-Formatting
-//var formatTime = d3.time.format("%e %b");
-var formatTime = d3.time.format("%e %b %-I:%M %p");
-var formatCount = d3.format(",");
-
-// function for the y grid lines
-function make_y_axis() {
-  return d3.svg.axis()
+  var yAxis = d3.svg.axis()
       .scale(y)
-      .orient("left")
-      //.ticks(5)
-}
+      .orient('left');
 
-//reading in CSV which contains data
-// d3.csv("roads_built.csv", function(error, data) {
-  var data = lineData
+  var line = d3.svg.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.total_km); });
+
+  var div = d3.select('#chartArea').append('div').attr('class', 'tooltip').style('opacity', 0);
+
+  var svg = d3.select('#chartArea').append('svg')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+
+  var parseDate = d3.time.format('%Y-%m-%d %X');
+  var formatTime = d3.time.format('%e %b %-I:%M %p');
+  var formatCount = d3.format(',');
+
+
+  function make_y_axis() {
+    return d3.svg.axis().scale(y).orient('left');
+  }
+
+
+  var data = lineData;
+
+  // if (data.length > 10) {
+  //   let firstFive = data.slice(0, 3);
+  //   let lastFive = data.slice(Math.max(data.length - 5, 0));
+  //   data = [...firstFive, ...lastFive];
+  // }
+  data = data.filter((month ,idx) => idx < 10);
+
   data.forEach(function(d) {
-    console.log(d.date_time)
-    d.date = d.date_time;//parseDate.parse(d.date_time);
-	console.log(d.date);
+    d.date = d.date_time;
     d.total_km = +d.total_km;
-    console.log(d.total_km);
   });
 
-  //using imported data to define extent of x and y domains
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain(d3.extent(data, function(d) { return d.total_km; }));
 
-// Draw the y Grid lines
-	svg.append("g")            
-		.attr("class", "grid")
-		.call(make_y_axis()
-			.tickSize(-width, 0, 0)
-			.tickFormat("")
-		)
-  
-  svg.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
+  // Draw the y Grid lines
+	svg.append('g').attr('class', 'grid').call(make_y_axis().tickSize(-width, 0, 0).tickFormat(''));
 
-//taken from http://bl.ocks.org/mbostock/3887118
-//and http://www.d3noob.org/2013/01/change-line-chart-into-scatter-plot.html
-//creating a group(g) and will append a circle and 2 lines inside each group
-var g = svg.selectAll()
-        .data(data).enter().append("g");
+  svg.append('path').datum(data).attr('class', 'line').attr('d', line);
 
-   //The markers on the line
-	 g.append("circle")
-         //circle radius is increased
-        .attr("r", 4.5)
-        .attr("cx", function(d) { return x(d.date); })
-        .attr("cy", function(d) { return y(d.total_km); });
-   
-   //The horizontal dashed line that appears when a circle marker is moused over
-	 g.append("line")
-        .attr("class", "x")
-        .attr("id", "dashedLine")
-        .style("stroke", "steelblue")
-        .style("stroke-dasharray", "3,3")
-        .style("opacity", 0)
-        .attr("x1", function(d) { return x(d.date); })
-        .attr("y1", function(d) { return y(d.total_km); })
-		    //d3.min gets the min date from the date x-axis scale
-		    .attr("x2", function(d) { return x(d3.min(x)); })
-        .attr("y2", function(d) { return y(d.total_km); });
 
-  //The vertical dashed line that appears when a circle marker is moused over
-	g.append("line")
-        .attr("class", "y")
-        .attr("id", "dashedLine")
-        .style("stroke", "steelblue")
-        .style("stroke-dasharray", "3,3")
-        .style("opacity", 0)
-        .attr("x1", function(d) { return x(d.date); })
-        .attr("y1", function(d) { return y(d.total_km); })
-		    .attr("x2", function(d) { return x(d.date); })
-        .attr("y2", height);
-    
-   //circles are selected again to add the mouseover functions
- 	 g.selectAll("circle")
-			.on("mouseover", function(d) {		
-            div.transition()		
-               .duration(200)		
-               .style("opacity", .9);	
+  var g = svg.selectAll().data(data).enter().append('g');
+
+
+	g.append('circle').attr('r', 4.5).attr('cx', function(d) { return x(d.date); }).attr('cy', function(d) { return y(d.total_km); });
+
+	g.append('line').attr('class', 'x').attr('id', 'dashedLine')
+        .style('stroke', 'steelblue')
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0)
+        .attr('x1', function(d) { return x(d.date); })
+        .attr('y1', function(d) { return y(d.total_km); })
+		    .attr('x2', function(d) { return x(d3.min(x)); })
+        .attr('y2', function(d) { return y(d.total_km); });
+
+	g.append('line')
+        .attr('class', 'y')
+        .attr('id', 'dashedLine')
+        .style('stroke', 'steelblue')
+        .style('stroke-dasharray', '3,3')
+        .style('opacity', 0)
+        .attr('x1', function(d) { return x(d.date); })
+        .attr('y1', function(d) { return y(d.total_km); })
+		    .attr('x2', function(d) { return x(d.date); })
+        .attr('y2', height);
+
+ 	 g.selectAll('circle').on('mouseover', function(d) {
+            div.transition()
+               .duration(200)
+               .style('opacity', .9);
                let date = new Date(d.date);
-               var day :any;
-               var month :any;
-               var hours :any;
-               var minutes :any;
-               var seconds :any;
-                day = date.getDay();
+               var day : any;
+               var month : any;
+               var hours : any;
+               var minutes : any;
+               var seconds : any;
+               day = date.getDay();
 
                 month = date.getMonth() + 1;
                var year = date.getFullYear();
@@ -395,7 +361,7 @@ var g = svg.selectAll()
                 seconds = date.getSeconds();
 
                if (day < 10) {
-                   day = '0'+ day;
+                   day = '0' + day;
                }
 
                if (month < 10) {
@@ -413,75 +379,75 @@ var g = svg.selectAll()
                if ( Number(seconds) < 10 ) {
                    seconds = '0' + seconds;
                }
-            div.html("Glucose Specification Time: "+ d.glucoseType + " mmol/L" + "<br/>" +"Glucose Level: "+ formatCount(d.total_km) + " mmol/L" + "<br/>" + "Glucose checking Time: "+`${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
-               .style("left", (d3.event.pageX - 20) + "px")
-      		     .style("top", (d3.event.pageY + 6) + "px")
-      		     .style("width", "30%");
+            div.html('Glucose Specification Time: ' + d.glucoseType + ' mmol/L' + '<br/>' + 'Glucose Level: ' + formatCount(d.total_km) + ' mmol/L' + '<br/>' + 'Glucose checking Time: ' + `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
+               .style('left', (d3.event.pageX - 20) + 'px')
+      		     .style('top', (d3.event.pageY + 6) + 'px')
+      		     .style('width', '30%');
 	          //selects the horizontal dashed line in the group
 			      d3.select(this.nextElementSibling).transition()		
                 .duration(200)		
-                .style("opacity", .9);
+                .style('opacity', .9);
             //selects the vertical dashed line in the group
 			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
                 .duration(200)		
-                .style("opacity", .9);	
+                .style('opacity', .9);	
             })	
 				
-      .on("mouseout", function(d) {		
+      .on('mouseout', function(d) {		
             div.transition()		
                .duration(500)		
-               .style("opacity", 0);
+               .style('opacity', 0);
 
 			      d3.select(this.nextElementSibling).transition()		
                 .duration(500)		
-                .style("opacity", 0);
+                .style('opacity', 0);
 
 			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
                 .duration(500)		
-                .style("opacity", 0);	
+                .style('opacity', 0);	
         });
 
-svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
+svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis)
-	    .selectAll(".tick text")
+	    .selectAll('.tick text')
       .call(wrap, 35);
 
-svg.append("g")
-    .attr("class","xMinorAxis")
-    .attr("transform", "translate(0," + height + ")")
+svg.append('g')
+    .attr('class', 'xMinorAxis')
+    .attr('transform', 'translate(0,' + height + ')')
     .style({ 'stroke': 'Black', 'fill': 'none', 'stroke-width': '1px'})
     .call(xMinorAxis)
-    .selectAll("text").remove();
+    .selectAll('text').remove();
 
 //http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
-svg.append("text")      // text label for the x-axis
-        .attr("x", width / 2 )
-        .attr("y",  height + margin.bottom)
-        .style("text-anchor", "middle")
-        .text("Date");
+svg.append('text')      // text label for the x-axis
+        .attr('x', width / 2 )
+        .attr('y',  height + margin.bottom)
+        .style('text-anchor', 'middle')
+        .text('Date');
 
-svg.append("text")      // text label for the y-axis
-        .attr("y",30 - margin.left)
-        .attr("x",50 - (height / 2))
-        .attr("transform", "rotate(-90)")
-        .style("text-anchor", "end")
-        .style("font-size", "16px")
-        .text("Glucose Level");
+svg.append('text')      // text label for the y-axis
+        .attr('y', 30 - margin.left)
+        .attr('x', 50 - (height / 2))
+        .attr('transform', 'rotate(-90)')
+        .style('text-anchor', 'end')
+        .style('font-size', '16px')
+        .text('Glucose Level');
 
 //http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
-svg.append("text")      // text label for chart Title
-        .attr("x", width / 2 )
-        .attr("y", 0 - (margin.top/2))
-        .style("text-anchor", "middle")
-		.style("font-size", "16px") 
-        .style("text-decoration", "underline") 
-        .text("Glucose Level Chart");
+svg.append('text')      // text label for chart Title
+        .attr('x', width / 2 )
+        .attr('y', 0 - (margin.top / 2))
+        .style('text-anchor', 'middle')
+		.style('font-size', '16px') 
+        .style('text-decoration', 'underline') 
+        .text('Glucose Level Chart');
 
 
-svg.append("g")
-      .attr("class", "y axis")
+svg.append('g')
+      .attr('class', 'y axis')
       .call(yAxis)
     //text label for the y-axis inside chart
     /*
@@ -505,17 +471,17 @@ function wrap(text, width) {
         line = [],
         lineNumber = 0,
         lineHeight = 1.1, // ems
-        y = text.attr("y"),
-        dy = parseFloat(text.attr("dy")),
-        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+        y = text.attr('y'),
+        dy = parseFloat(text.attr('dy')),
+        tspan = text.text(null).append('tspan').attr('x', 0).attr('y', y).attr('dy', dy + 'em');
     while (word = words.pop()) {
       line.push(word);
-      tspan.text(line.join(" "));
+      tspan.text(line.join(' '));
       if (tspan.node().getComputedTextLength() > width) {
         line.pop();
-        tspan.text(line.join(" "));
+        tspan.text(line.join(' '));
         line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        tspan = text.append('tspan').attr('x', 0).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
       }
     }
   });
@@ -890,10 +856,10 @@ function wrap(text, width) {
         for (let [key, value] of Object.entries(glucose)) {
           obj4[0].series[count4] = {};
           obj4[0].series[count4].date_time = new Date(value['glucoseTime']);
-          if(isNaN(value['glucoseLevelUnits'])){
+          if (isNaN(value['glucoseLevelUnits'])){
             value['glucoseLevelUnits'] = 0
           }
-          if(value['glucoseLevelUnits']>90){
+          if (value['glucoseLevelUnits'] > 90){
             value['glucoseLevelUnits'] = 30
           } 
           obj4[0].series[count4].total_km = value['glucoseLevelUnits'];
