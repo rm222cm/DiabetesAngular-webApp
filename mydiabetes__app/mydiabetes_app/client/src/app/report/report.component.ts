@@ -114,7 +114,7 @@ export class ReportComponent implements OnInit {
     }),
     translate: (value: number, label: LabelType): string => {
       return new Date(value).toDateString();
-    }
+    },
   };
 
   createDateRange(): Date[] {
@@ -140,8 +140,41 @@ export class ReportComponent implements OnInit {
 
   onUserChange(changeContext: ChangeContext): void {
 
-    this.startDate = new Date(changeContext.value).toDateString();
-    this.endDate = new Date(changeContext.highValue).toDateString();
+
+    let lowDate = new Date(changeContext.value);
+    let lowDateString = `${lowDate.getFullYear()}`;
+
+    if ((lowDate.getMonth() + 1) < 10) {
+      lowDateString += `-0${lowDate.getMonth() + 1}`;
+    } else {
+      lowDateString += `-${lowDate.getMonth() + 1}`;
+    }
+
+    if ((lowDate.getDate()) < 10) {
+      lowDateString += `-0${lowDate.getDate()}`;
+    } else {
+      lowDateString += `-${lowDate.getDate()}`;
+    }
+
+
+    let highDate = new Date(changeContext.highValue);
+    let highDateString = `${highDate.getFullYear()}`;
+
+    if ((highDate.getMonth() + 1) < 10) {
+      highDateString += `-0${highDate.getMonth() + 1}`;
+    } else {
+      highDateString += `-${highDate.getMonth() + 1}`;
+    }
+
+    if ((highDate.getDate()) < 10) {
+      highDateString += `-0${highDate.getDate()}`;
+    } else {
+      highDateString += `-${highDate.getDate()}`;
+    }
+
+    this.startDate = lowDateString;
+    this.endDate = highDateString;
+
     this.getReportData();
   }
 
@@ -381,14 +414,14 @@ export class ReportComponent implements OnInit {
                }
             div.html('Glucose Specification Time: ' + d.glucoseType + ' mmol/L' + '<br/>' + 'Glucose Level: ' + formatCount(d.total_km) + ' mmol/L' + '<br/>' + 'Glucose checking Time: ' + `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
                .style('left', (d3.event.pageX - 20) + 'px')
-      		     .style('top', (d3.event.pageY + 6) + 'px')
+      		     .style('top', (d3.event.pageY - 230) + 'px')
       		     .style('width', '30%');
-	          //selects the horizontal dashed line in the group
+	          // selects the horizontal dashed line in the group
 			      d3.select(this.nextElementSibling).transition()		
                 .duration(200)		
                 .style('opacity', .9);
-            //selects the vertical dashed line in the group
-			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
+            // selects the vertical dashed line in the group
+			      d3.select(this.nextElementSibling.nextElementSibling).transition()
                 .duration(200)		
                 .style('opacity', .9);	
             })	
@@ -421,7 +454,7 @@ svg.append('g')
     .call(xMinorAxis)
     .selectAll('text').remove();
 
-//http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
+// http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
 svg.append('text')      // text label for the x-axis
         .attr('x', width / 2 )
         .attr('y',  height + margin.bottom)
@@ -436,7 +469,7 @@ svg.append('text')      // text label for the y-axis
         .style('font-size', '16px')
         .text('Glucose Level');
 
-//http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
+// http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
 svg.append('text')      // text label for chart Title
         .attr('x', width / 2 )
         .attr('y', 0 - (margin.top / 2))
@@ -449,7 +482,7 @@ svg.append('text')      // text label for chart Title
 svg.append('g')
       .attr('class', 'y axis')
       .call(yAxis)
-    //text label for the y-axis inside chart
+    // text label for the y-axis inside chart
     /*
     .append("text")
       .attr("transform", "rotate(-90)")
@@ -461,8 +494,8 @@ svg.append('g')
       .text("road length (km)");
     */
 
-//http://bl.ocks.org/mbostock/7555321
-//This code wraps label text if it has too much text
+// http://bl.ocks.org/mbostock/7555321
+// This code wraps label text if it has too much text
 function wrap(text, width) {
   text.each(function() {
     var text = d3.select(this),
@@ -489,6 +522,7 @@ function wrap(text, width) {
 
 // });
   }
+
   boxPlot(this_data) {
     let chart1;
 
@@ -539,7 +573,6 @@ function wrap(text, width) {
   }
 
   carbsScatterPlot(this_data) {
-
 
     var chart3;
 
@@ -839,7 +872,7 @@ function wrap(text, width) {
           obj3[0].series[count3].carbsItem = value['carbsItem'];
           this.carbsobj = obj3;
 
-          objcrabscatter[count3].carabsTime = new Date(value['carbsTime']).getTime() / 1000;
+          objcrabscatter[count3].carabsTime = new Date(value['carbsTime']);
           objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
           count3++;
@@ -1057,8 +1090,10 @@ function wrap(text, width) {
 
     if (type == 'START') {
       this.startDate = value;
+      this.value = new Date(this.startDate).getTime();
     } else {
       this.endDate = value;
+      this.maxValue = new Date(this.endDate).getTime();
     }
     this.getReportData();
   }
