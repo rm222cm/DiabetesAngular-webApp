@@ -3946,17 +3946,14 @@ function makeDistroCrabsChart(settings) {
 
         // Build Scale functions
          chart.settings.data.forEach(element => {
-            element.carabsTime = new Date(element.carabsTime * 1000)
+            element.carabsTime = new Date(element.carabsTime)
          });
 
         var minDate = chart.settings.data[0].carabsTime;
         var maxDate = chart.settings.data[chart.settings.data.length - 1].carabsTime; 
 
-        // console.log(minDate);
-        // console.log(maxDate);
-        // console.log(chart.range);
         
-        d3.time.scale().domain([minDate, maxDate]).range([minDate, maxDate]);
+        chart.yScale.domain([minDate, maxDate]).range([chart.height, 0]);
 
         // chart.yScale.range([chart.height, 0]).domain(chart.range).nice().clamp(true);
         chart.xScale = d3.scale.ordinal().domain(Object.keys(chart.groupObjs)).rangeBands([0, chart.width]);
@@ -3965,7 +3962,7 @@ function makeDistroCrabsChart(settings) {
         chart.objs.yAxis = d3.svg.axis()
             .scale(chart.yScale)
             .orient("left")
-            .tickFormat(chart.yFormatter)
+            .tickFormat(d3.time.format("%m-%d-%y"))
             .outerTickSize(0)
             .innerTickSize(-chart.width + (chart.margin.right + chart.margin.left));
         chart.objs.yAxis.ticks(chart.objs.yAxis.ticks() * chart.settings.yTicks);
@@ -3992,6 +3989,7 @@ function makeDistroCrabsChart(settings) {
             chart.yScale.domain(chart.range).nice().clamp(true);
         }
 
+
         //Update axes
         chart.objs.g.select('.x.axis').attr("transform", "translate(0," + chart.height + ")").call(chart.objs.xAxis)
             .selectAll("text")
@@ -4001,6 +3999,8 @@ function makeDistroCrabsChart(settings) {
             .style("text-anchor", "end");
         chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
         chart.objs.g.select('.y.axis').call(chart.objs.yAxis.innerTickSize(-chart.width));
+        chart.objs.g.select('.y.axis').selectAll("text").attr("transform", "rotate(-45)");
+        chart.objs.g.select('.y.axis').selectAll("text").style("font-size", 10);
         chart.objs.g.select('.y.axis .label').attr("x", -chart.height / 2);
         chart.objs.chartDiv.select('svg').attr("width", chart.width + (chart.margin.left + chart.margin.right)).attr("height", chart.height + (chart.margin.top + chart.margin.bottom));
 
@@ -4064,7 +4064,7 @@ function makeDistroCrabsChart(settings) {
                     var carbsType = d3.event.target.getAttribute("carb-type");
                     var carbsItem = d3.event.target.getAttribute("carb-item");
 
-                    var date = new Date(eatingTime * 1000);
+                    var date = new Date(eatingTime);
 
                     var day = date.getDay();
 
@@ -4102,8 +4102,8 @@ function makeDistroCrabsChart(settings) {
                     chart.objs.tooltip
                         .style("display", null)
                         
-                        .style("left", (d3.event.pageX - 150) + "px")
-                        .style("top", (d3.event.pageY  - 1050) + "px");
+                        .style("left", (d3.event.pageX - 30) + "px")
+                        .style("top", (d3.event.pageY  - 230) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
                     chart.objs.tooltip.style("background-color", "#ffffff");
                     chart.objs.tooltip.style("width", "20%");
