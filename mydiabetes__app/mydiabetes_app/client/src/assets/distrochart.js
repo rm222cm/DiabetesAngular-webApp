@@ -374,7 +374,7 @@ function makeDistroChartBox(settings) {
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
         chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
-        chart.objs.tooltip.style("background-color", "#ffffff");
+        chart.objs.tooltip.style("background-color", "#D3D3D3");
         chart.objs.tooltip.style("font-weight", "bold");
 
         for (var cName in chart.groupObjs) {
@@ -386,7 +386,9 @@ function makeDistroChartBox(settings) {
                     .style("display", null)
                     // .style("position", "absolute")
                     .style("left", (d3.event.pageX - 150) + "px")
-                    .style("top", (d3.event.pageY - 300) + "px");
+                    .style("top", (d3.event.pageY - 300) + "px")
+                    .style('height', '15%')
+                    .style('width', '15%');
             }).on("mouseout", function() {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
@@ -1951,7 +1953,7 @@ function makeDistroChart(settings) {
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
         return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
+            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1).style('background-color', '#D3D3D3');
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -2188,6 +2190,7 @@ function makeDistroChart(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
+        d3.selectAll('.tooltip').style('display', 'none');
         for (var cName in chart.groupObjs) {
 
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
@@ -2236,7 +2239,7 @@ function makeDistroChart(settings) {
                         .style("left", (d3.event.pageX - 50 ) + "px")
                         .style("top", (d3.event.pageY  - 220  ) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
-                    chart.objs.tooltip.style("background-color", "#ffffff");
+                    chart.objs.tooltip.style("background-color", "#D3D3D3");
                     chart.objs.tooltip.style("width", "20%");
 
                 }).on("mouseout", function() {
@@ -4054,6 +4057,7 @@ function makeDistroCrabsChart(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
+        d3.selectAll('.tooltip').style('display', 'none');
         for (var cName in chart.groupObjs) {
 
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
@@ -4105,7 +4109,7 @@ function makeDistroCrabsChart(settings) {
                         .style("left", (d3.event.pageX - 30) + "px")
                         .style("top", (d3.event.pageY  - 230) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
-                    chart.objs.tooltip.style("background-color", "#ffffff");
+                    chart.objs.tooltip.style("background-color", "#D3D3D3");
                     chart.objs.tooltip.style("width", "20%");
 
                 }).on("mouseout", function() {
@@ -5458,11 +5462,28 @@ function makeDistroCrabsChart(settings) {
                         let carbsItem = chart.groupObjs[cName].carbsValues[pt].carbsItem;
                         let carbsType = chart.groupObjs[cName].carbsValues[pt].carbsType;
 
-                        // console.log(data);
-                        // console.log(carbsItem);
-                        // console.log(carbsType);
 
-                        if (cName === "walking") {
+                        if (cName === "Protein") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("eating-time", data)
+                            .attr("carb-type", carbsType)
+                            .attr("carb-item", carbsItem)
+                            .attr('r', dOpts.pointSize / 2)
+                            .style("fill", "#ff7f0e"));
+
+                        } else if (cName === "Fibers") {
+
+                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                            .attr("class", "point")
+                            .attr("eating-time", data)
+                            .attr("carb-type", carbsType)
+                            .attr("carb-item", carbsItem)
+                            .attr('r', dOpts.pointSize / 2)
+                            .style("fill", "#2ca02c"));
+
+                        } else if (cName === "Carbohydrates") {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -5472,37 +5493,7 @@ function makeDistroCrabsChart(settings) {
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", "#1f77b4"));
 
-                        } else if (cName === "jogging") {
-
-                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
-                            .attr("class", "point")
-                            .attr("eating-time", data)
-                            .attr("carb-type", carbsType)
-                            .attr("carb-item", carbsItem)
-                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
-                            .style("fill", "#ff7f0e"));
-
-                        } else if (cName === "running") {
-
-                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
-                            .attr("class", "point")
-                            .attr("eating-time", data)
-                            .attr("carb-type", carbsType)
-                            .attr("carb-item", carbsItem)
-                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
-                            .style("fill", "#2ca02c"));
-
-                        } else if (cName === "lifting_weight") {
-
-                            cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
-                            .attr("class", "point")
-                            .attr("eating-time", data)
-                            .attr("carb-type", carbsType)
-                            .attr("carb-item", carbsItem)
-                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
-                            .style("fill", "#d62728"));
-
-                        } else {
+                        }  else {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
