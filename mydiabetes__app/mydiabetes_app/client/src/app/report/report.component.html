@@ -124,24 +124,24 @@
                 <div class="col-md-12 text-center" [hidden]="!showCarbs">
                     <dl><b>Carbs Chart</b></dl>
 
-                    <div class="custom-control custom-checkbox" style="display: inline-block;">
-                        <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')">
-                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label>
-                    </div>
 
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="activitycustom jogging custom-control-input" id="proteins" [checked]="true" (click)="carbsTypeChange($event.target.checked, '2')">
-                        <label class="custom-control-label" for="proteins">Proteins</label>
+                        <label class="custom-control-label" for="proteins">Protein</label>
                     </div>
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')">
                         <label class="custom-control-label" for="fibers">Fibers</label>
                     </div>
 
+                    <div class="custom-control custom-checkbox" style="display: inline-block;">
+                        <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')">
+                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label>
+                    </div>
+
+
                 </div>
-
                 <!-- <div class="col-md-1 text-white align-top g_h" [hidden]="!showCarbs"></div> -->
-
                 <div class="chart-wrap" style="width: 100%; margin: 0 auto;" [hidden]="!showCarbs">   
                     <div class="chart-wrapper" id="chart-distro3" #dataContainer></div>
                 </div>
