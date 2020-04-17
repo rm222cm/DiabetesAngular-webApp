@@ -266,16 +266,27 @@ export class ReportComponent implements OnInit {
 
       let count3 = 0;
       let obj3 = [{ name: 'Crabs', series: [] }];
+      let objcrabscatter = [];
 
       for (let [key, value] of Object.entries(res.data)) {
         obj3[0].series[count3] = {};
+        objcrabscatter[count3] = {};
         obj3[0].series[count3].name = new Date(value['carbsTime']);
         obj3[0].series[count3].value = 5;
         obj3[0].series[count3].carbsTime = new Date(value['carbsTime']);
         obj3[0].series[count3].carbsType = this.carbsType[value['carbsType']];
         obj3[0].series[count3].carbsItem = value['carbsItem'];
-        count3++;
         this.carbsobj = obj3;
+
+        objcrabscatter[count3].carabsTime = new Date(value['carbsTime']);
+        objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
+        objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
+        count3++;
+
+        if (count3 === res.data.length) {
+          this.carbsScatterPlot(objcrabscatter);
+        }
+
       }
     });
 
@@ -308,7 +319,7 @@ export class ReportComponent implements OnInit {
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.total_km); });
 
-  var div = d3.select('#chartArea').append('div').attr('class', 'tooltip').style('opacity', 0);
+  var div = d3.select('#chartArea').append('div').attr('class', 'tooltip').style('opacity', 0).style('background-color', '#D3D3D3');
 
   var svg = d3.select('#chartArea').append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -329,11 +340,6 @@ export class ReportComponent implements OnInit {
 
   var data = lineData;
 
-  // if (data.length > 10) {
-  //   let firstFive = data.slice(0, 3);
-  //   let lastFive = data.slice(Math.max(data.length - 5, 0));
-  //   data = [...firstFive, ...lastFive];
-  // }
   data = data.filter((month ,idx) => idx < 10);
 
   data.forEach(function(d) {
@@ -356,8 +362,7 @@ export class ReportComponent implements OnInit {
 	g.append('circle').attr('r', 4.5).attr('cx', function(d) { return x(d.date); }).attr('cy', function(d) { return y(d.total_km); });
 
 	g.append('line').attr('class', 'x').attr('id', 'dashedLine')
-        .style('stroke', 'steelblue')
-        .style('stroke-dasharray', '3,3')
+
         .style('opacity', 0)
         .attr('x1', function(d) { return x(d.date); })
         .attr('y1', function(d) { return y(d.total_km); })
@@ -367,8 +372,6 @@ export class ReportComponent implements OnInit {
 	g.append('line')
         .attr('class', 'y')
         .attr('id', 'dashedLine')
-        .style('stroke', 'steelblue')
-        .style('stroke-dasharray', '3,3')
         .style('opacity', 0)
         .attr('x1', function(d) { return x(d.date); })
         .attr('y1', function(d) { return y(d.total_km); })
@@ -412,32 +415,32 @@ export class ReportComponent implements OnInit {
                if ( Number(seconds) < 10 ) {
                    seconds = '0' + seconds;
                }
-            div.html('Glucose Specification Time: ' + d.glucoseType + ' mmol/L' + '<br/>' + 'Glucose Level: ' + formatCount(d.total_km) + ' mmol/L' + '<br/>' + 'Glucose checking Time: ' + `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
-               .style('left', (d3.event.pageX - 20) + 'px')
+            div.html('Glucose Specification Time: ' + d.glucoseType  + '<br/>' + 'Glucose Level: ' + formatCount(d.total_km) + '<br/>' + 'Glucose checking Time: ' + `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`)	
+               .style('left', (d3.event.pageX - 30) + 'px')
       		     .style('top', (d3.event.pageY - 230) + 'px')
-      		     .style('width', '30%');
-	          // selects the horizontal dashed line in the group
-			      d3.select(this.nextElementSibling).transition()		
-                .duration(200)		
+      		     .style('width', '25%');
+
+			      d3.select(this.nextElementSibling).transition()
+                .duration(200)
                 .style('opacity', .9);
-            // selects the vertical dashed line in the group
+
 			      d3.select(this.nextElementSibling.nextElementSibling).transition()
-                .duration(200)		
-                .style('opacity', .9);	
-            })	
-				
-      .on('mouseout', function(d) {		
-            div.transition()		
-               .duration(500)		
+                .duration(200)
+                .style('opacity', .9);
+            })
+
+      .on('mouseout', function(d) {
+            div.transition()
+               .duration(500)
                .style('opacity', 0);
 
-			      d3.select(this.nextElementSibling).transition()		
-                .duration(500)		
+			      d3.select(this.nextElementSibling).transition()
+                .duration(500)
                 .style('opacity', 0);
 
-			      d3.select(this.nextElementSibling.nextElementSibling).transition()		
-                .duration(500)		
-                .style('opacity', 0);	
+			      d3.select(this.nextElementSibling.nextElementSibling).transition()
+                .duration(500)
+                .style('opacity', 0);
         });
 
 svg.append('g')
@@ -474,8 +477,9 @@ svg.append('text')      // text label for chart Title
         .attr('x', width / 2 )
         .attr('y', 0 - (margin.top / 2))
         .style('text-anchor', 'middle')
-		.style('font-size', '16px') 
-        .style('text-decoration', 'underline') 
+        .style('font-size', '16px')
+        .style('font-weight', 'bold')
+        .style('text-decoration', 'none')
         .text('Glucose Level Chart');
 
 
@@ -913,9 +917,6 @@ function wrap(text, width) {
     );
   }
 
-  drawGolucoseLineChart(data) {
-
-  }
 
   getActivityReportData(activityType) {
     const activity = this.groupedReport.activity;
