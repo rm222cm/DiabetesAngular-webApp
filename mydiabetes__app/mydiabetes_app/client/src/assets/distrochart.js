@@ -385,10 +385,10 @@ function makeDistroChartBox(settings) {
                 chart.objs.tooltip
                     .style("display", null)
                     // .style("position", "absolute")
-                    .style("left", (d3.event.pageX - 150) + "px")
+                    .style("left", (d3.event.pageX + 10) + "px")
                     .style("top", (d3.event.pageY - 300) + "px")
-                    .style('height', '15%')
-                    .style('width', '15%');
+                    .style('height', '30%')
+                    .style('width', '25%');
             }).on("mouseout", function() {
                 chart.objs.tooltip.style("display", "none");
             }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
@@ -2236,11 +2236,11 @@ function makeDistroChart(settings) {
                     chart.objs.tooltip
                         .style("display", null)
                         
-                        .style("left", (d3.event.pageX - 50 ) + "px")
-                        .style("top", (d3.event.pageY  - 220  ) + "px");
+                        .style("left", (d3.event.pageX - 670) + "px")
+                        .style("top", (d3.event.pageY  - 240  ) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
                     chart.objs.tooltip.style("background-color", "#D3D3D3");
-                    chart.objs.tooltip.style("width", "20%");
+                    chart.objs.tooltip.style("width", "30%");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
@@ -3674,6 +3674,8 @@ function makeDistroChart(settings) {
 
 // Test 2
 
+// Test 2
+
 function makeDistroCrabsChart(settings) {
 
 
@@ -4106,11 +4108,11 @@ function makeDistroCrabsChart(settings) {
                     chart.objs.tooltip
                         .style("display", null)
                         
-                        .style("left", (d3.event.pageX - 30) + "px")
-                        .style("top", (d3.event.pageY  - 230) + "px");
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY  - 550) + "px");
                     chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
                     chart.objs.tooltip.style("background-color", "#D3D3D3");
-                    chart.objs.tooltip.style("width", "20%");
+                    chart.objs.tooltip.style("width", "30%");
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
