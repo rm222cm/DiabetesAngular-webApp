@@ -457,9 +457,9 @@ export class ReportComponent implements OnInit {
               "Glucose checking Time: " +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
-          .style("left", d3.event.pageX - 30 + "px")
-          .style("top", d3.event.pageY - 230 + "px")
-          .style("width", "25%");
+          .style("left", d3.event.pageX - 670 + "px")
+          .style("top", d3.event.pageY - 550 + "px")
+          .style("width", "45%");
 
         d3.select(this.nextElementSibling)
           .transition()
