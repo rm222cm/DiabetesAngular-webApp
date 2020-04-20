@@ -879,3 +879,46 @@ input[type="checkbox"]+label {
 .chartArea .tick text {
     font-size: 2px !important; 
 }
+
+/* new styles xhan */
+.graph-wrapper .row{
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 0;
+}
+.graph-wrapper .chart-wrapper{
+    margin-bottom: 0 !important;
+}
+.graph-wrapper .chart-wrapper .outer-box{
+    position: static;
+}
+.graph-wrapper .chart-wrapper .inner-wrapper{
+    padding-bottom: 0;
+}
+.graph-wrapper .chart-wrapper text{
+    font-size: 9px !important;
+}
+.graph-wrapper .slider-wrap{
+    padding: 20px 0;
+}
+.graph-wrapper .slider-wrap .ng5-slider{
+    width: 97% !important;
+}
+.graph-wrapper .btn-wrap{
+    padding: 0 20px;
+}
+.input-group-text{
+    width: 90px;
+    max-width: inherit !important;
+}
+
+@media (max-width: 1024px) {
+    .custom-control-label{
+        font-size: 11px !important;
+    }
+}
+@media (max-width: 767px) {
+    .input-group.input-group-sm{
+        margin-bottom: 15px;
+    }
+}
