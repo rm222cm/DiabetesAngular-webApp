@@ -166,7 +166,7 @@
               [checked]="true"
               (click)="carbsTypeChange($event.target.checked, '2')"
             />
-            <label class="custom-control-label" for="proteins">Protein</label>
+            <label class="custom-control-label" for="proteins">Proteins</label>
                 </div>
                 <div class="custom-control custom-checkbox" style="display: inline-block;">
                     <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')" />
@@ -192,7 +192,7 @@
         <div class="chart-wrap"
           [hidden]="!showGlucose"
         >
-          <div id="chartArea" class="chart-wrapper"></div>
+          <div id="chartArea" (window:resize)="onResize($event)" class="chart-wrapper"></div>
         </div>
       </div>
     </div>
@@ -207,8 +207,8 @@
     </div>
 
     <div class="btn-wrap">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
                 <div class="form-group">
                     <button
                         type="button"
@@ -219,7 +219,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
                     <button
                     type="button"
