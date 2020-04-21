@@ -276,16 +276,31 @@ export class ReportComponent implements OnInit {
           this.carbsScatterPlot(objcrabscatter);
         }
       }
+
     });
+  }
+
+  onResize(event) {
+    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
   }
 
   drawGolucoseLineChart123(lineData) {
     var node = document.querySelector("#chartArea");
     node.innerHTML = "";
 
-    var margin = { top: 50, right: 10, bottom: 60, left: 50 },
+    var margin = { top: 50, right: 10, bottom: 60, left: 50 };
+    var width, height;
+
+    if (window.matchMedia('(max-width: 767px)')['matches']) {
+
+      width = 390 - margin.left - margin.right,
+      height = 310 - margin.top - margin.bottom;
+
+    } else {
       width = 590 - margin.left - margin.right,
       height = 310 - margin.top - margin.bottom;
+
+    }
 
     var x = d3.time.scale().range([0, width]);
 
@@ -320,7 +335,8 @@ export class ReportComponent implements OnInit {
       .append("div")
       .attr("class", "tooltip")
       .style("opacity", 0)
-      .style("background-color", "#D3D3D3");
+      .style("background-color", "#FFFFFF")
+      .style("font-weight", "bold").style('font-size', '12px');
 
     var svg = d3
       .select("#chartArea")
@@ -412,7 +428,7 @@ export class ReportComponent implements OnInit {
 
     g.selectAll("circle")
       .on("mouseover", function (d) {
-        div.transition().duration(200).style("opacity", 0.9);
+        div.transition().duration(200).style("opacity", 0.7);
         let date = new Date(d.date);
         var day: any;
         var month: any;
@@ -446,13 +462,31 @@ export class ReportComponent implements OnInit {
         if (Number(seconds) < 10) {
           seconds = "0" + seconds;
         }
-        div
-          .html(
+
+        if (window.matchMedia('(max-width: 767px)')['matches']) {
+
+          div.html(
             "Glucose Specification Time: " +
               d.glucoseType +
               "<br/>" +
               "Glucose Level: " +
-              formatCount(d.total_km) +
+              formatCount(d.total_km) + ' mmol/L ' +
+              "<br/>" +
+              "Glucose checking Time: " +
+              `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
+          )
+          .style("left", d3.event.pageX - 10 + "px")
+          .style("top", d3.event.pageY - 1218 + "px")
+          .style("width", "45%");
+
+        } else {
+
+          div.html(
+            "Glucose Specification Time: " +
+              d.glucoseType +
+              "<br/>" +
+              "Glucose Level: " +
+              formatCount(d.total_km) + ' mmol/L ' +
               "<br/>" +
               "Glucose checking Time: " +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
@@ -461,15 +495,19 @@ export class ReportComponent implements OnInit {
           .style("top", d3.event.pageY - 550 + "px")
           .style("width", "45%");
 
+        }
+
+
+
         d3.select(this.nextElementSibling)
           .transition()
           .duration(200)
-          .style("opacity", 0.9);
+          .style("opacity", 0.7);
 
         d3.select(this.nextElementSibling.nextElementSibling)
           .transition()
           .duration(200)
-          .style("opacity", 0.9);
+          .style("opacity", 0.7);
       })
 
       .on("mouseout", function (d) {
@@ -503,13 +541,6 @@ export class ReportComponent implements OnInit {
       .selectAll("text")
       .remove();
 
-    // http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
-    // svg.append('text')      // text label for the x-axis
-    //         .attr('x', width / 2 )
-    //         .attr('y',  height + margin.bottom)
-    //         .style('text-anchor', 'middle')
-    //         .text('Date');
-
     svg
       .append("text") // text label for the y-axis
       .attr("y", 20 - margin.left)
@@ -519,28 +550,9 @@ export class ReportComponent implements OnInit {
       .style("font-size", "16px")
       .text("Glucose Level");
 
-    // http://www.d3noob.org/2013/01/adding-title-to-your-d3js-graph.html
-    // svg.append('text')      // text label for chart Title
-    //         .attr('x', width / 2 )
-    //         .attr('y', 0 - (margin.top / 2))
-    //         .style('text-anchor', 'middle')
-    //         .style('font-size', '16px')
-    //         .style('font-weight', 'bold')
-    //         .style('text-decoration', 'none')
-    //         .text('Glucose Level Chart');
 
     svg.append("g").attr("class", "y axis").call(yAxis);
-    // text label for the y-axis inside chart
-    /*
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .style("font-size", "16px") 
-      .style("background-color","red")
-      .text("road length (km)");
-    */
+
 
     // http://bl.ocks.org/mbostock/7555321
     // This code wraps label text if it has too much text
@@ -578,7 +590,6 @@ export class ReportComponent implements OnInit {
       });
     }
 
-    // });
   }
 
   boxPlot(this_data) {
@@ -603,7 +614,6 @@ export class ReportComponent implements OnInit {
 
   scatterPlot(this_data) {
   
-    console.log(this_data);
     let chartarr = [];
     let walkingarr = [];
     let joggingarr = [];
@@ -650,6 +660,13 @@ export class ReportComponent implements OnInit {
   }
 
   carbsScatterPlot(this_data) {
+
+    this_data.forEach(element => {
+      if (element.carbsType.includes('Protein')) {
+        element.carbsType = element.carbsType + 's';
+      }
+    });
+
     var chart3;
 
     document.getElementById("chart-distro3").innerHTML = "";
