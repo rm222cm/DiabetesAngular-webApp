@@ -147,7 +147,7 @@ function makeDistroChartBox(settings) {
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1)+ " Units";
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min)+ " Units";
         return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
+            chart.objs.tooltip.transition().duration(200).style("opacity", 0.7);
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -374,7 +374,7 @@ function makeDistroChartBox(settings) {
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
         chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
-        chart.objs.tooltip.style("background-color", "#D3D3D3");
+        chart.objs.tooltip.style("background-color", "#FFFFFF");
         chart.objs.tooltip.style("font-weight", "bold");
 
         for (var cName in chart.groupObjs) {
@@ -1953,7 +1953,7 @@ function makeDistroChart(settings) {
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
         return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1).style('background-color', '#D3D3D3');
+            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1).style('background-color', '	#FFFFFF');
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -2233,14 +2233,26 @@ function makeDistroChart(settings) {
                                       <strong>Duration: ${durationValue}</strong>`;
 
                     chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
-                    chart.objs.tooltip
-                        .style("display", null)
-                        
-                        .style("left", (d3.event.pageX - 670) + "px")
-                        .style("top", (d3.event.pageY  - 240  ) + "px");
-                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
-                    chart.objs.tooltip.style("background-color", "#D3D3D3");
-                    chart.objs.tooltip.style("width", "30%");
+                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.7);
+                    chart.objs.tooltip.style("background-color", "#FFFFFF");
+
+                    if (window.matchMedia('(max-width: 767px)')['matches']) {
+
+                        chart.objs.tooltip.style("display", null)
+                                          .style("left", (d3.event.pageX) + "px")
+                                          .style("top", (d3.event.pageY  - 595  ) + "px");
+
+                        chart.objs.tooltip.style("width", "30%");
+
+                    } else {
+
+                        chart.objs.tooltip.style("display", null)
+                                          .style("left", (d3.event.pageX - 670) + "px")
+                                          .style("top", (d3.event.pageY  - 250  ) + "px");
+
+                        chart.objs.tooltip.style("width", "30%");
+
+                    }
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
@@ -4105,14 +4117,30 @@ function makeDistroCrabsChart(settings) {
                                        <strong>Eating Time: ${day}-${month}-${year} (${hours}:${minutes}:${seconds})</strong>`;
 
                     chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
-                    chart.objs.tooltip
+                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.7);
+                    chart.objs.tooltip.style("background-color", "#FFFFFF");
+                    chart.objs.tooltip.style("width", "30%");
+
+                    if (window.matchMedia( "(max-width: 767px)" )['matches']) {
+
+                        chart.objs.tooltip
                         .style("display", null)
                         
                         .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY  - 910) + "px");
+
+                    } else {
+
+                        chart.objs.tooltip
+                        .style("display", null)
+                        
+                        .style("left", (d3.event.pageX  - 5) + "px")
                         .style("top", (d3.event.pageY  - 550) + "px");
-                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
-                    chart.objs.tooltip.style("background-color", "#D3D3D3");
-                    chart.objs.tooltip.style("width", "30%");
+
+                    }
+
+
+
 
                 }).on("mouseout", function() {
                     chart.objs.tooltip.style("display", "none");
@@ -5465,7 +5493,7 @@ function makeDistroCrabsChart(settings) {
                         let carbsType = chart.groupObjs[cName].carbsValues[pt].carbsType;
 
 
-                        if (cName === "Protein") {
+                        if (cName === "Proteins") {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
