@@ -902,7 +902,7 @@ input[type="checkbox"]+label {
     padding: 20px 0;
 }
 .graph-wrapper .slider-wrap .ng5-slider{
-    width: 40% !important;
+    width: 47% !important;
 }
 .graph-wrapper .btn-wrap{
     padding: 0 20px;
@@ -916,9 +916,16 @@ input[type="checkbox"]+label {
     .custom-control-label{
         font-size: 11px !important;
     }
+
+
 }
 @media (max-width: 767px) {
     .input-group.input-group-sm{
         margin-bottom: 15px;
     }
+
+    .graph-wrapper .slider-wrap .ng5-slider {
+        width: 94% !important;
+    }
 }
+
