@@ -267,8 +267,10 @@ export class ReportComponent implements OnInit {
         obj3[0].series[count3].carbsItem = value["carbsItem"];
         this.carbsobj = obj3;
 
-        objcrabscatter[count3].carabsTime = new Date(value["carbsTime"]);
-        objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
+        // objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
+        // objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
+        objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
+        objcrabscatter[count3].carbsType = value["carbsType"];
         objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
         count3++;
 
@@ -281,7 +283,10 @@ export class ReportComponent implements OnInit {
   }
 
   onResize(event) {
-    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+    if(this.golucoseobj){
+      
+      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+    }
   }
 
   drawGolucoseLineChart123(lineData) {
@@ -673,9 +678,9 @@ export class ReportComponent implements OnInit {
 
     chart3 = makeDistroCrabsChart({
       data: this_data,
-      xName: "carbsType",
       yName: "carabsTime",
-      axisLabels: { xAxis: null, yAxis: "Time" },
+      xName: "carbsType",
+      axisLabels: { xAxis: null, yAxis: null },
       selector: "#chart-distro3",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
@@ -683,7 +688,7 @@ export class ReportComponent implements OnInit {
     chart3.renderDataPlots();
     chart3.dataPlots.show({
       showPlot: true,
-      plotType: 9,
+      plotType: 40,
       showBeanLines: false,
       colors: null,
     });
@@ -960,8 +965,8 @@ export class ReportComponent implements OnInit {
           obj3[0].series[count3].carbsItem = value["carbsItem"];
           this.carbsobj = obj3;
 
-          objcrabscatter[count3].carabsTime = new Date(value["carbsTime"]);
-          objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
+          objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
+          objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
           count3++;
 

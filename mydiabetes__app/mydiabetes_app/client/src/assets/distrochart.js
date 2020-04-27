@@ -3690,7 +3690,6 @@ function makeDistroChart(settings) {
 
 function makeDistroCrabsChart(settings) {
 
-
     var chart = {};
 
     // Defaults
@@ -3702,8 +3701,8 @@ function makeDistroCrabsChart(settings) {
         axisLables: null,
         yTicks: 1,
         scale: 'linear',
-        chartSize: { width: 800, height: 400 },
-        margin: { top: 15, right: 60, bottom: 40, left: 50 },
+        chartSize: {width: 800, height: 400},
+        margin: {top: 15, right: 60, bottom: 40, left: 50},
         constrainExtremes: false,
         color: d3.scale.category10()
     };
@@ -3730,7 +3729,7 @@ function makeDistroCrabsChart(settings) {
     chart.data = chart.settings.data;
 
     chart.groupObjs = {}; //The data organized by grouping and sorted as well as any metadata for the groups
-    chart.objs = { mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null };
+    chart.objs = {mainDiv: null, chartDiv: null, g: null, xAxis: null, yAxis: null};
     chart.colorFunct = null;
 
     /**
@@ -3743,18 +3742,17 @@ function makeDistroCrabsChart(settings) {
             return colorOptions
         } else if (Array.isArray(colorOptions)) {
             //  If an array is provided, map it to the domain
-            var colorMap = {},
-                cColor = 0;
+            var colorMap = {}, cColor = 0;
             for (var cName in chart.groupObjs) {
                 colorMap[cName] = colorOptions[cColor];
                 cColor = (cColor + 1) % colorOptions.length;
             }
-            return function(group) {
+            return function (group) {
                 return colorMap[group];
             }
         } else if (typeof colorOptions == 'object') {
             // if an object is provided, assume it maps to  the colors
-            return function(group) {
+            return function (group) {
                 return colorOptions[group];
             }
         } else {
@@ -3769,7 +3767,7 @@ function makeDistroCrabsChart(settings) {
      * @returns {{left: null, right: null, middle: null}}
      */
     function getObjWidth(objWidth, gName) {
-        var objSize = { left: null, right: null, middle: null };
+        var objSize = {left: null, right: null, middle: null};
         var width = chart.xScale.rangeBand() * (objWidth / 100);
         var padding = (chart.xScale.rangeBand() - width) / 2;
         var gShift = chart.xScale(gName);
@@ -3809,15 +3807,14 @@ function makeDistroCrabsChart(settings) {
      * @returns {Function} A function that provides the values for the tooltip
      */
     function tooltipHover(groupName, metrics) {
-
         var tooltipString = "Group: " + groupName;
         tooltipString += "<br\>Max: " + formatAsFloat(metrics.max, 0.1);
         tooltipString += "<br\>Q3: " + formatAsFloat(metrics.quartile3);
         tooltipString += "<br\>Median: " + formatAsFloat(metrics.median);
         tooltipString += "<br\>Q1: " + formatAsFloat(metrics.quartile1);
         tooltipString += "<br\>Min: " + formatAsFloat(metrics.min);
-        return function() {
-            chart.objs.tooltip.transition().duration(200).style("opacity", 0.1);
+        return function () {
+            chart.objs.tooltip.transition().duration(200).style("opacity", 0.9);
             chart.objs.tooltip.html(tooltipString)
         };
     }
@@ -3825,7 +3822,7 @@ function makeDistroCrabsChart(settings) {
     /**
      * Parse the data and calculates base values for the plots
      */
-    ! function prepareData() {
+    !function prepareData() {
         function calcMetrics(values) {
 
             var metrics = { //These are the original non�scaled values
@@ -3885,35 +3882,21 @@ function makeDistroCrabsChart(settings) {
 
         // Group the values
         for (current_row = 0; current_row < chart.data.length; current_row++) {
-
             current_x = chart.data[current_row][chart.settings.xName];
             current_y = chart.data[current_row][chart.settings.yName];
-            let carabsTime = chart.data[current_row].carabsTime;
-            let carbsItem = chart.data[current_row].carbsItem;
-            let carbsType = chart.data[current_row].carbsType;
-
-            const obj = {
-                carabsTime: carabsTime,
-                carbsItem: carbsItem,
-                carbsType: carbsType
-            };
-
+            console.log('current_x,current_y')
+            console.log(current_x,current_y)
+            // exchanged this
             if (chart.groupObjs.hasOwnProperty(current_x)) {
-                
-                chart.groupObjs[current_x].values.push(current_y);
-                chart.groupObjs[current_x].carbsValues.push(obj);
+                chart.groupObjs[current_y].values.push(current_x);
             } else {
-                chart.groupObjs[current_x] = {};
-                chart.groupObjs[current_x].values = [current_y];
-                chart.groupObjs[current_x].carbsValues = [obj];
+                chart.groupObjs[current_y] = {};
+                chart.groupObjs[current_y].values = [current_x];
             }
-
-            
         }
 
         for (var cName in chart.groupObjs) {
             chart.groupObjs[cName].values.sort(d3.ascending);
-            chart.groupObjs[cName].carbsValues.sort((a,b) => (a.carabsTime > b.carabsTime) ? 1 : ((b.carabsTime > a.carabsTime) ? -1 : 0));
             chart.groupObjs[cName].metrics = {};
             chart.groupObjs[cName].metrics = calcMetrics(chart.groupObjs[cName].values);
 
@@ -3923,7 +3906,7 @@ function makeDistroCrabsChart(settings) {
     /**
      * Prepare the chart settings and chart div and svg
      */
-    ! function prepareSettings() {
+    !function prepareSettings() {
         //Set base settings
         chart.margin = chart.settings.margin;
         chart.divWidth = chart.settings.chartSize.width;
@@ -3943,8 +3926,7 @@ function makeDistroCrabsChart(settings) {
             chart.yScale = d3.scale.log();
             chart.yFormatter = logFormatNumber;
         } else {
-            chart.yScale =  d3.time.scale(); 
-            // d3.scale.linear();
+            chart.yScale = d3.scale.linear();
         }
 
         if (chart.settings.constrainExtremes === true) {
@@ -3956,33 +3938,25 @@ function makeDistroCrabsChart(settings) {
             chart.range = d3.extent(fences);
 
         } else {
-            chart.range = d3.extent(chart.data, function(d) { return d[chart.settings.yName]; });
+            chart.range = d3.extent(chart.data, function (d) {return d[chart.settings.yName];});
         }
 
         chart.colorFunct = getColorFunct(chart.settings.colors);
 
         // Build Scale functions
-         chart.settings.data.forEach(element => {
-            element.carabsTime = new Date(element.carabsTime)
-         });
-
-        var minDate = chart.settings.data[0].carabsTime;
-        var maxDate = chart.settings.data[chart.settings.data.length - 1].carabsTime; 
-
-        
-        chart.yScale.domain([minDate, maxDate]).range([chart.height, 0]);
-
-        // chart.yScale.range([chart.height, 0]).domain(chart.range).nice().clamp(true);
+        chart.yScale.range([chart.height, 0]).domain(chart.range).nice().clamp(true);
         chart.xScale = d3.scale.ordinal().domain(Object.keys(chart.groupObjs)).rangeBands([0, chart.width]);
 
         //Build Axes Functions
         chart.objs.yAxis = d3.svg.axis()
             .scale(chart.yScale)
             .orient("left")
-            .tickFormat(d3.time.format("%m-%d-%y"))
+            .tickFormat(chart.yFormatter)
             .outerTickSize(0)
             .innerTickSize(-chart.width + (chart.margin.right + chart.margin.left));
-        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks() * chart.settings.yTicks);
+            console.log('chart.objs.yAxis.ticks(),chart.settings.yTicks')
+            console.log(chart.objs.yAxis.ticks(),chart.settings.yTicks)
+        chart.objs.yAxis.ticks(chart.objs.yAxis.ticks()*chart.settings.yTicks);
         chart.objs.xAxis = d3.svg.axis().scale(chart.xScale).orient("bottom").tickSize(5);
     }();
 
@@ -3990,7 +3964,7 @@ function makeDistroCrabsChart(settings) {
      * Updates the chart based on the current settings and window size
      * @returns {*}
      */
-    chart.update = function() {
+    chart.update = function () {
         // Update chart size based on view port size
         chart.width = parseInt(chart.objs.chartDiv.style("width"), 10) - (chart.margin.left + chart.margin.right);
         chart.height = parseInt(chart.objs.chartDiv.style("height"), 10) - (chart.margin.top + chart.margin.bottom);
@@ -4006,18 +3980,15 @@ function makeDistroCrabsChart(settings) {
             chart.yScale.domain(chart.range).nice().clamp(true);
         }
 
-
         //Update axes
         chart.objs.g.select('.x.axis').attr("transform", "translate(0," + chart.height + ")").call(chart.objs.xAxis)
             .selectAll("text")
-            .attr("y", 10)
-            .attr("x", 25)
-            // .attr("transform", "rotate(-45)")
+            .attr("y", 5)
+            .attr("x", -5)
+            .attr("transform", "rotate(-45)")
             .style("text-anchor", "end");
         chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
         chart.objs.g.select('.y.axis').call(chart.objs.yAxis.innerTickSize(-chart.width));
-        chart.objs.g.select('.y.axis').selectAll("text").attr("transform", "rotate(-45)");
-        chart.objs.g.select('.y.axis').selectAll("text").style("font-size", 10);
         chart.objs.g.select('.y.axis .label').attr("x", -chart.height / 2);
         chart.objs.chartDiv.select('svg').attr("width", chart.width + (chart.margin.left + chart.margin.right)).attr("height", chart.height + (chart.margin.top + chart.margin.bottom));
 
@@ -4027,15 +3998,14 @@ function makeDistroCrabsChart(settings) {
     /**
      * Prepare the chart html elements
      */
-    ! function prepareChart() {
-
+    !function prepareChart() {
         // Build main div and chart div
         chart.objs.mainDiv = d3.select(chart.settings.selector)
             .style("max-width", chart.divWidth + "px");
         // Add all the divs to make it centered and responsive
         chart.objs.mainDiv.append("div")
             .attr("class", "inner-wrapper")
-            // .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
+            .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
             .append("div").attr("class", "outer-box")
             .append("div").attr("class", "inner-box");
         // Capture the inner div for the chart (where the chart actually is)
@@ -4055,8 +4025,13 @@ function makeDistroCrabsChart(settings) {
         chart.objs.axes = chart.objs.g.append("g").attr("class", "axis");
         chart.objs.axes.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + chart.height - 60 + ")")
-            .call(chart.objs.xAxis);
+            .attr("transform", "translate(0," + chart.height + ")")
+            .call(chart.objs.xAxis); 
+            if(chart.yAxisLable === 1 || chart.yAxisLable === 2 || chart.yAxisLable === 3){
+
+            } else {
+                chart.yAxisLable = ' ' ;
+            }
         chart.objs.axes.append("g")
             .attr("class", "y axis")
             .call(chart.objs.yAxis)
@@ -4071,80 +4046,16 @@ function makeDistroCrabsChart(settings) {
 
         // Create tooltip div
         chart.objs.tooltip = chart.objs.mainDiv.append('div').attr('class', 'tooltip');
-        d3.selectAll('.tooltip').style('display', 'none');
         for (var cName in chart.groupObjs) {
-
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
-            chart.groupObjs[cName].g.on("mouseover", function(e) {
-
-
-                    var eatingTime = d3.event.target.getAttribute("eating-time");
-                    var carbsType = d3.event.target.getAttribute("carb-type");
-                    var carbsItem = d3.event.target.getAttribute("carb-item");
-
-                    var date = new Date(eatingTime);
-
-                    var day = date.getDay();
-
-                    var month = date.getMonth() + 1;
-                    var year = date.getFullYear();
-                    var hours = date.getHours();
-                    var minutes = date.getMinutes();
-                    var seconds = date.getSeconds();
-
-                    if (day < 10) {
-                        day = '0'+ day;
-                    }
-
-                    if (month < 10) {
-                        month = '0' + month;
-                    }
-
-                    if ( Number(hours) < 10) {
-                        hours = '0' + hours;
-                    }
-
-                    if ( Number(minutes) < 10 ) {
-                        minutes = '0' + minutes;
-                    }
-
-                    if ( Number(seconds) < 10 ) {
-                        seconds = '0' + seconds;
-                    }
-
-                    var tooltipHTML = ` <strong>Food Eaten: ${carbsItem}</strong><br>
-                                       <strong>Carb Type: ${carbsType}</strong><br>
-                                       <strong>Eating Time: ${day}-${month}-${year} (${hours}:${minutes}:${seconds})</strong>`;
-
-                    chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
-                    chart.objs.tooltip.transition().duration(200).style("opacity", 0.7);
-                    chart.objs.tooltip.style("background-color", "#FFFFFF");
-                    chart.objs.tooltip.style("width", "30%");
-
-                    if (window.matchMedia( "(max-width: 767px)" )['matches']) {
-
-                        chart.objs.tooltip
-                        .style("display", null)
-                        
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY  - 910) + "px");
-
-                    } else {
-
-                        chart.objs.tooltip
-                        .style("display", null)
-                        
-                        .style("left", (d3.event.pageX  - 5) + "px")
-                        .style("top", (d3.event.pageY  - 550) + "px");
-
-                    }
-
-
-
-
-                }).on("mouseout", function() {
-                    chart.objs.tooltip.style("display", "none");
-                })
+            chart.groupObjs[cName].g.on("mouseover", function () {
+                chart.objs.tooltip
+                    .style("display", null)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            }).on("mouseout", function () {
+                chart.objs.tooltip.style("display", "none");
+            }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
         }
         chart.update();
     }();
@@ -4164,7 +4075,7 @@ function makeDistroCrabsChart(settings) {
      * @param [options.colors=chart default] The color mapping for the violin plot
      * @returns {*} The chart object
      */
-    chart.renderViolinPlot = function(options) {
+    chart.renderViolinPlot = function (options) {
         chart.violinPlots = {};
 
         var defaultOptions = {
@@ -4194,7 +4105,7 @@ function makeDistroCrabsChart(settings) {
          * Take a new set of options and redraw the violin
          * @param updateOptions
          */
-        chart.violinPlots.change = function(updateOptions) {
+        chart.violinPlots.change = function (updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     vOpts[key] = updateOptions[key]
@@ -4209,30 +4120,30 @@ function makeDistroCrabsChart(settings) {
             chart.violinPlots.update();
         };
 
-        chart.violinPlots.reset = function() {
+        chart.violinPlots.reset = function () {
             chart.violinPlots.change(defaultOptions)
         };
-        chart.violinPlots.show = function(opts) {
+        chart.violinPlots.show = function (opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = { show: true };
+                opts = {show: true};
             }
             chart.violinPlots.change(opts);
 
         };
 
-        chart.violinPlots.hide = function(opts) {
+        chart.violinPlots.hide = function (opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.violinPlots.reset()
                 }
             } else {
-                opts = { show: false };
+                opts = {show: false};
             }
             chart.violinPlots.change(opts);
 
@@ -4241,7 +4152,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Update the violin obj values
          */
-        chart.violinPlots.update = function() {
+        chart.violinPlots.update = function () {
             var cName, cViolinPlot;
 
             for (cName in chart.groupObjs) {
@@ -4261,15 +4172,15 @@ function makeDistroCrabsChart(settings) {
                 if (vOpts.clamp == 0 || vOpts.clamp == -1) { //
                     // When clamp is 0, calculate the min and max that is needed to bring the violin plot to a point
                     // interpolateMax = the Minimum value greater than the max where y = 0
-                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function(d) {
+                    interpolateMax = d3.min(cViolinPlot.kdedata.filter(function (d) {
                         return (d.x > chart.groupObjs[cName].metrics.max && d.y == 0)
-                    }), function(d) {
+                    }), function (d) {
                         return d.x;
                     });
                     // interpolateMin = the Maximum value less than the min where y = 0
-                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function(d) {
+                    interpolateMin = d3.max(cViolinPlot.kdedata.filter(function (d) {
                         return (d.x < chart.groupObjs[cName].metrics.min && d.y == 0)
-                    }), function(d) {
+                    }), function (d) {
                         return d.x;
                     });
                     // If clamp is -1 we need to extend the axises so that the violins come to a point
@@ -4289,7 +4200,7 @@ function makeDistroCrabsChart(settings) {
                         if (!interpolateMin) {
                             var interMinY = kdeTester(chart.groupObjs[cName].metrics.min);
                             var interMinX = chart.groupObjs[cName].metrics.min;
-                            var count = 25; // Arbitrary limit to make sure we don't get an infinite loop
+                            var count = 25;  // Arbitrary limit to make sure we don't get an infinite loop
                             while (count > 0 && interMinY != 0) {
                                 interMinY = kdeTester(interMinX);
                                 interMinX -= 1;
@@ -4323,10 +4234,10 @@ function makeDistroCrabsChart(settings) {
                 }
 
                 cViolinPlot.kdedata = cViolinPlot.kdedata
-                    .filter(function(d) {
+                    .filter(function (d) {
                         return (!interpolateMin || d.x >= interpolateMin)
                     })
-                    .filter(function(d) {
+                    .filter(function (d) {
                         return (!interpolateMax || d.x <= interpolateMax)
                     });
             }
@@ -4339,19 +4250,19 @@ function makeDistroCrabsChart(settings) {
 
                 var yVScale = d3.scale.linear()
                     .range([width, 0])
-                    .domain([0, d3.max(cViolinPlot.kdedata, function(d) { return d.y; })])
+                    .domain([0, d3.max(cViolinPlot.kdedata, function (d) {return d.y;})])
                     .clamp(true);
 
                 var area = d3.svg.area()
                     .interpolate(vOpts.interpolation)
-                    .x(function(d) { return xVScale(d.x); })
+                    .x(function (d) {return xVScale(d.x);})
                     .y0(width)
-                    .y1(function(d) { return yVScale(d.y); });
+                    .y1(function (d) {return yVScale(d.y);});
 
                 var line = d3.svg.line()
                     .interpolate(vOpts.interpolation)
-                    .x(function(d) { return xVScale(d.x); })
-                    .y(function(d) { return yVScale(d.y) });
+                    .x(function (d) {return xVScale(d.x);})
+                    .y(function (d) {return yVScale(d.y)});
 
                 if (cViolinPlot.objs.left.area) {
                     cViolinPlot.objs.left.area
@@ -4378,7 +4289,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Create the svg elements for the violin plot
          */
-        chart.violinPlots.prepareViolin = function() {
+        chart.violinPlots.prepareViolin = function () {
             var cName, cViolinPlot;
 
             if (vOpts.colors) {
@@ -4387,14 +4298,14 @@ function makeDistroCrabsChart(settings) {
                 chart.violinPlots.color = chart.colorFunct
             }
 
-            if (vOpts.show == false) { return }
+            if (vOpts.show == false) {return}
 
             for (cName in chart.groupObjs) {
                 cViolinPlot = chart.groupObjs[cName].violin;
 
                 cViolinPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "violin-plot");
-                cViolinPlot.objs.left = { area: null, line: null, g: null };
-                cViolinPlot.objs.right = { area: null, line: null, g: null };
+                cViolinPlot.objs.left = {area: null, line: null, g: null};
+                cViolinPlot.objs.right = {area: null, line: null, g: null};
 
                 cViolinPlot.objs.left.g = cViolinPlot.objs.g.append("g");
                 cViolinPlot.objs.right.g = cViolinPlot.objs.g.append("g");
@@ -4425,15 +4336,15 @@ function makeDistroCrabsChart(settings) {
 
 
         function kernelDensityEstimator(kernel, x) {
-            return function(sample) {
-                return x.map(function(x) {
-                    return { x: x, y: d3.mean(sample, function(v) { return kernel(x - v); }) };
+            return function (sample) {
+                return x.map(function (x) {
+                    return {x:x, y:d3.mean(sample, function (v) {return kernel(x - v);})};
                 });
             };
         }
 
         function eKernel(scale) {
-            return function(u) {
+            return function (u) {
                 return Math.abs(u /= scale) <= 1 ? .75 * (1 - u * u) / scale : 0;
             };
         }
@@ -4441,8 +4352,8 @@ function makeDistroCrabsChart(settings) {
         // Used to find the roots for adjusting violin axis
         // Given an array, find the value for a single point, even if it is not in the domain
         function eKernelTest(kernel, array) {
-            return function(testX) {
-                return d3.mean(array, function(v) { return kernel(testX - v); })
+            return function (testX) {
+                return d3.mean(array, function (v) {return kernel(testX - v);})
             }
         }
 
@@ -4470,7 +4381,7 @@ function makeDistroCrabsChart(settings) {
      * @param [options.colors=chart default] The color mapping for the box plot
      * @returns {*} The chart object
      */
-    chart.renderBoxPlot = function(options) {
+    chart.renderBoxPlot = function (options) {
         chart.boxPlots = {};
 
         // Defaults
@@ -4504,7 +4415,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Calculates all the outlier points for each group
          */
-        ! function calcAllOutliers() {
+        !function calcAllOutliers() {
 
             /**
              * Create lists of the outliers for each content group
@@ -4516,7 +4427,7 @@ function makeDistroCrabsChart(settings) {
                 var cOutliers = [];
                 var cOut, idx;
                 for (idx = 0; idx <= cGroup.values.length; idx++) {
-                    cOut = { value: cGroup.values[idx] };
+                    cOut = {value: cGroup.values[idx]};
 
                     if (cOut.value < cGroup.metrics.lowerInnerFence) {
                         if (cOut.value < cGroup.metrics.lowerOuterFence) {
@@ -4545,7 +4456,7 @@ function makeDistroCrabsChart(settings) {
          * Take updated options and redraw the box plot
          * @param updateOptions
          */
-        chart.boxPlots.change = function(updateOptions) {
+        chart.boxPlots.change = function (updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     bOpts[key] = updateOptions[key]
@@ -4559,29 +4470,29 @@ function makeDistroCrabsChart(settings) {
             chart.boxPlots.update()
         };
 
-        chart.boxPlots.reset = function() {
+        chart.boxPlots.reset = function () {
             chart.boxPlots.change(defaultOptions)
         };
-        chart.boxPlots.show = function(opts) {
+        chart.boxPlots.show = function (opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = { show: true };
+                opts = {show: true};
             }
             chart.boxPlots.change(opts)
 
         };
-        chart.boxPlots.hide = function(opts) {
+        chart.boxPlots.hide = function (opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.boxPlots.reset()
                 }
             } else {
-                opts = { show: false };
+                opts = {show: false};
             }
             chart.boxPlots.change(opts)
         };
@@ -4589,7 +4500,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Update the box plot obj values
          */
-        chart.boxPlots.update = function() {
+        chart.boxPlots.update = function () {
             var cName, cBoxPlot;
 
             for (cName in chart.groupObjs) {
@@ -4695,7 +4606,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Create the svg elements for the box plot
          */
-        chart.boxPlots.prepareBoxPlot = function() {
+        chart.boxPlots.prepareBoxPlot = function () {
             var cName, cBoxPlot;
 
             if (bOpts.colors) {
@@ -4715,212 +4626,53 @@ function makeDistroCrabsChart(settings) {
 
                 //Plot Box (default show)
                 if (bOpts.showBox) {
-
-                    if (cName === "Before Meal") {
-
-                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
-                        .attr("class", "box")
-                        .style("fill", "#1f77b4")
-                        .style("stroke", "#1f77b4");
-
-                    } else if (cName === "After Meal") {
-
-                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
-                        .attr("class", "box")
-                        .style("fill", "#ffcc9f")
-                        .style("stroke", "#ffcc9f");
-
-                    } else if (cName === "Any other time") {
-
-                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
-                        .attr("class", "box")
-                        .style("fill", "#abd9ab")
-                        .style("stroke", "#abd9ab");
-
-                    } else {
-
-                        cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
+                    cBoxPlot.objs.box = cBoxPlot.objs.g.append("rect")
                         .attr("class", "box")
                         .style("fill", chart.boxPlots.colorFunct(cName))
                         .style("stroke", chart.boxPlots.colorFunct(cName));
-
-                    }
-
                     //A stroke is added to the box with the group color, it is
                     // hidden by default and can be shown through css with stroke-width
                 }
 
                 //Plot Median (default show)
                 if (bOpts.showMedian) {
-
-                    if (cName === "Before Meal") {
-
-                        cBoxPlot.objs.median = { line: null, circle: null };
-                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "median");
-                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "median")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#1f77b4");
-
-                    } else if (cName === "After Meal") {
-
-                        cBoxPlot.objs.median = { line: null, circle: null };
-                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "median");
-                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "median")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#ffcc9f");
-
-                    } else if (cName === "Any other time") {
-
-                        cBoxPlot.objs.median = { line: null, circle: null };
-                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "median");
-                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "median")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#abd9ab");
-
-                    } else {
-
-                        cBoxPlot.objs.median = { line: null, circle: null };
-                        cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "median");
-                        cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "median")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", chart.boxPlots.colorFunct(cName));
-
-                    }
-
-
+                    cBoxPlot.objs.median = {line: null, circle: null};
+                    cBoxPlot.objs.median.line = cBoxPlot.objs.g.append("line")
+                        .attr("class", "median");
+                    cBoxPlot.objs.median.circle = cBoxPlot.objs.g.append("circle")
+                        .attr("class", "median")
+                        .attr('r', bOpts.medianCSize)
+                        .style("fill", chart.boxPlots.colorFunct(cName));
                 }
 
                 // Plot Mean (default no plot)
                 if (bOpts.showMean) {
-
-                    if (cName === "Before Meal") {
-
-                        cBoxPlot.objs.mean = { line: null, circle: null };
-                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "mean");
-                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "mean")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#1f77b4");
-
-                    } else if (cName === "After Meal") {
-
-                        cBoxPlot.objs.mean = { line: null, circle: null };
-                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "mean");
-                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "mean")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#ffcc9f");
-
-                    } else if (cName === "Any other time") {
-
-                        cBoxPlot.objs.mean = { line: null, circle: null };
-                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "mean");
-                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "mean")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", "#abd9ab");
-                    } else {
-                        cBoxPlot.objs.mean = { line: null, circle: null };
-                        cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "mean");
-                        cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
-                            .attr("class", "mean")
-                            .attr('r', bOpts.medianCSize)
-                            .style("fill", chart.boxPlots.colorFunct(cName));
-                    }
-
-
+                    cBoxPlot.objs.mean = {line: null, circle: null};
+                    cBoxPlot.objs.mean.line = cBoxPlot.objs.g.append("line")
+                        .attr("class", "mean");
+                    cBoxPlot.objs.mean.circle = cBoxPlot.objs.g.append("circle")
+                        .attr("class", "mean")
+                        .attr('r', bOpts.medianCSize)
+                        .style("fill", chart.boxPlots.colorFunct(cName));
                 }
 
                 // Plot Whiskers (default show)
                 if (bOpts.showWhiskers) {
+                    cBoxPlot.objs.upperWhisker = {fence: null, line: null};
+                    cBoxPlot.objs.lowerWhisker = {fence: null, line: null};
+                    cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
+                        .attr("class", "upper whisker")
+                        .style("stroke", chart.boxPlots.colorFunct(cName));
+                    cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
+                        .attr("class", "upper whisker")
+                        .style("stroke", chart.boxPlots.colorFunct(cName));
 
-                    if (cName === "Before Meal") {
-
-                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#1f77b4");
-                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#1f77b4");
-    
-                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#1f77b4");
-                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#1f77b4");
-
-                    } else if (cName === "After Meal") {
-
-                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#ffcc9f");
-                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#ffcc9f");
-    
-                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#ffcc9f");
-                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#ffcc9f");
-
-                    } else if (cName === "Any other time") {
-
-                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#abd9ab");
-                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", "#abd9ab");
-    
-                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#abd9ab");
-                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", "#abd9ab");
-
-                    } else {
-
-                        cBoxPlot.objs.upperWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.lowerWhisker = { fence: null, line: null };
-                        cBoxPlot.objs.upperWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", chart.boxPlots.colorFunct(cName));
-                        cBoxPlot.objs.upperWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "upper whisker")
-                            .style("stroke", chart.boxPlots.colorFunct(cName));
-    
-                        cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", chart.boxPlots.colorFunct(cName));
-                        cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
-                            .attr("class", "lower whisker")
-                            .style("stroke", chart.boxPlots.colorFunct(cName));
-
-                    }
-
-
+                    cBoxPlot.objs.lowerWhisker.fence = cBoxPlot.objs.g.append("line")
+                        .attr("class", "lower whisker")
+                        .style("stroke", chart.boxPlots.colorFunct(cName));
+                    cBoxPlot.objs.lowerWhisker.line = cBoxPlot.objs.g.append("line")
+                        .attr("class", "lower whisker")
+                        .style("stroke", chart.boxPlots.colorFunct(cName));
                 }
 
                 // Plot outliers (default show)
@@ -4930,74 +4682,20 @@ function makeDistroCrabsChart(settings) {
                     if (cBoxPlot.objs.outliers.length) {
                         var outDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot outliers");
                         for (pt in cBoxPlot.objs.outliers) {
-
-                            if (cName === "Before Meal") {
-
-                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
-                                .attr("class", "outlier")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("fill", "#1f77b4");
-
-                            } else if (cName === "After Meal") {
-
-                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
-                                .attr("class", "outlier")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("fill", "#ffcc9f");
-
-                            } else if (cName === "Any other time") {
-
-                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
-                                .attr("class", "outlier")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("fill", "#abd9ab");
-
-                            } else {
-
-                                cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
+                            cBoxPlot.objs.outliers[pt].point = outDiv.append("circle")
                                 .attr("class", "outlier")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("fill", chart.boxPlots.colorFunct(cName));
-
-                            }
-
-
                         }
                     }
 
                     if (cBoxPlot.objs.extremes.length) {
                         var extDiv = cBoxPlot.objs.g.append("g").attr("class", "boxplot extremes");
                         for (pt in cBoxPlot.objs.extremes) {
-
-                            if (cName === "Before Meal") {
-
-                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
-                                .attr("class", "extreme")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("stroke", "#1f77b4");
-
-                            } else if (cName === "After Meal") {
-
-                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
-                                .attr("class", "extreme")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("stroke", "#ffcc9f");
-
-                            } else if (cName === "Any other time") {
-
-                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
-                                .attr("class", "extreme")
-                                .attr('r', bOpts.outlierCSize)
-                                .style("stroke", "#abd9ab");
-
-                            } else {
-                                cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
+                            cBoxPlot.objs.extremes[pt].point = extDiv.append("circle")
                                 .attr("class", "extreme")
                                 .attr('r', bOpts.outlierCSize)
                                 .style("stroke", chart.boxPlots.colorFunct(cName));
-                            }
-
-
                         }
                     }
                 }
@@ -5026,7 +4724,7 @@ function makeDistroCrabsChart(settings) {
      * @param [options.colors=chart default] The color mapping for the notch boxes
      * @returns {*} The chart object
      */
-    chart.renderNotchBoxes = function(options) {
+    chart.renderNotchBoxes = function (options) {
         chart.notchBoxes = {};
 
         //Defaults
@@ -5091,7 +4789,7 @@ function makeDistroCrabsChart(settings) {
                     [notchBounds.boxRight, chart.yScale(cNotch.metrics.quartile1)]
                 ];
             }
-            return scaledValues.map(function(d) {
+            return scaledValues.map(function (d) {
                 return [d[0], d[1]].join(",");
             }).join(" ");
         }
@@ -5099,7 +4797,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Calculate the confidence intervals
          */
-        ! function calcNotches() {
+        !function calcNotches() {
             var cNotch, modifier;
             for (var cName in chart.groupObjs) {
                 cNotch = chart.groupObjs[cName];
@@ -5113,7 +4811,7 @@ function makeDistroCrabsChart(settings) {
          * Take a new set of options and redraw the notch boxes
          * @param updateOptions
          */
-        chart.notchBoxes.change = function(updateOptions) {
+        chart.notchBoxes.change = function (updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     nOpts[key] = updateOptions[key]
@@ -5127,28 +4825,28 @@ function makeDistroCrabsChart(settings) {
             chart.notchBoxes.update();
         };
 
-        chart.notchBoxes.reset = function() {
+        chart.notchBoxes.reset = function () {
             chart.notchBoxes.change(defaultOptions)
         };
-        chart.notchBoxes.show = function(opts) {
+        chart.notchBoxes.show = function (opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = { show: true };
+                opts = {show: true};
             }
             chart.notchBoxes.change(opts)
         };
-        chart.notchBoxes.hide = function(opts) {
+        chart.notchBoxes.hide = function (opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.notchBoxes.reset()
                 }
             } else {
-                opts = { show: false };
+                opts = {show: false};
             }
             chart.notchBoxes.change(opts)
         };
@@ -5156,7 +4854,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Update the notch box obj values
          */
-        chart.notchBoxes.update = function() {
+        chart.notchBoxes.update = function () {
             var cName, cGroup;
 
             for (cName in chart.groupObjs) {
@@ -5208,7 +4906,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Create the svg elements for the notch boxes
          */
-        chart.notchBoxes.prepareNotchBoxes = function() {
+        chart.notchBoxes.prepareNotchBoxes = function () {
             var cName, cNotch;
 
             if (nOpts && nOpts.colors) {
@@ -5269,7 +4967,7 @@ function makeDistroCrabsChart(settings) {
      * @returns {*} The chart object
      *
      */
-    chart.renderDataPlots = function(options) {
+    chart.renderDataPlots = function (options) {
         chart.dataPlots = {};
 
 
@@ -5279,7 +4977,7 @@ function makeDistroCrabsChart(settings) {
             showPlot: false,
             plotType: 'none',
             pointSize: 6,
-            showLines: false, //['median'],
+            showLines: false,//['median'],
             showBeanLines: false,
             beanWidth: 20,
             colors: null
@@ -5302,7 +5000,7 @@ function makeDistroCrabsChart(settings) {
          * Take updated options and redraw the data plots
          * @param updateOptions
          */
-        chart.dataPlots.change = function(updateOptions) {
+        chart.dataPlots.change = function (updateOptions) {
             if (updateOptions) {
                 for (var key in updateOptions) {
                     dOpts[key] = updateOptions[key]
@@ -5317,28 +5015,28 @@ function makeDistroCrabsChart(settings) {
             chart.dataPlots.update()
         };
 
-        chart.dataPlots.reset = function() {
+        chart.dataPlots.reset = function () {
             chart.dataPlots.change(defaultOptions)
         };
-        chart.dataPlots.show = function(opts) {
+        chart.dataPlots.show = function (opts) {
             if (opts !== undefined) {
                 opts.show = true;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = { show: true };
+                opts = {show: true};
             }
             chart.dataPlots.change(opts)
         };
-        chart.dataPlots.hide = function(opts) {
+        chart.dataPlots.hide = function (opts) {
             if (opts !== undefined) {
                 opts.show = false;
                 if (opts.reset) {
                     chart.dataPlots.reset()
                 }
             } else {
-                opts = { show: false };
+                opts = {show: false};
             }
             chart.dataPlots.change(opts)
         };
@@ -5346,7 +5044,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Update the data plot obj values
          */
-        chart.dataPlots.update = function() {
+        chart.dataPlots.update = function () {
             var cName, cGroup, cPlot;
 
             // Metrics lines
@@ -5354,7 +5052,7 @@ function makeDistroCrabsChart(settings) {
                 var halfBand = chart.xScale.rangeBand() / 2; // find the middle of each band
                 for (var cMetric in chart.dataPlots.objs.lines) {
                     chart.dataPlots.objs.lines[cMetric].line
-                        .x(function(d) {
+                        .x(function (d) {
                             return chart.xScale(d.x) + halfBand
                         });
                     chart.dataPlots.objs.lines[cMetric].g
@@ -5411,9 +5109,14 @@ function makeDistroCrabsChart(settings) {
                         width = plotBounds.right - plotBounds.left;
 
                         for (var pt = 0; pt < cGroup.values.length; pt++) {
+                            console.log("cGroup.values[pt]")
+                            console.log(cGroup.values[pt])
+                            if(cGroup.values[pt]){
+                                
                             cPlot.objs.points.pts[pt]
                                 .attr("cx", plotBounds.middle + addJitter(true, width))
                                 .attr("cy", chart.yScale(cGroup.values[pt]));
+                            }
                         }
                     }
                 }
@@ -5435,7 +5138,7 @@ function makeDistroCrabsChart(settings) {
         /**
          * Create the svg elements for the data plots
          */
-        chart.dataPlots.preparePlots = function() {
+        chart.dataPlots.preparePlots = function () {
             var cName, cPlot;
 
             if (dOpts && dOpts.colors) {
@@ -5465,7 +5168,7 @@ function makeDistroCrabsChart(settings) {
                     }
                     chart.dataPlots.objs.lines[cMetric].line = d3.svg.line()
                         .interpolate("cardinal")
-                        .y(function(d) {
+                        .y(function (d) {
                             return chart.yScale(d.y)
                         });
                     chart.dataPlots.objs.lines[cMetric].g = chart.dataPlots.objs.g.append("path")
@@ -5485,15 +5188,18 @@ function makeDistroCrabsChart(settings) {
 
                 // Points Plot
                 if (dOpts.showPlot) {
-                    cPlot.objs.points = { g: null, pts: [] };
-                    cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot this");
+                    cPlot.objs.points = {g: null, pts: []};
+                    cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
-                        let data = chart.groupObjs[cName].values[pt];
-                        let carbsItem = chart.groupObjs[cName].carbsValues[pt].carbsItem;
-                        let carbsType = chart.groupObjs[cName].carbsValues[pt].carbsType;
+                        console.log('chart.groupObjs[cName]');
+                        console.log(chart.groupObjs[cName]);
+                        console.log(cName);
+                        let data = ''//chart.groupObjs[cName].values[pt];
+                        let carbsItem = ''//chart.groupObjs[cName].carbsValues[pt].carbsItem;
+                        let carbsType = ''//chart.groupObjs[cName].carbsValues[pt].carbsType;
 
 
-                        if (cName === "Proteins") {
+                        if (chart.groupObjs[cName].values[0] === "2") {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -5503,7 +5209,7 @@ function makeDistroCrabsChart(settings) {
                             .attr('r', dOpts.pointSize / 2)
                             .style("fill", "#ff7f0e"));
 
-                        } else if (cName === "Fibers") {
+                        } else if (chart.groupObjs[cName].values[0] === "3") {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -5513,7 +5219,7 @@ function makeDistroCrabsChart(settings) {
                             .attr('r', dOpts.pointSize / 2)
                             .style("fill", "#2ca02c"));
 
-                        } else if (cName === "Carbohydrates") {
+                        } else if (chart.groupObjs[cName].values[0] === "1") {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -5534,12 +5240,17 @@ function makeDistroCrabsChart(settings) {
                             .style("fill", chart.dataPlots.colorFunct(cName)));
 
                         }
-
+                        // cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
+                        //     .attr("class", "point")
+                        //     .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
+                        //     .style("fill", chart.dataPlots.colorFunct(cName)));
                     }
                 }
+
+
                 // Bean lines
                 if (dOpts.showBeanLines) {
-                    cPlot.objs.bean = { g: null, lines: [] };
+                    cPlot.objs.bean = {g: null, lines: []};
                     cPlot.objs.bean.g = cPlot.objs.g.append("g").attr("class", "bean-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
                         cPlot.objs.bean.lines.push(cPlot.objs.bean.g.append("line")
@@ -5552,6 +5263,7 @@ function makeDistroCrabsChart(settings) {
 
         };
         chart.dataPlots.preparePlots();
+
         d3.select(window).on('resize.' + chart.selector + '.dataPlot', chart.dataPlots.update);
         chart.dataPlots.update();
         return chart;

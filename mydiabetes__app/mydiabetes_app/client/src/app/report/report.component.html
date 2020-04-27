@@ -155,6 +155,11 @@
       <div class="col-sm-6">
         <div class="text-center" [hidden]="!showCarbs">
           <dl><b>Carbs Chart</b></dl>
+          <div class="custom-control custom-checkbox" style="display: inline-block;">
+                    <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')" />
+                    <label class="custom-control-label" for="carbohydrates">Carbohydrates</label
+            >
+          </div>
           <div
             class="custom-control custom-checkbox"
             style="display: inline-block;"
@@ -172,11 +177,7 @@
                     <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')" />
                     <label class="custom-control-label" for="fibers">Fibers</label>
                 </div>
-                <div class="custom-control custom-checkbox" style="display: inline-block;">
-                    <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')" />
-                    <label class="custom-control-label" for="carbohydrates">Carbohydrates</label
-            >
-          </div>
+                
         </div>
         <div class="chart-wrap"
           style="width: 100%; margin: 0 auto;"
