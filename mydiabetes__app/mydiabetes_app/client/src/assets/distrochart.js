@@ -4049,13 +4049,71 @@ function makeDistroCrabsChart(settings) {
         for (var cName in chart.groupObjs) {
             chart.groupObjs[cName].g = chart.objs.g.append("g").attr("class", "group");
             chart.groupObjs[cName].g.on("mouseover", function () {
-                chart.objs.tooltip
+
+                var eatingTime = d3.event.target.getAttribute("eating-time");
+                var carbsType = d3.event.target.getAttribute("carb-type");
+                var carbsItem = d3.event.target.getAttribute("carb-item");
+
+                // var date = new Date(eatingTime);
+
+                // var day = date.getDay();
+
+                // var month = date.getMonth() + 1;
+                // var year = date.getFullYear();
+                // var hours = date.getHours();
+                // var minutes = date.getMinutes();
+                // var seconds = date.getSeconds();
+
+                // if (day < 10) {
+                //     day = '0'+ day;
+                // }
+
+                // if (month < 10) {
+                //     month = '0' + month;
+                // }
+
+                // if ( Number(hours) < 10) {
+                //     hours = '0' + hours;
+                // }
+
+                // if ( Number(minutes) < 10 ) {
+                //     minutes = '0' + minutes;
+                // }
+
+                // if ( Number(seconds) < 10 ) {
+                //     seconds = '0' + seconds;
+                // }
+
+                    var tooltipHTML = ` <strong>Food Eaten: ${carbsItem}</strong><br>
+                                       <strong>Carb Type: ${carbsType}</strong><br>
+                                       <strong>Eating Time: ${eatingTime}</strong>`;
+
+                chart.objs.tooltip[0][0].innerHTML =  tooltipHTML;
+
+                chart.objs.tooltip.transition().duration(200).style("opacity", 0.7);
+                chart.objs.tooltip.style("background-color", "#FFFFFF");
+                chart.objs.tooltip.style("width", "30%");
+
+                if (window.matchMedia( "(max-width: 767px)" )['matches']) {
+
+                    chart.objs.tooltip
                     .style("display", null)
+                    
                     .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
+                    .style("top", (d3.event.pageY  - 910) + "px");
+
+                } else {
+
+                    chart.objs.tooltip
+                    .style("display", null)
+                    
+                    .style("left", (d3.event.pageX  - 5) + "px")
+                    .style("top", (d3.event.pageY  - 550) + "px");
+
+                }
             }).on("mouseout", function () {
                 chart.objs.tooltip.style("display", "none");
-            }).on("mousemove", tooltipHover(cName, chart.groupObjs[cName].metrics))
+            })
         }
         chart.update();
     }();
@@ -5109,8 +5167,6 @@ function makeDistroCrabsChart(settings) {
                         width = plotBounds.right - plotBounds.left;
 
                         for (var pt = 0; pt < cGroup.values.length; pt++) {
-                            console.log("cGroup.values[pt]")
-                            console.log(cGroup.values[pt])
                             if(cGroup.values[pt]){
                                 
                             cPlot.objs.points.pts[pt]
@@ -5191,12 +5247,18 @@ function makeDistroCrabsChart(settings) {
                     cPlot.objs.points = {g: null, pts: []};
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
-                        console.log('chart.groupObjs[cName]');
-                        console.log(chart.groupObjs[cName]);
-                        console.log(cName);
-                        let data = ''//chart.groupObjs[cName].values[pt];
-                        let carbsItem = ''//chart.groupObjs[cName].carbsValues[pt].carbsItem;
-                        let carbsType = ''//chart.groupObjs[cName].carbsValues[pt].carbsType;
+
+                        let data = chart.data[pt].carabsTime 
+                        let carbsItem = chart.data[pt].carbsItem;
+                        let carbsType = '';
+
+                        if (chart.data[pt].carbsType == "1") {
+                            carbsType = 'Carbohydrates';
+                        } else if (chart.data[pt].carbsType == "2") {
+                            carbsType = 'Proteins';
+                        } else if (chart.data[pt].carbsType == "3") {
+                            carbsType = 'Fibers';
+                        }
 
 
                         if (chart.groupObjs[cName].values[0] === "2") {
