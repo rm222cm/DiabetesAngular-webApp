@@ -670,6 +670,26 @@ export class ReportComponent implements OnInit {
       if (element.carbsType.includes('Protein')) {
         element.carbsType = element.carbsType + 's';
       }
+      element.carabsTime = new Date(element.carabsTime);
+      let formattedDate = '';
+      // element.carabsTime = `${element.carabsTime.getMonth() + 1}-${element.carabsTime.getDate()}-${element.carabsTime.getFullYear()}`;
+
+      if((element.carabsTime.getMonth() + 1) < 10) {
+        formattedDate += `0${element.carabsTime.getMonth() + 1}`;
+      } else {
+        formattedDate += `${element.carabsTime.getMonth() + 1}`;
+      }
+
+      if (element.carabsTime.getDate() < 10) {
+        formattedDate += `-0${element.carabsTime.getDate()}-`;
+      } else {
+        formattedDate += `-${element.carabsTime.getDate()}-`;
+      }
+
+      formattedDate += element.carabsTime.getFullYear();
+      element.carabsTime = formattedDate;
+
+
     });
 
     var chart3;
