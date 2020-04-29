@@ -35,6 +35,7 @@ export class InsulinComponent implements OnInit {
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
   latestGlucoseLevelUnits: string = '';
+  displayModal: boolean;
 
   insulinForm = this.fb.group({
     dosageType: ['', Validators.required],
