@@ -23,7 +23,7 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./carbs.component.scss']
 })
 export class CarbsComponent implements OnInit {
- 
+ carbsType:any=['1','2','3']
   //checboxes
   carbsCheckBoxGroup = {
     glucoseCheck : true,
@@ -31,7 +31,7 @@ export class CarbsComponent implements OnInit {
     activityCheck : true,
     carbsCheck : true
   }
-
+  displaymodel:boolean=false
   currentDate = new Date();
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
@@ -55,6 +55,9 @@ export class CarbsComponent implements OnInit {
   constructor(private service: CarbsService, private router: Router,private glucoseService: GlucoseService, private insulinService: InsulinDosagesService, private modalService: ModalDialogService, private viewRef: ViewContainerRef, private fb: FormBuilder,private translate: TranslateService) { }
 
   ngOnInit() {
+
+   
+    
    // this.loadChartData();
   }
   loadGraph(){
@@ -218,52 +221,63 @@ export class CarbsComponent implements OnInit {
   loadChartData() {
     console.log('start date', this.startDate)
     console.log('end date', this.endDate)
-    this.insulinService.getChartData({
-      startDate: this.startDate,
-      endDate: this.endDate
-    }).subscribe(res => {
-      console.log('res', res)
-      this.chartData = res['data']
-      // res['data']['insulinLabel'].forEach(elem => this.lableData.push(elem))
-      // res['data']['activityLabel'].forEach(elem => this.lableData.push(elem))
-      this.lableData = []
-      res['data']['insulin'].map(elem => {
-        elem.x = new Date(elem.x).getTime()
-        elem.meta = "Insulin"
-        return elem
-      })
-      res['data']['activity'].map(elem => {
-        elem.x = new Date(elem.x).getTime()
-        elem.meta = "Activity"
-        return elem
-      })
-      res['data']['carbs'].map(elem => {
-        elem.x = new Date(elem.x).getTime()
-        elem.meta = "Carbs"
-        return elem
-      })
-      res['data']['glucose'].map(elem => {
-        elem.x = new Date(elem.x).getTime()
-        elem.meta = "Glucose"
-        return elem
-      })
-
-
-      res['data']['insulinLabel'].forEach(elem => {
-        this.lableData.push(elem)
-      })
-      res['data']['activityLabel'].forEach(elem => {
-        this.lableData.push(elem)
-      })
-      res['data']['carbsLabel'].forEach(elem => {
-        this.lableData.push(elem)
-      })
-      res['data']['glucoseLabel'].forEach(elem => {
-        this.lableData.push(elem)
-      })
-      console.log('load chart data res', this.lableData)
-      this.loadChart();
+    const data = {
+      toDate: this.startDate,
+      fromDate: this.endDate,
+      carbsType: this.carbsType
+    };
+    this.insulinService.getCarbsReportData(data).subscribe((res: any) => {
+      console.log('Running the service ');
+      
+      console.log(res);
+      
     })
+    // this.insulinService.getChartData({
+    //   startDate: this.startDate,
+    //   endDate: this.endDate
+    // }).subscribe(res => {
+    //   console.log('res', res)
+    //   this.chartData = res['data']
+    //   // res['data']['insulinLabel'].forEach(elem => this.lableData.push(elem))
+    //   // res['data']['activityLabel'].forEach(elem => this.lableData.push(elem))
+    //   this.lableData = []
+    //   res['data']['insulin'].map(elem => {
+    //     elem.x = new Date(elem.x).getTime()
+    //     elem.meta = "Insulin"
+    //     return elem
+    //   })
+    //   res['data']['activity'].map(elem => {
+    //     elem.x = new Date(elem.x).getTime()
+    //     elem.meta = "Activity"
+    //     return elem
+    //   })
+    //   res['data']['carbs'].map(elem => {
+    //     elem.x = new Date(elem.x).getTime()
+    //     elem.meta = "Carbs"
+    //     return elem
+    //   })
+    //   res['data']['glucose'].map(elem => {
+    //     elem.x = new Date(elem.x).getTime()
+    //     elem.meta = "Glucose"
+    //     return elem
+    //   })
+
+
+    //   res['data']['insulinLabel'].forEach(elem => {
+    //     this.lableData.push(elem)
+    //   })
+    //   res['data']['activityLabel'].forEach(elem => {
+    //     this.lableData.push(elem)
+    //   })
+    //   res['data']['carbsLabel'].forEach(elem => {
+    //     this.lableData.push(elem)
+    //   })
+    //   res['data']['glucoseLabel'].forEach(elem => {
+    //     this.lableData.push(elem)
+    //   })
+    //   console.log('load chart data res', this.lableData)
+    //   this.loadChart();
+    // })
   }
 
 
