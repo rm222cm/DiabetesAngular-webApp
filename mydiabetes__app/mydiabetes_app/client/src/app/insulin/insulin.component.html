@@ -2,7 +2,6 @@
 <section class="">
   <div class="container-fluid">
     <div class="row shadow-none bg-white rounded formBodyOuter">
-      <!-- <div class="col-2"></div> -->
       <div class="form-body-inside">
         <div class="signup-content text-center">
           <div class="w-100 ">
@@ -82,7 +81,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'insulin.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable"  (click)="loadGraph()" />
+                  data-toggle="modal" data-target="#exampleModalScrollable"  (click)="displayModal = true;" />
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -92,7 +91,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="col-2"></div> -->
         <!-- Modal -->
         <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -105,54 +103,8 @@
                 </button>
               </div>
               <div class="modal-body" id="modal-body">
-                <div class="form-row">
-                  <div class="form-group col-md-3"></div>
-                  <div class="form-group col-md-3">
-                    <div class="input-group input-group-sm mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">{{ 'report.startdate' | translate }}</span>
-                      </div>
-                      <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
-                        [(ngModel)]="startDate" (change)="onDateChange($event.target.value)">
-                    </div>
-                  </div>
-                  <div class="form-group col-md-3">
-                    <div class="input-group input-group-sm mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">{{ 'report.enddate' | translate }}</span>
-                      </div>
-                      <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
-                        [(ngModel)]="endDate" (change)="onDateChange($event.target.value)">
-                    </div>
-                  </div>
-                  <div class="form-group col-md-3"></div>
-                </div>
-
                 <div class="container">
-                  <div id="chartist-chart" class="ct-chart " data-x-axis="Time" data-y-axis="Glucose Level"></div>
-                </div>
-              
-                <div class="row mb-1 mt-3 justify-content-center">
-                  <div class="custom-control custom-checkbox">
-                    <input [(ngModel)]="insulinCheckBoxGroup.insulinCheck" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck"
-                      (change)="onChecked($event.target.checked,'INSULIN')">
-                    <label class="custom-control-label" for="insulinCheck">{{ 'report.insulin' | translate }}</label>
-                  </div>
-                  <div class="custom-control custom-checkbox ml-3">
-                    <input [(ngModel)]="insulinCheckBoxGroup.activityCheck" type="checkbox" class="activitycustom custom-control-input" id="activityCheck"
-                      (change)="onChecked($event.target.checked,'ACTIVITY')">
-                    <label class="custom-control-label" for="activityCheck">{{ 'report.activity' | translate }}</label>
-                  </div>
-                  <div class="custom-control custom-checkbox ml-3">
-                    <input [(ngModel)]="insulinCheckBoxGroup.carbsCheck" type="checkbox" class="carbscustom custom-control-input" id="carbsCheck"
-                      (change)="onChecked($event.target.checked,'CARBS')">
-                    <label class="custom-control-label" for="carbsCheck">{{ 'report.carbs' | translate }}</label>
-                  </div>
-                  <div class="custom-control custom-checkbox ml-3">
-                    <input [(ngModel)]="insulinCheckBoxGroup.glucoseCheck" type="checkbox" class="glucosecustom custom-control-input" id="glucoseCheck"
-                      (change)="onChecked($event.target.checked,'Glucose')">
-                    <label class="custom-control-label" for="glucoseCheck">{{ 'report.glucose' | translate }}</label>
-                  </div>
+                  <app-insulin-modal *ngIf="displayModal"></app-insulin-modal>
                 </div>
               </div>
             </div>
