@@ -32,6 +32,7 @@ export class ActivityComponent implements OnInit {
     carbsCheck : true
   }
 
+  displayModal: boolean;
   currentDate = new Date();
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
