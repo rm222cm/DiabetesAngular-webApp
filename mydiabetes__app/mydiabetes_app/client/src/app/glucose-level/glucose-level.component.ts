@@ -467,3 +467,4 @@ export class GlucoseLevelComponent implements OnInit {
   }
 
 }
+
