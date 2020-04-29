@@ -26,6 +26,10 @@ import { DiabatesServicesComponent } from './diabates-services/diabates-services
 import { DiabetesGraphComponent } from './diabetes-graph/diabetes-graph.component';
 import { GlucoseLevelComponent } from './glucose-level/glucose-level.component';
 import { ReportComponent } from './report/report.component';
+import { InsulinModalComponent } from './insulin/insulin-modal/report.component';
+import { ActivityModalComponent } from './activity/activit-modal/report.component';
+import { CarbsModelComponent } from './carbs/carbsmodel/carbsmodel.component';
+import { GlucoseModalComponent } from './glucose-level/glucose-modal/report.component';
 import { CommonModule } from '@angular/common';
 
 // import ngx-translate and the http loader
@@ -58,7 +62,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiabetesGraphComponent,
     GlucoseLevelComponent,
     ReportComponent,
-    BarChartComponent
+    BarChartComponent,
+    InsulinModalComponent,
+    ActivityModalComponent,
+    CarbsModelComponent,
+    GlucoseModalComponent
   ],
   entryComponents: [DiabetesGraphComponent],
   imports: [
