@@ -1,8 +1,7 @@
-<!-- Activity form -->
-<section class="">
+<section>
   <div class="container-fluid">
     <div class="row shadow-none bg-white rounded formBodyOuter">
-      <!-- <div class="col-2"></div> -->
+
       <div class="form-body-inside">
         <div class="signup-content text-center">
           <div class=" w-100">
@@ -25,17 +24,6 @@
                   Required field
                 </div>
               </div>
-              <!-- <div class="form-group row">
-                <div class="col-4 mt-3">
-                  <label for="time"><i class="zmdi zmdi-time"></i> Duration</label>
-                </div>
-                <div class="col-8">
-                  <ngb-timepicker formControlName="activityDuration" name="activityDuration" required></ngb-timepicker>
-                </div>
-                <div class="col-2">
-
-                </div>
-              </div> -->
               <div class="form-row duration-row">
                 <div class="col-4">
                   <label for="time"><i class="zmdi zmdi-time"></i> {{ 'activity.duration' | translate }}</label>
@@ -159,7 +147,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'activity.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable2" (click)="loadGraph()"/>
+                  data-toggle="modal" data-target="#exampleModalScrollable2" (click)="displayModal = true"/>
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -176,59 +164,14 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <p class="modal-title" id="exampleModalScrollableTitle">Diabetes Chart</p>
+              <p class="modal-title" id="exampleModalScrollableTitle">Activity Chart</p>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body" id="modal-body2">
-              <div class="form-row">
-                <div class="form-group col-md-3"></div>
-                <div class="form-group col-md-3">
-                  <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">{{ 'report.startdate' | translate }}</span>
-                    </div>
-                    <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
-                      [(ngModel)]="startDate" (change)="onDateChange($event.target.value)">
-                  </div>
-                </div>
-                <div class="form-group col-md-3">
-                  <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">{{ 'report.enddate' | translate }}</span>
-                    </div>
-                    <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control"
-                      [(ngModel)]="endDate" (change)="onDateChange($event.target.value)">
-                  </div>
-                </div>
-                <div class="form-group col-md-3"></div>
-              </div>
               <div class="container">
-                <div id="chartist-chart1" class="ct-chart " data-x-axis="Time" data-y-axis="Glucose Level"></div>
-              </div>
-              
-                <div class="row mb-1 mt-3 justify-content-center">
-                <div class="custom-control custom-checkbox">
-                  <input [(ngModel)]="activityCheckBoxGroup.insulinCheck" type="checkbox" class="insulincustom custom-control-input" id="insulinCheck1"
-                    (change)="onChecked($event.target.checked,'INSULIN')">
-                  <label class="custom-control-label" for="insulinCheck1">{{ 'report.insulin' | translate }}</label>
-                </div>
-                <div class="custom-control custom-checkbox ml-3">
-                  <input [(ngModel)]="activityCheckBoxGroup.activityCheck" type="checkbox" class="activitycustom custom-control-input" id="activityCheck1"
-                    (change)="onChecked($event.target.checked,'ACTIVITY')">
-                  <label class="custom-control-label" for="activityCheck1">{{ 'report.activity' | translate }}</label>
-                </div>
-                <div class="custom-control custom-checkbox ml-3">
-                  <input [(ngModel)]="activityCheckBoxGroup.carbsCheck" type="checkbox" class="carbscustom custom-control-input" id="carbsCheck1"
-                    (change)="onChecked($event.target.checked,'CARBS')">
-                  <label class="custom-control-label" for="carbsCheck1">{{ 'report.carbs' | translate }}</label>
-                </div>
-                <div class="custom-control custom-checkbox ml-3">
-                  <input [(ngModel)]="activityCheckBoxGroup.glucoseCheck" type="checkbox" class="glucosecustom custom-control-input" id="glucoseCheck1"
-                    (change)="onChecked($event.target.checked,'Glucose')">
-                  <label class="custom-control-label" for="glucoseCheck1">{{ 'report.glucose' | translate }}</label>
-                </div>
+                <app-activity-modal *ngIf="displayModal"></app-activity-modal>
               </div>
             </div>
           </div>
