@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Start Date</span>
+                </div>
+                <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value, 'START')" />
+            </div>
+        </div>
+        <div class="col-md-offset-1 col-md-3">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">End Date</span>
+                </div>
+                <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value, 'END')" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+  </div>
+
+  <div class="graph-wrapper">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center">
+            <dl style="margin-bottom: 0;"><b>Glucose Level Chart</b></dl>
+        </div>
+        <div class="chart-wrap"
+          [hidden]="!showGlucose"
+        >
+          <div id="chartArea" (window:resize)="onResize($event)" class="chart-wrapper"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="slider-wrap">
+      <ng5-slider
+        [(value)]="value"
+        [(highValue)]="maxValue"
+        [options]="options"
+        (userChange)="onUserChange($event)"
+      ></ng5-slider>
+    </div> -->
+
+
+  </div>
+</div>
