@@ -37,7 +37,7 @@
     "compass-mixins": "^0.12.10",
     "core-js": "^2.5.4",
     "d3": "^5.15.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng5-slider": "^1.2.4",
     "ngx-cookie-service": "^2.1.0",
     "ngx-modal-dialog": "^3.0.0",
