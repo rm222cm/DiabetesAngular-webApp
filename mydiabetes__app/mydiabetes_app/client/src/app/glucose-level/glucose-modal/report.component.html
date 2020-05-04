@@ -4,7 +4,7 @@
         <div class="col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Start Date</span>
+                    <span class="input-group-text">{{'report.startdate' | translate}}</span>
                 </div>
                 <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value, 'START')" />
             </div>
@@ -12,7 +12,7 @@
         <div class="col-md-offset-1 col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">End Date</span>
+                    <span class="input-group-text">{{'report.enddate' | translate}}</span>
                 </div>
                 <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value, 'END')" />
             </div>
