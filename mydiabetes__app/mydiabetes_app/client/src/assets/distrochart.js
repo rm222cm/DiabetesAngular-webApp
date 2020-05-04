@@ -3686,8 +3686,6 @@ function makeDistroChart(settings) {
 
 // Test 2
 
-// Test 2
-
 function makeDistroCrabsChart(settings) {
 
     var chart = {};
@@ -5251,13 +5249,17 @@ function makeDistroCrabsChart(settings) {
                         let data = chart.data[pt].carabsTime 
                         let carbsItem = chart.data[pt].carbsItem;
                         let carbsType = '';
+                        let color = '';
 
                         if (chart.data[pt].carbsType == "1") {
                             carbsType = 'Carbohydrates';
+                            color = '#1F77B4';
                         } else if (chart.data[pt].carbsType == "2") {
                             carbsType = 'Proteins';
+                            color= '#FF7F0E';
                         } else if (chart.data[pt].carbsType == "3") {
                             carbsType = 'Fibers';
+                            color = '#2CA02C';
                         }
 
 
@@ -5269,7 +5271,7 @@ function makeDistroCrabsChart(settings) {
                             .attr("carb-type", carbsType)
                             .attr("carb-item", carbsItem)
                             .attr('r', dOpts.pointSize / 2)
-                            .style("fill", "#ff7f0e"));
+                            .style("fill", color));
 
                         } else if (chart.groupObjs[cName].values[0] === "3") {
 
@@ -5279,7 +5281,7 @@ function makeDistroCrabsChart(settings) {
                             .attr("carb-type", carbsType)
                             .attr("carb-item", carbsItem)
                             .attr('r', dOpts.pointSize / 2)
-                            .style("fill", "#2ca02c"));
+                            .style("fill", color));
 
                         } else if (chart.groupObjs[cName].values[0] === "1") {
 
@@ -5289,7 +5291,7 @@ function makeDistroCrabsChart(settings) {
                             .attr("carb-type", carbsType)
                             .attr("carb-item", carbsItem)
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
-                            .style("fill", "#1f77b4"));
+                            .style("fill", color));
 
                         }  else {
 
@@ -5298,8 +5300,8 @@ function makeDistroCrabsChart(settings) {
                             .attr("eating-time", data)
                             .attr("carb-type", carbsType)
                             .attr("carb-item", carbsItem)
-                            .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
-                            .style("fill", chart.dataPlots.colorFunct(cName)));
+                            .attr('r', dOpts.pointSize / 2) 
+                            .style("fill", color));
 
                         }
                         // cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
