@@ -4,7 +4,7 @@
         <div class="col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Start Date</span>
+                    <span class="input-group-text">{{'report.startdate' | translate}}</span>
                 </div>
                 <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value, 'START')" />
             </div>
@@ -12,7 +12,7 @@
         <div class="col-md-offset-1 col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">End Date</span>
+                    <span class="input-group-text">{{'report.enddate' | translate}}</span>
                 </div>
                 <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value, 'END')" />
             </div>
@@ -30,21 +30,21 @@
             <div class="text-center">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="insulincustom walking custom-control-input" id="walking" [checked]="true" (click)="activitiesTypeChange($event.target.checked, 'walking')" />
-                    <label class="custom-control-label" for="walking">Walking</label>
+                    <label class="custom-control-label" for="walking">{{'activity.walking' | translate}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="activitycustom jogging custom-control-input" id="Jogging" [checked]="true" (click)="activitiesTypeChange($event.target.checked, 'jogging')" />
-                    <label class="custom-control-label" for="Jogging">Jogging</label>
+                    <label class="custom-control-label" for="Jogging">{{'activity.jogging' | translate}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="carbscustom running custom-control-input" id="running" [checked]="true" (click)="activitiesTypeChange($event.target.checked, 'running')" />
-                    <label class="custom-control-label" for="running">Running</label>
+                    <label class="custom-control-label" for="running">{{'activity.running' | translate}}</label>
                 </div>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="insulincustom liftingweight custom-control-input" id="weight" [checked]="true" (click)="
                   activitiesTypeChange($event.target.checked, 'lifting_weight')
                 " />
-                    <label class="custom-control-label" for="weight">Lifting Weight</label
+                    <label class="custom-control-label" for="weight">{{'activity.liftingweight' | translate}}</label
               >
             </div>
           </div>
