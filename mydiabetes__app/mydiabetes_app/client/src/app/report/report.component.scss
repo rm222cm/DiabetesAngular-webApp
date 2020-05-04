@@ -39,7 +39,7 @@ div.tooltip {
   pointer-events: none;         
 }
 #chart-distro3 .y.axis .tick text{
-    display: none!important;
+    // display: none!important;
     }
 /* http://www.d3noob.org/2013/01/adding-grid-lines-to-d3js-graph.html */
 .grid .tick {
@@ -930,4 +930,3 @@ input[type="checkbox"]+label {
         width: 94% !important;
     }
 }
-
