@@ -987,7 +987,7 @@ export class ReportComponent implements OnInit {
           this.carbsobj = obj3;
 
           objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
-          objcrabscatter[count3].time = count3;
+          objcrabscatter[count3].time = new Date(value["carbsTime"]).getHours();
           objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
           count3++;
