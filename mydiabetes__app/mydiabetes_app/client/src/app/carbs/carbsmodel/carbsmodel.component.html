@@ -4,7 +4,7 @@
         <div class="col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Start Date</span>
+                    <span class="input-group-text">{{'report.startdate' | translate}}</span>
                 </div>
                 <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value, 'START')" />
             </div>
@@ -12,7 +12,7 @@
         <div class="col-md-offset-1 col-md-3">
             <div class="input-group input-group-sm">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">End Date</span>
+                    <span class="input-group-text">{{'report.enddate' | translate}}</span>
                 </div>
                 <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value, 'END')" />
             </div>
@@ -28,7 +28,7 @@
                     <dl><b>Carbs Chart</b></dl>
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')" />
-                        <label class="custom-control-label" for="carbohydrates">Carbohydrates</label
+                        <label class="custom-control-label" for="carbohydrates">{{'carbs.carbohydrates' | translate}}</label
           >
         </div>
         <div
@@ -42,11 +42,11 @@
             [checked]="true"
             (click)="carbsTypeChange($event.target.checked, '2')"
           />
-          <label class="custom-control-label" for="proteins">Proteins</label>
+          <label class="custom-control-label" for="proteins">{{'carbs.proteins' | translate}}</label>
                     </div>
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="carbscustom running custom-control-input" id="fibers" [checked]="true" (click)="carbsTypeChange($event.target.checked, '3')" />
-                        <label class="custom-control-label" for="fibers">Fibers</label>
+                        <label class="custom-control-label" for="fibers">{{'carbs.fibers' | translate}}</label>
                     </div>
 
                 </div>
