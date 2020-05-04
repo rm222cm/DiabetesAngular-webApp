@@ -13,6 +13,7 @@ import { Options, LabelType, ChangeContext } from "ng5-slider";
 import { DatePipe } from "@angular/common";
 
 import { HttpClient } from "@angular/common/http";
+import { TranslateService } from '@ngx-translate/core';
 declare var makeDistroChart_activity: any;
 declare var makeDistroChartBox_activity: any;
 declare var makeDistroCrabsChart_activity: any;
@@ -33,6 +34,7 @@ export class ActivityModalComponent implements OnInit {
   constructor(
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
+    private translate: TranslateService,
     private datePipe: DatePipe
   ) {
     Object.assign(this, { single });
