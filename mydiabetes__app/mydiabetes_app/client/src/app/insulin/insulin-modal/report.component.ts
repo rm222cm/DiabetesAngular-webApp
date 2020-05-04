@@ -14,7 +14,7 @@ import { DatePipe } from "@angular/common";
 
 import { HttpClient } from "@angular/common/http";
 declare var makeDistroChart_Insulin: any;
-declare var makeDistroChartBox_Insulin: any;
+declare var makeDistroChartBox_Insulin: any; 
 declare var makeDistroCrabsChart_Insulin: any;
 declare var rSlider: any;
 declare var d3: any;
