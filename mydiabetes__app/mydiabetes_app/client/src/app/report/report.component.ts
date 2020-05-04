@@ -13,12 +13,14 @@ import { Options, LabelType, ChangeContext } from "ng5-slider";
 import { DatePipe } from "@angular/common";
 
 import { HttpClient } from "@angular/common/http";
+import { TranslateService } from '@ngx-translate/core';
 declare var makeDistroChart: any;
 declare var makeDistroChartBox: any;
 declare var makeDistroCrabsChart: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
+
 
 @Component({
   selector: "app-report",
@@ -32,6 +34,7 @@ export class ReportComponent implements OnInit {
   @ViewChild("sliderButton") sliderButton: ElementRef;
   constructor(
     private insulinService: InsulinDosagesService,
+    private translate: TranslateService,
     private http: HttpClient,
     private datePipe: DatePipe
   ) {
@@ -201,8 +204,6 @@ export class ReportComponent implements OnInit {
       seconds
     );
   }
-
-  slider() {}
 
   DosageTypeChange(event, target) {
     if (event) {
@@ -672,7 +673,6 @@ export class ReportComponent implements OnInit {
       }
       element.carabsTime = new Date(element.carabsTime);
       let formattedDate = '';
-      // element.carabsTime = `${element.carabsTime.getMonth() + 1}-${element.carabsTime.getDate()}-${element.carabsTime.getFullYear()}`;
 
       if((element.carabsTime.getMonth() + 1) < 10) {
         formattedDate += `0${element.carabsTime.getMonth() + 1}`;
@@ -692,6 +692,7 @@ export class ReportComponent implements OnInit {
 
     });
 
+
     var chart3;
 
     document.getElementById("chart-distro3").innerHTML = "";
@@ -699,7 +700,7 @@ export class ReportComponent implements OnInit {
     chart3 = makeDistroCrabsChart({
       data: this_data,
       yName: "carabsTime",
-      xName: "carbsType",
+      xName: "time",
       axisLabels: { xAxis: null, yAxis: null },
       selector: "#chart-distro3",
       chartSize: { height: 240, width: 960 },
@@ -986,6 +987,7 @@ export class ReportComponent implements OnInit {
           this.carbsobj = obj3;
 
           objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
+          objcrabscatter[count3].time = count3;
           objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
           count3++;
