@@ -11,6 +11,7 @@ import * as Jquery from "jquery";
 import { Options, LabelType, ChangeContext } from "ng5-slider";
 
 import { DatePipe } from "@angular/common";
+import { TranslateService } from '@ngx-translate/core';
 
 import { HttpClient } from "@angular/common/http";
 declare var makeDistroChart: any;
@@ -33,6 +34,7 @@ export class GlucoseModalComponent implements OnInit {
   constructor(
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
+    private translate: TranslateService,
     private datePipe: DatePipe
   ) {
     Object.assign(this, { single });
