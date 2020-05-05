@@ -268,11 +268,11 @@ export class ReportComponent implements OnInit {
         obj3[0].series[count3].carbsItem = value["carbsItem"];
         this.carbsobj = obj3;
 
-        // objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
-        // objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
         objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
         objcrabscatter[count3].carbsType = value["carbsType"];
         objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
+        objcrabscatter[count3].time = new Date(value["carbsTime"]).getHours();
+        objcrabscatter[count3].tooltipTime = new Date(value["carbsTime"]);
         count3++;
 
         if (count3 === res.data.length) {
@@ -696,7 +696,8 @@ export class ReportComponent implements OnInit {
     var chart3;
 
     document.getElementById("chart-distro3").innerHTML = "";
-
+    console.log("this_data")
+    console.log(this_data)
     chart3 = makeDistroCrabsChart({
       data: this_data,
       yName: "carabsTime",
@@ -986,8 +987,9 @@ export class ReportComponent implements OnInit {
           obj3[0].series[count3].carbsItem = value["carbsItem"];
           this.carbsobj = obj3;
 
-          objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
+          objcrabscatter[count3].carabsTime =  value["carbsTime"];
           objcrabscatter[count3].time = new Date(value["carbsTime"]).getHours();
+          objcrabscatter[count3].tooltipTime = new Date(value["carbsTime"]);
           objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
           count3++;

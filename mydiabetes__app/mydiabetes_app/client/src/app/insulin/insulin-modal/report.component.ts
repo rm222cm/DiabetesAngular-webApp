@@ -13,9 +13,9 @@ import { Options, LabelType, ChangeContext } from "ng5-slider";
 import { DatePipe } from "@angular/common";
 
 import { HttpClient } from "@angular/common/http";
-declare var makeDistroChart_Insulin: any;
+declare var makeDistroChart_insulin: any;
 declare var makeDistroChartBox_Insulin: any; 
-declare var makeDistroCrabsChart_Insulin: any;
+declare var makeDistroCrabsChart_insulin: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;

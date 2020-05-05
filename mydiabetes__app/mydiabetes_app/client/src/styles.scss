@@ -218,3 +218,10 @@
 span.ct-label.ct-horizontal.ct-end {
   word-break: break-word;
 }
+
+
+ngb-timepicker .ngb-tp button {
+  background: none !important;
+  border: none !important;
+  color: #007bff !important;
+}

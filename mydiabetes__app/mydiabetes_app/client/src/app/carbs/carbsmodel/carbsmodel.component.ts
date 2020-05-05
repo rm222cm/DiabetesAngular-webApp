@@ -279,11 +279,11 @@ export class CarbsModelComponent implements OnInit {
         obj3[0].series[count3].carbsItem = value["carbsItem"];
         this.carbsobj = obj3;
 
-        // objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
-        // objcrabscatter[count3].carbsType = obj3[0].series[count3].carbsType;
         objcrabscatter[count3].carabsTime =  value["carbsTime"] ;
         objcrabscatter[count3].carbsType = value["carbsType"];
         objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
+        objcrabscatter[count3].time = new Date(value["carbsTime"]).getHours();
+        objcrabscatter[count3].tooltipTime = new Date(value["carbsTime"]);
         count3++;
 
         if (count3 === res.data.length) {
@@ -711,7 +711,7 @@ export class CarbsModelComponent implements OnInit {
     chart3 = makeDistroCrabsChart_carbs({
       data: this_data,
       yName: "carabsTime",
-      xName: "carbsType",
+      xName: "time",
       axisLabels: { xAxis: null, yAxis: null },
       selector: "#chart-distro3",
       chartSize: { height: 240, width: 960 },

@@ -4054,39 +4054,39 @@ function makeDistroCrabsChart_carbs(settings) {
                 var carbsType = d3.event.target.getAttribute("carb-type");
                 var carbsItem = d3.event.target.getAttribute("carb-item");
 
-                // var date = new Date(eatingTime);
+                var date = new Date(eatingTime);
 
-                // var day = date.getDay();
+                var day = date.getDay();
 
-                // var month = date.getMonth() + 1;
-                // var year = date.getFullYear();
-                // var hours = date.getHours();
-                // var minutes = date.getMinutes();
-                // var seconds = date.getSeconds();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var seconds = date.getSeconds();
 
-                // if (day < 10) {
-                //     day = '0'+ day;
-                // }
+                if (day < 10) {
+                    day = '0'+ day;
+                }
 
-                // if (month < 10) {
-                //     month = '0' + month;
-                // }
+                if (month < 10) {
+                    month = '0' + month;
+                }
 
-                // if ( Number(hours) < 10) {
-                //     hours = '0' + hours;
-                // }
+                if ( Number(hours) < 10) {
+                    hours = '0' + hours;
+                }
 
-                // if ( Number(minutes) < 10 ) {
-                //     minutes = '0' + minutes;
-                // }
+                if ( Number(minutes) < 10 ) {
+                    minutes = '0' + minutes;
+                }
 
-                // if ( Number(seconds) < 10 ) {
-                //     seconds = '0' + seconds;
-                // }
+                if ( Number(seconds) < 10 ) {
+                    seconds = '0' + seconds;
+                }
 
                 var tooltipHTML = ` <strong>Food Eaten: ${carbsItem}</strong><br>
                                        <strong>Carb Type: ${carbsType}</strong><br>
-                                       <strong>Eating Time: ${eatingTime}</strong>`;
+                                       <strong>Eating Time: ${month}-${day}-${year} (${hours}:${minutes}:${seconds})</strong>`;
 
                 chart.objs.tooltip[0][0].innerHTML = tooltipHTML;
 
@@ -5248,7 +5248,7 @@ function makeDistroCrabsChart_carbs(settings) {
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
 
-                        let data = chart.data[pt].carabsTime
+                        let data = chart.data[pt].tooltipTime;
                         let carbsItem = chart.data[pt].carbsItem;
                         let carbsType = '';
 
