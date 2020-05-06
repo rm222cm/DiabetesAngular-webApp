@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="text-center" [hidden]="!showCarbs">
-                    <dl><b>Carbs Chart</b></dl>
+                    <dl><b>{{(islanguageEnglish)? 'Carbs Chart': 'Kolhydrater Diagram'}}</b></dl>
                     <div class="custom-control custom-checkbox" style="display: inline-block;">
                         <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')" />
                         <label class="custom-control-label" for="carbohydrates">{{'carbs.carbohydrates' | translate}}</label
