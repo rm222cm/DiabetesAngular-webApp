@@ -13,6 +13,7 @@ import { Options, LabelType, ChangeContext } from "ng5-slider";
 import { DatePipe } from "@angular/common";
 
 import { HttpClient } from "@angular/common/http";
+import { TranslateService } from '@ngx-translate/core';
 declare var makeDistroChart_insulin: any;
 declare var makeDistroChartBox_Insulin: any; 
 declare var makeDistroCrabsChart_insulin: any;
@@ -30,13 +31,16 @@ declare var d3version4: any;
 export class InsulinModalComponent implements OnInit {
   @ViewChild("dataContainer") dataContainer: ElementRef;
   @ViewChild("sliderButton") sliderButton: ElementRef;
+  islanguageEnglish = true;
   constructor(
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
+    translate: TranslateService,
     private datePipe: DatePipe
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
+    this.islanguageEnglish = (translate.currentLang === 'sv') ? false : true;
   }
 
   single: any[];
@@ -135,7 +139,7 @@ export class InsulinModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getReportData();
+    this.getInsulinReportData(this.legendsarray);
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -295,16 +299,24 @@ export class InsulinModalComponent implements OnInit {
   boxPlot(this_data) {
     let chart1;
 
-    this_data.forEach(function (d) {
+    this_data.forEach((d) => {
+
       d.value = +d.value;
+      if (!this.islanguageEnglish) {
+        d.date = (d.date === 'Before Meal') ?
+                 'Före Måltid' : (d.date === 'After Meal') ?
+                  'Efter Måltid' : (d.date === 'Any other time') ? 'Någon annan tid' : '';
+      }
     });
 
-    document.getElementById("chart-distro1").innerHTML = "";
+    let labelChart = (this.islanguageEnglish) ? 'Dosage Units' : 'Dosering';
+
+    document.getElementById('chart-distro1').innerHTML = '';
     chart1 = makeDistroChartBox_Insulin({
       data: this_data,
       xName: "date",
       yName: "value",
-      axisLabels: { xAxis: null, yAxis: "Dosage Units" },
+      axisLabels: { xAxis: null, yAxis: labelChart},
       selector: "#chart-distro1",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
