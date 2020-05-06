@@ -31,6 +31,7 @@ declare var d3version4: any;
 export class GlucoseModalComponent implements OnInit {
   @ViewChild("dataContainer") dataContainer: ElementRef;
   @ViewChild("sliderButton") sliderButton: ElementRef;
+  islanguageEnglish = true;
   constructor(
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
@@ -39,6 +40,10 @@ export class GlucoseModalComponent implements OnInit {
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
+    translate.onLangChange.subscribe(result => {
+      this.islanguageEnglish = (result.lang === 'sv') ? false : true;
+    });
+
   }
 
   single: any[];
