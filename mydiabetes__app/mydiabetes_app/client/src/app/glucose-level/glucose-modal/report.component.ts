@@ -40,10 +40,7 @@ export class GlucoseModalComponent implements OnInit {
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
-    translate.onLangChange.subscribe(result => {
-      this.islanguageEnglish = (result.lang === 'sv') ? false : true;
-    });
-
+    this.islanguageEnglish = (translate.currentLang === 'sv')? false : true;
   }
 
   single: any[];
@@ -298,6 +295,7 @@ export class GlucoseModalComponent implements OnInit {
   drawGolucoseLineChart123(lineData) {
     var node = document.querySelector("#chartArea");
     node.innerHTML = "";
+    let glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
 
     var margin = { top: 50, right: 10, bottom: 60, left: 50 };
     var width, height;
@@ -480,7 +478,7 @@ export class GlucoseModalComponent implements OnInit {
             "Glucose Specification Time: " +
               d.glucoseType +
               "<br/>" +
-              "Glucose Level: " +
+              `${glucoseLabel}: ` +
               formatCount(d.total_km) + ' mmol/L ' +
               "<br/>" +
               "Glucose checking Time: " +
@@ -496,7 +494,7 @@ export class GlucoseModalComponent implements OnInit {
             "Glucose Specification Time: " +
               d.glucoseType +
               "<br/>" +
-              "Glucose Level: " +
+              `${glucoseLabel}: ` +
               formatCount(d.total_km) + ' mmol/L ' +
               "<br/>" +
               "Glucose checking Time: " +
@@ -559,7 +557,7 @@ export class GlucoseModalComponent implements OnInit {
       .attr("transform", "rotate(-90)")
       .style("text-anchor", "end")
       .style("font-size", "16px")
-      .text("Glucose Level");
+      .text(glucoseLabel);
 
 
     svg.append("g").attr("class", "y axis").call(yAxis);
