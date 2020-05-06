@@ -46,6 +46,7 @@ export class ReportComponent implements OnInit {
       this.getInsulinReportData(this.legendsarray);
       this.getActivityReportData(this.legendsactivity);
       this.getCarbsReportData(this.legendscarbs);
+      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
     });
   }
 
@@ -71,7 +72,7 @@ export class ReportComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = "Dosage Unit";
   yAxisLabel1 = "Duration";
-  yAxisLabelGlucose = "Glucose Level";
+  yAxisLabelGlucose = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
 
   legend = true;
   showLabels = true;
@@ -298,9 +299,9 @@ export class ReportComponent implements OnInit {
   }
 
   drawGolucoseLineChart123(lineData) {
-    var node = document.querySelector("#chartArea");
-    node.innerHTML = "";
-    let glucoseLabel = (this.islanguageEnglish) ? '' : '';
+    var node = document.querySelector('#chartArea');
+    node.innerHTML = '';
+    let glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
 
     var margin = { top: 50, right: 10, bottom: 60, left: 50 };
     var width, height;
@@ -483,7 +484,7 @@ export class ReportComponent implements OnInit {
             "Glucose Specification Time: " +
               d.glucoseType +
               "<br/>" +
-              "Glucose Level: " +
+              `${glucoseLabel}: ` +
               formatCount(d.total_km) + ' mmol/L ' +
               "<br/>" +
               "Glucose checking Time: " +
@@ -499,7 +500,7 @@ export class ReportComponent implements OnInit {
             "Glucose Specification Time: " +
               d.glucoseType +
               "<br/>" +
-              "Glucose Level: " +
+              `${glucoseLabel}: ` +
               formatCount(d.total_km) + ' mmol/L ' +
               "<br/>" +
               "Glucose checking Time: " +
@@ -562,7 +563,7 @@ export class ReportComponent implements OnInit {
       .attr("transform", "rotate(-90)")
       .style("text-anchor", "end")
       .style("font-size", "16px")
-      .text("Glucose Level");
+      .text(glucoseLabel);
 
 
     svg.append("g").attr("class", "y axis").call(yAxis);
