@@ -32,6 +32,7 @@ export class GlucoseLevelComponent implements OnInit {
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
   latestGlucoseLevelUnits: string = '';
+  showModal: boolean;
 
   glucoseReactForm = this.fb.group({
     glucoseType: ['', Validators.required],
