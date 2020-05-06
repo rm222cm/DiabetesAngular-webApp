@@ -32,6 +32,7 @@ declare var d3version4: any;
 export class ReportComponent implements OnInit {
   @ViewChild("dataContainer") dataContainer: ElementRef;
   @ViewChild("sliderButton") sliderButton: ElementRef;
+  islanguageEnglish = true;
   constructor(
     private insulinService: InsulinDosagesService,
     private translate: TranslateService,
@@ -40,6 +41,12 @@ export class ReportComponent implements OnInit {
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
+    translate.onLangChange.subscribe(result => {
+      this.islanguageEnglish = (result.lang === 'sv')? false : true;
+      this.getInsulinReportData(this.legendsarray);
+      this.getActivityReportData(this.legendsactivity);
+      this.getCarbsReportData(this.legendscarbs);
+    });
   }
 
   single: any[];
@@ -293,6 +300,7 @@ export class ReportComponent implements OnInit {
   drawGolucoseLineChart123(lineData) {
     var node = document.querySelector("#chartArea");
     node.innerHTML = "";
+    let glucoseLabel = (this.islanguageEnglish) ? '' : '';
 
     var margin = { top: 50, right: 10, bottom: 60, left: 50 };
     var width, height;
@@ -601,16 +609,23 @@ export class ReportComponent implements OnInit {
   boxPlot(this_data) {
     let chart1;
 
-    this_data.forEach(function (d) {
+    this_data.forEach((d) => {
       d.value = +d.value;
+      if (!this.islanguageEnglish) {
+        d.date = (d.date === 'Before Meal') ?
+                 'Före Måltid' : (d.date === 'After Meal') ?
+                  'Efter Måltid' : (d.date === 'Any other time') ? 'Någon annan tid' : '';
+      }
     });
+
+    let labelChart = (this.islanguageEnglish) ? 'Dosage Units' : 'Dosering';
 
     document.getElementById("chart-distro1").innerHTML = "";
     chart1 = makeDistroChartBox({
       data: this_data,
       xName: "date",
       yName: "value",
-      axisLabels: { xAxis: null, yAxis: "Dosage Units" },
+      axisLabels: { xAxis: null, yAxis: labelChart },
       selector: "#chart-distro1",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
@@ -641,16 +656,29 @@ export class ReportComponent implements OnInit {
       chartarr=  chartarr.concat(liftingarr);
     }
        let chart2;
-    chartarr.forEach(function (d) {
+    chartarr.forEach((d) => {
       d.value = +d.value % 60;
+
+      if (!this.islanguageEnglish) {
+
+        d.date = (d.date === 'walking') ? 'Vandra' :
+        (d.date === 'jogging') ? 'Joggning' :
+         (d.date === 'running') ? 'Spring' :
+          (d.date === 'lifting_weight') ? 'Lyftvikt' : '';
+
+      }
+
+
     });
+
+    let activityLabel = (this.islanguageEnglish) ? 'Activity Duration' : 'Aktivitetens Varaktighet';
 
     document.getElementById("chart-distro2").innerHTML = "";
     chart2 = makeDistroChart({
       data: chartarr,
       xName: "date",
       yName: "value",
-      axisLabels: { xAxis: null, yAxis: "Activity Duration" },
+      axisLabels: { xAxis: null, yAxis: activityLabel },
       selector: "#chart-distro2",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
@@ -696,8 +724,7 @@ export class ReportComponent implements OnInit {
     var chart3;
 
     document.getElementById("chart-distro3").innerHTML = "";
-    console.log("this_data")
-    console.log(this_data)
+
     chart3 = makeDistroCrabsChart({
       data: this_data,
       yName: "carabsTime",
