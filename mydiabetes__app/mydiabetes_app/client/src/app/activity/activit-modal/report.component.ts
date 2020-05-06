@@ -139,7 +139,7 @@ export class ActivityModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getActivityReportData(this.legendsactivity);
+    this.getReportData();
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -675,7 +675,6 @@ export class ActivityModalComponent implements OnInit {
       showBeanLines: false,
       colors: null,
     });
-    this.sliderButton.nativeElement.click();
   }
 
   carbsScatterPlot(this_data) {
