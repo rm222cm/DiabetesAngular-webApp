@@ -3604,7 +3604,7 @@ function makeDistroChart_activity(settings) {
                         let time = chart.groupObjs[cName].timeduration[pt].activityTime;
                         let duration = chart.groupObjs[cName].timeduration[pt].activityDuration;
 
-                        if (cName === "walking") {
+                        if (cName === "walking" || cName === 'Vandra') {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -3614,7 +3614,7 @@ function makeDistroChart_activity(settings) {
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", "#1f77b4"));
 
-                        } else if (cName === "jogging") {
+                        } else if (cName === "jogging" || cName === 'Joggning') {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -3624,7 +3624,7 @@ function makeDistroChart_activity(settings) {
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", "#ff7f0e"));
 
-                        } else if (cName === "running") {
+                        } else if (cName === "running" || cName === 'Spring') {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
@@ -3634,7 +3634,7 @@ function makeDistroChart_activity(settings) {
                             .attr('r', dOpts.pointSize / 2) // Options is diameter, r takes radius so divide by 2
                             .style("fill", "#2ca02c"));
 
-                        } else if (cName === "lifting_weight") {
+                        } else if (cName === "lifting_weight" || cName === 'Lyftvikt') {
 
                             cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
                             .attr("class", "point")
