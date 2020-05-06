@@ -31,6 +31,7 @@ declare var d3version4: any;
 export class ActivityModalComponent implements OnInit {
   @ViewChild("dataContainer") dataContainer: ElementRef;
   @ViewChild("sliderButton") sliderButton: ElementRef;
+  islanguageEnglish = true;
   constructor(
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
@@ -39,6 +40,7 @@ export class ActivityModalComponent implements OnInit {
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
+    this.islanguageEnglish = (translate.currentLang === 'sv')? false : true;
   }
 
   single: any[];
@@ -137,7 +139,7 @@ export class ActivityModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getReportData();
+    this.getActivityReportData(this.legendsactivity);
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -642,16 +644,26 @@ export class ActivityModalComponent implements OnInit {
       chartarr=  chartarr.concat(liftingarr);
     }
        let chart2;
-    chartarr.forEach(function (d) {
+    chartarr.forEach((d) => {
       d.value = +d.value % 60;
+      if (!this.islanguageEnglish) {
+
+        d.date = (d.date === 'walking') ? 'Vandra' :
+        (d.date === 'jogging') ? 'Joggning' :
+         (d.date === 'running') ? 'Spring' :
+          (d.date === 'lifting_weight') ? 'Lyftvikt' : '';
+
+      }
     });
+
+    let activityLabel = (this.islanguageEnglish) ? 'Activity Duration' : 'Aktivitetens Varaktighet';
 
     document.getElementById("chart-distro2").innerHTML = "";
     chart2 = makeDistroChart_activity({
       data: chartarr,
       xName: "date",
       yName: "value",
-      axisLabels: { xAxis: null, yAxis: "Activity Duration" },
+      axisLabels: { xAxis: null, yAxis: activityLabel },
       selector: "#chart-distro2",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
