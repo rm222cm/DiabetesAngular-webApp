@@ -24,7 +24,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="text-center">
-            <dl style="margin-bottom: 0;"><b>Glucose Level Chart</b></dl>
+            <dl style="margin-bottom: 0;"><b>{{(islanguageEnglish)? 'Glucose Level Chart': 'Glukosnivån'}}</b></dl>
         </div>
         <div class="chart-wrap"
           [hidden]="!showGlucose"
@@ -33,16 +33,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="slider-wrap">
-      <ng5-slider
-        [(value)]="value"
-        [(highValue)]="maxValue"
-        [options]="options"
-        (userChange)="onUserChange($event)"
-      ></ng5-slider>
-    </div> -->
-
 
   </div>
 </div>
