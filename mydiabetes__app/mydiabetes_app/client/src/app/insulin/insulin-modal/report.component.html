@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="text-center mb-3" [hidden]="!showInsulin">
-          <dl><b>Insulin Dosage Chart</b></dl>
+          <dl><b>{{(this.islanguageEnglish)? 'Insulin Dosage Chart': 'Insulindosdiagram'}}</b></dl>
         </div>
         <div class="legend-styles" [hidden]="!showInsulin">
           <div class="text-center">
