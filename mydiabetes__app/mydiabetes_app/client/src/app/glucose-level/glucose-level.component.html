@@ -41,7 +41,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'glucose.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable4" (click)="loadGraph()" />
+                  data-toggle="modal" data-target="#exampleModalScrollable4" (click)="showModal = true" />
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -65,7 +65,7 @@
             </div>
             <div class="modal-body" id="modal-body4">
               <div class="container">
-                <app-glucose-modal></app-glucose-modal>
+                <app-glucose-modal *ngIf="showModal"></app-glucose-modal>
               </div>
           
             </div>
