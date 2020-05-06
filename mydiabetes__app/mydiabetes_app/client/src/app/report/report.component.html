@@ -67,7 +67,7 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="text-center mb-3" [hidden]="!showInsulin">
-          <dl><b>Insulin Dosage Chart</b></dl>
+          <dl><b>{{(this.islanguageEnglish)? 'Insulin Dosage Chart': 'Insulindosdiagram'}}</b></dl>
         </div>
         <div class="legend-styles" [hidden]="!showInsulin">
           <div class="text-center">
@@ -114,7 +114,7 @@
     </div>
     <div class="col-sm-6">
         <div class="text-center mb-3" [hidden]="!showActivity">
-            <dl><b>Activity Chart</b></dl>
+            <dl><b>{{(islanguageEnglish)? 'Activity Chart':'Aktivitetsdiagram'}}</b></dl>
         </div>
         <div class="legend-styles" [hidden]="!showActivity">
             <div class="text-center">
@@ -150,7 +150,7 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="text-center" [hidden]="!showCarbs">
-          <dl><b>Carbs Chart</b></dl>
+          <dl><b>{{(islanguageEnglish)? 'Carbs Chart': 'Kolhydrater Diagram'}}</b></dl>
           <div class="custom-control custom-checkbox" style="display: inline-block;">
                     <input type="checkbox" class="insulincustom before-meal custom-control-input" id="carbohydrates" [checked]="true" (click)="carbsTypeChange($event.target.checked, '1')" />
                     <label class="custom-control-label" for="carbohydrates">{{'carbs.carbohydrates' | translate}}</label
@@ -184,7 +184,7 @@
       </div>
       <div class="col-sm-6">
         <div class="text-center">
-            <dl style="margin-bottom: 0;"><b>Glucose Level Chart</b></dl>
+            <dl style="margin-bottom: 0;"><b>{{(islanguageEnglish)? 'Glucose Level Chart': 'Glukosnivån'}}</b></dl>
         </div>
         <div class="chart-wrap"
           [hidden]="!showGlucose"
