@@ -3881,13 +3881,14 @@ function makeDistroCrabsChart(settings) {
         // Group the values
         for (current_row = 0; current_row < chart.data.length; current_row++) {
             current_x = chart.data[current_row][chart.settings.xName];
-            current_y = chart.data[current_row][chart.settings.yName];
+            current_y = chart.data[current_row][chart.settings.yName];           
             // exchanged this
-            if (chart.groupObjs.hasOwnProperty(current_x)) {
+            if (chart.groupObjs.hasOwnProperty(current_x)) {                  
                 chart.groupObjs[current_y].values.push(current_x);
             } else {
                 chart.groupObjs[current_y] = {};
                 chart.groupObjs[current_y].values = [current_x];
+                
             }
         }
 
@@ -5230,34 +5231,33 @@ function makeDistroCrabsChart(settings) {
 
             }
 
-
+            let count = 0;
             for (cName in chart.groupObjs) {
 
                 cPlot = chart.groupObjs[cName].dataPlots;
                 cPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "data-plot");
+                let data = chart.data[count].tooltipTime
+                let carbsItem = chart.data[count].carbsItem;
+                let carbsType = '';
+                let color = '';
+            
+                if (chart.data[count].carbsType == "1") {
+                    carbsType = 'Carbohydrates';
+                    color = '#1F77B4';
+                } else if (chart.data[count].carbsType == "2") {
+                    carbsType = 'Proteins';
+                    color= '#FF7F0E';
+                } else if (chart.data[count].carbsType == "3") {
+                    carbsType = 'Fibers';
+                    color = '#2CA02C';
+                }
 
                 // Points Plot
                 if (dOpts.showPlot) {
                     cPlot.objs.points = {g: null, pts: []};
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
+                    
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
-
-                        let data = chart.data[pt].tooltipTime
-                        let carbsItem = chart.data[pt].carbsItem;
-                        let carbsType = '';
-                        let color = '';
-
-                        if (chart.data[pt].carbsType == "1") {
-                            carbsType = 'Carbohydrates';
-                            color = '#1F77B4';
-                        } else if (chart.data[pt].carbsType == "2") {
-                            carbsType = 'Proteins';
-                            color= '#FF7F0E';
-                        } else if (chart.data[pt].carbsType == "3") {
-                            carbsType = 'Fibers';
-                            color = '#2CA02C';
-                        }
-
 
                         if (chart.groupObjs[cName].values[0] === "2") {
 
@@ -5319,6 +5319,7 @@ function makeDistroCrabsChart(settings) {
                             .style("stroke", chart.dataPlots.colorFunct(cName)));
                     }
                 }
+                count ++;
             }
 
         };

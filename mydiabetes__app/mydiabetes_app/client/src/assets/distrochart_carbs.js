@@ -3984,7 +3984,7 @@ function makeDistroCrabsChart_carbs(settings) {
             .selectAll("text")
             .attr("y", 5)
             .attr("x", -5)
-            .attr("transform", "rotate(-45)")
+            .attr("transform", "rotate(-35)")
             .style("text-anchor", "end");
         chart.objs.g.select('.x.axis .label').attr("x", chart.width / 2);
         chart.objs.g.select('.y.axis').call(chart.objs.yAxis.innerTickSize(-chart.width));
@@ -5236,29 +5236,29 @@ function makeDistroCrabsChart_carbs(settings) {
 
             }
 
-
+            let count = 0;
             for (cName in chart.groupObjs) {
 
                 cPlot = chart.groupObjs[cName].dataPlots;
                 cPlot.objs.g = chart.groupObjs[cName].g.append("g").attr("class", "data-plot");
+                let data = chart.data[count].tooltipTime;
+                let carbsItem = chart.data[count].carbsItem;
+                let carbsType = '';
 
+                if (chart.data[count].carbsType == "1") {
+                    carbsType = 'Carbohydrates';
+                } else if (chart.data[count].carbsType == "2") {
+                    carbsType = 'Proteins';
+                } else if (chart.data[count].carbsType == "3") {
+                    carbsType = 'Fibers';
+                }
                 // Points Plot
                 if (dOpts.showPlot) {
                     cPlot.objs.points = { g: null, pts: [] };
                     cPlot.objs.points.g = cPlot.objs.g.append("g").attr("class", "points-plot");
                     for (var pt = 0; pt < chart.groupObjs[cName].values.length; pt++) {
 
-                        let data = chart.data[pt].tooltipTime;
-                        let carbsItem = chart.data[pt].carbsItem;
-                        let carbsType = '';
-
-                        if (chart.data[pt].carbsType == "1") {
-                            carbsType = 'Carbohydrates';
-                        } else if (chart.data[pt].carbsType == "2") {
-                            carbsType = 'Proteins';
-                        } else if (chart.data[pt].carbsType == "3") {
-                            carbsType = 'Fibers';
-                        }
+                        
 
 
                         if (chart.groupObjs[cName].values[0] === "2") {
@@ -5321,6 +5321,7 @@ function makeDistroCrabsChart_carbs(settings) {
                             .style("stroke", chart.dataPlots.colorFunct(cName)));
                     }
                 }
+                count ++
             }
 
         };
