@@ -36,6 +36,7 @@ export class InsulinComponent implements OnInit {
   endDate = new Date().toISOString().substring(0, 10);
   latestGlucoseLevelUnits: string = '';
   displayModal: boolean;
+  isLanguageEnglish = true;
 
   insulinForm = this.fb.group({
     dosageType: ['', Validators.required],
@@ -63,15 +64,18 @@ export class InsulinComponent implements OnInit {
   };
 
 
-  constructor(private insulinService: InsulinDosagesService, private router: Router, private glucoseService: GlucoseService, private modalService: ModalDialogService, private viewRef: ViewContainerRef, private fb: FormBuilder,private translate: TranslateService) { }
+  constructor(private insulinService: InsulinDosagesService, private router: Router,
+    private glucoseService: GlucoseService, private modalService: ModalDialogService,
+    private viewRef: ViewContainerRef, private fb: FormBuilder,private translate: TranslateService) { }
 
   ngOnInit() {
-  //  this.loadChartData();
-  // this.loadGraph();
- 
+
+    this.translate.onLangChange.subscribe(result => {
+      this.isLanguageEnglish = (result.lang === 'sv') ? false : true;
+    });
     this.getLatestGlucoseLevelUnits();
   }
-  loadGraph(){
+  loadGraph() {
     this.loadChartData();
   }
   getLatestGlucoseLevelUnits() {

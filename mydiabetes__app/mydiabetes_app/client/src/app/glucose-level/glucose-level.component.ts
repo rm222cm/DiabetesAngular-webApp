@@ -33,6 +33,7 @@ export class GlucoseLevelComponent implements OnInit {
   endDate = new Date().toISOString().substring(0, 10);
   latestGlucoseLevelUnits: string = '';
   showModal: boolean;
+  islanguageEnglish = true;
 
   glucoseReactForm = this.fb.group({
     glucoseType: ['', Validators.required],
@@ -45,18 +46,26 @@ export class GlucoseLevelComponent implements OnInit {
   errMsg: any = {
     class: 'hidden',
     msg: ''
-  }
+  };
 
   get glucoseFormCtrl(): any {
     return this.glucoseReactForm['controls'];
   }
 
-  constructor(private glucoseService: GlucoseService, private insulinService: InsulinDosagesService, private router: Router, private fb: FormBuilder, private viewRef: ViewContainerRef, private modalService: ModalDialogService,private translate: TranslateService) { }
+  constructor(private glucoseService: GlucoseService, private insulinService: InsulinDosagesService,
+    private router: Router, private fb: FormBuilder,
+    private viewRef: ViewContainerRef, private modalService: ModalDialogService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
+
+    this.translate.onLangChange.subscribe(result => {
+      this.islanguageEnglish = (result.lang === 'sv') ? false : true;
+    });
+
     this.loadChartData();
   }
-  loadGraph(){
+  loadGraph() {
     this.loadChartData();
   }
   onChange() {
