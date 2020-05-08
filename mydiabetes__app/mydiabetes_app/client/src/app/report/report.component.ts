@@ -726,11 +726,13 @@ export class ReportComponent implements OnInit {
 
     document.getElementById("chart-distro3").innerHTML = "";
 
+    let carbsLabel = (this.islanguageEnglish) ? 'Meal Time' : 'Matdags';
+
     chart3 = makeDistroCrabsChart({
       data: this_data,
       yName: "carabsTime",
       xName: "time",
-      axisLabels: { xAxis: null, yAxis: 'time of food intakes' },
+      axisLabels: { xAxis: null, yAxis: carbsLabel },
       selector: "#chart-distro3",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,
