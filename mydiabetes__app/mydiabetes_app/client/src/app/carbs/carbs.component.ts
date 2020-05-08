@@ -30,12 +30,13 @@ export class CarbsComponent implements OnInit {
     insulinCheck : true,
     activityCheck : true,
     carbsCheck : true
-  }
-  displaymodel:boolean=false
+  };
+  displaymodel = false;
+  isLanguageEnglish = true;
   currentDate = new Date();
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
-  latestGlucoseLevelUnits: string = '';
+  latestGlucoseLevelUnits = '';
 
   carbsForm = this.fb.group({
     carbsItem: ['', Validators.required],
@@ -46,21 +47,25 @@ export class CarbsComponent implements OnInit {
   get carbsFormCtrl(): any {
     return this.carbsForm['controls'];
   }
-  formProcess: boolean = false;
+  formProcess = false;
   errMsg: any = {
     class: 'hidden',
     msg: ''
-  }
+  };
 
-  constructor(private service: CarbsService, private router: Router,private glucoseService: GlucoseService, private insulinService: InsulinDosagesService, private modalService: ModalDialogService, private viewRef: ViewContainerRef, private fb: FormBuilder,private translate: TranslateService) { }
+  constructor(private service: CarbsService, private router: Router,
+    private glucoseService: GlucoseService, private insulinService: InsulinDosagesService,
+    private modalService: ModalDialogService, private viewRef: ViewContainerRef,
+    private fb: FormBuilder, private translate: TranslateService) { }
 
   ngOnInit() {
 
-   
-    
-   // this.loadChartData();
+    this.translate.onLangChange.subscribe(result => {
+      this.isLanguageEnglish = (result.lang === 'sv') ? false : true;
+    });
+
   }
-  loadGraph(){
+  loadGraph() {
     this.loadChartData();
   }
   getLatestGlucoseLevelUnits() {
