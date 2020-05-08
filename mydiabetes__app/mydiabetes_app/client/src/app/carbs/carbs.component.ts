@@ -154,6 +154,12 @@ export class CarbsComponent implements OnInit {
     console.log(value);
   }
 
+  openModal(): void {
+    setTimeout(() => {
+      this.displaymodel = true;
+    }, 3000);
+  }
+
   onStartDateChange(value) {
     console.log(value);
   }

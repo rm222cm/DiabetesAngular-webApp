@@ -66,11 +66,16 @@ export class GlucoseLevelComponent implements OnInit {
     }
   }
 
-  
-
-
 
   isSubmitted = false;
+
+  openModal(): void {
+
+    setTimeout(() => {
+      this.showModal = true;
+    }, 3000);
+
+  }
 
   onSubmit(): void {
     this.isSubmitted = true

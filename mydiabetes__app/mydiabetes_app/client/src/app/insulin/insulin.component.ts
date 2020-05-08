@@ -228,6 +228,12 @@ export class InsulinComponent implements OnInit {
     });
   }
 
+  openModal(): void {
+    setTimeout(() => {
+      this.displayModal = true;
+    }, 3000);
+  }
+
   onTimeChange(value) {
     console.log(value);
   }

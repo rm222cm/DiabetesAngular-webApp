@@ -730,7 +730,7 @@ export class ReportComponent implements OnInit {
       data: this_data,
       yName: "carabsTime",
       xName: "time",
-      axisLabels: { xAxis: null, yAxis: null },
+      axisLabels: { xAxis: null, yAxis: 'time of food intakes' },
       selector: "#chart-distro3",
       chartSize: { height: 240, width: 960 },
       constrainExtremes: true,

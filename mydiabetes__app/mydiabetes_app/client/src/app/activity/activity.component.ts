@@ -37,6 +37,7 @@ export class ActivityComponent implements OnInit {
   startDate = new Date().toISOString().substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
   latestGlucoseLevelUnits: string = '';
+  isLanguageEnglish = true;
 
   activityForm = this.fb.group({
     activityType: ['', Validators.required],
@@ -60,7 +61,13 @@ export class ActivityComponent implements OnInit {
   constructor(private activityLevelService: ActivityLevelService, private glucoseService: GlucoseService, private insulinService: InsulinDosagesService, private router: Router, private modalService: ModalDialogService, private viewRef: ViewContainerRef, private fb: FormBuilder,private translate: TranslateService) { }
 
   ngOnInit() {
- //   this.loadGraph();
+
+    this.translate.onLangChange.subscribe(result => {
+
+      this.isLanguageEnglish = (result.lang === 'sv') ? false : true;
+
+    });
+
   }
   loadGraph(){
     this.loadChartData();
@@ -74,6 +81,12 @@ export class ActivityComponent implements OnInit {
 
       console.log('latestGlucoseLevelUnits', this.latestGlucoseLevelUnits);
     });
+  }
+
+  openModal(): void {
+    setTimeout(() => {
+      this.displayModal = true;
+    }, 3000);
   }
 
   onChange() {

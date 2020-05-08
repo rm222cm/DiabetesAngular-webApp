@@ -9,6 +9,31 @@
             <form class="register-form" id="register-form" (ngSubmit)="onSubmit()" [formGroup]="glucoseReactForm"
               [mustMatch]="['pass', 'repass']" novalidate>
 
+              <div class="form-group">
+                <div class="col-md-12">
+                  <select [ngClass]="{'selectColor': glucoseFormCtrl.glucoseType.value ==''}" class="form-control"
+                    name="glucoseType" id="glucoseType" placeholder="Insulin dosage" formControlName="glucoseType"
+                    name="car">
+                    <option value="" selected="true" class="please-select">{{ 'glucose.pleaseselect' | translate }}</option>
+                    <option value="1">
+                      {{ 'glucose.beforemeal' | translate }}
+                    </option>
+                    <option value="2">
+                      {{ 'glucose.aftermeal' | translate }}
+                    </option>
+                    <option value="3">
+                      {{ 'glucose.othertime' | translate }}
+                    </option>
+                  </select>
+                </div>
+                <div *ngIf="isSubmitted && glucoseFormCtrl.glucoseType.invalid" class="invalid-feedback">
+                  <div *ngIf="glucoseFormCtrl.glucoseType.errors.required">
+                    Required field
+                  </div>
+                </div>
+
+              </div>
+
               <div class="form-group row">
                 <div class="col-4 mt-3">
                   <label for="time"><i class="zmdi zmdi-time"></i> {{ 'glucose.time' | translate }}</label>
@@ -41,7 +66,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'glucose.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable4" (click)="showModal = true" />
+                  data-toggle="modal" data-target="#exampleModalScrollable4" (click)="openModal()" />
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -66,6 +91,9 @@
             <div class="modal-body" id="modal-body4">
               <div class="container">
                 <app-glucose-modal *ngIf="showModal"></app-glucose-modal>
+                <div class="row justify-content-center my-5" *ngIf="!showModal">
+                  <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                </div>
               </div>
           
             </div>

@@ -44,7 +44,7 @@
                         <option value="9">9</option>
                       </select>
                     </div>
-                    <div class="col">Hours</div>
+                    <div class="col">{{(isLanguageEnglish)? 'Hours' : 'Timmar'}}</div>
                     <div *ngIf="isSubmitted && activityFormCtrl.durationHour.invalid" class="invalid-feedback">
                       <div *ngIf="activityFormCtrl.durationHour.errors.required">
                         Required field
@@ -118,7 +118,7 @@
                             <option value="60">60</option>
                           </select>
                         </div>
-                        <div class="col">Minutes</div>
+                        <div class="col">{{(isLanguageEnglish)? 'Minutes': 'Minuter'}}</div>
                         <div *ngIf="isSubmitted && activityFormCtrl.durationMinute.invalid" class="invalid-feedback">
                           <div *ngIf="activityFormCtrl.durationMinute.errors.required">
                             Required field
@@ -147,7 +147,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'activity.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable2" (click)="displayModal = true"/>
+                  data-toggle="modal" data-target="#exampleModalScrollable2" (click)="openModal()"/>
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -172,6 +172,9 @@
             <div class="modal-body" id="modal-body2">
               <div class="container">
                 <app-activity-modal *ngIf="displayModal"></app-activity-modal>
+                <div class="row justify-content-center my-5" *ngIf="!displayModal">
+                  <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                </div>
               </div>
             </div>
           </div>

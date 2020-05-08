@@ -75,7 +75,7 @@
                                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
                             </div>
                             <div class="form-group form-button">
-                                <input type="button" class="btn btn-form btn-block" value="{{ 'carbs.generatechart' | translate }}" *ngIf="!formProcess" data-toggle="modal" data-target="#exampleModalScrollable3" (click)="displaymodel= true" />
+                                <input type="button" class="btn btn-form btn-block" value="{{ 'carbs.generatechart' | translate }}" *ngIf="!formProcess" data-toggle="modal" data-target="#exampleModalScrollable3" (click)="openModal()" />
                                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
                             </div>
                             <div class="form-group error {{errMsg.class}}">
@@ -120,6 +120,9 @@
 
                                     <div class="container">
                                         <app-carbsmodel *ngIf="displaymodel"></app-carbsmodel>
+                                        <div class="row justify-content-center my-5" *ngIf="!displaymodel">
+                                            <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                                          </div>
                                         <!-- <div id="chartist-chart3" class="ct-chart " data-x-axis="Time" data-y-axis="Glucose Level"></div> -->
                                     </div>
 

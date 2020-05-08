@@ -81,7 +81,7 @@
               </div>
               <div class="form-group form-button">
                 <input type="button" class="btn btn-form btn-block" value="{{ 'insulin.generatechart' | translate }}" *ngIf="!formProcess"
-                  data-toggle="modal" data-target="#exampleModalScrollable"  (click)="displayModal = true;" />
+                  data-toggle="modal" data-target="#exampleModalScrollable"  (click)="openModal()" />
                 <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
               </div>
               <div class="form-group error {{errMsg.class}}">
@@ -105,6 +105,9 @@
               <div class="modal-body" id="modal-body">
                 <div class="container">
                   <app-insulin-modal *ngIf="displayModal"></app-insulin-modal>
+                  <div class="row justify-content-center my-5" *ngIf="!displayModal">
+                    <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                  </div>
                 </div>
               </div>
             </div>

@@ -4022,11 +4022,7 @@ function makeDistroCrabsChart(settings) {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + chart.height + ")")
             .call(chart.objs.xAxis); 
-            if(chart.yAxisLable === 1 || chart.yAxisLable === 2 || chart.yAxisLable === 3){
 
-            } else {
-                chart.yAxisLable = ' ' ;
-            }
         chart.objs.axes.append("g")
             .attr("class", "y axis")
             .call(chart.objs.yAxis)
