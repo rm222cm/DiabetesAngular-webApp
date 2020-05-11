@@ -931,3 +931,14 @@ input[type="checkbox"]+label {
     }
 }
 
+@media (max-width: 768px) {
+
+    .graph-wrapper .row {
+        margin-left: -15px;
+    }
+
+    .glucose-mobile dl{
+        margin: 0 !important;
+    }
+
+}
