@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <div class="row">
+  <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-3">
             <div class="input-group input-group-sm">
@@ -23,7 +23,7 @@
   <div class="graph-wrapper">
     <div class="row">
       <div class="col-sm-12">
-        <div class="text-center">
+        <div class="text-center glucose-mobile">
             <dl style="margin-bottom: 0; margin-right: 193px;"><b>{{(islanguageEnglish)? 'Glucose Level Chart': 'Glukosnivån'}}</b></dl>
         </div>
         <div class="chart-wrap"
@@ -32,6 +32,15 @@
           <div id="chartArea" (window:resize)="onResize($event)" class="chart-wrapper"></div>
         </div>
       </div>
+    </div>
+
+    <div class="slider-wrap">
+      <ng5-slider
+        [(value)]="value"
+        [(highValue)]="maxValue"
+        [options]="options"
+        (userChange)="onUserChange($event)"
+      ></ng5-slider>
     </div>
 
   </div>
