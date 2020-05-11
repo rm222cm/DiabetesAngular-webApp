@@ -5296,10 +5296,6 @@ function makeDistroCrabsChart(settings) {
                             .style("fill", color));
 
                         }
-                        // cPlot.objs.points.pts.push(cPlot.objs.points.g.append("circle")
-                        //     .attr("class", "point")
-                        //     .attr('r', dOpts.pointSize / 2)// Options is diameter, r takes radius so divide by 2
-                        //     .style("fill", chart.dataPlots.colorFunct(cName)));
                     }
                 }
 
