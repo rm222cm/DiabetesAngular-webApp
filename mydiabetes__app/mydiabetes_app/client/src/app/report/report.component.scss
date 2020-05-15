@@ -931,3 +931,29 @@ input[type="checkbox"]+label {
     }
 }
 
+/* set the background of the brush to visible */
+      
+.background {
+    visibility: visible !important;
+    fill: darkblue;
+}
+  /* set the extent to visible and give it a color */
+  
+.extent {
+    visibility: visible !important;
+    fill: blue;
+    stroke: #fff;
+    fill-opacity: .5;
+    shape-rendering: crispEdges;
+}
+  /* set the handles to visible and give them a color */
+  
+.resize rect {
+    /* visibility: visible !important; */
+    /* fill: red; */
+}
+
+#slider-container {
+    margin-left: 460px;
+    min-width: 1000px !important;
+}
