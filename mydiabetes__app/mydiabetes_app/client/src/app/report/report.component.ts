@@ -114,6 +114,7 @@ export class ReportComponent implements OnInit {
   legendsarray: any = ["1", "2", "3"];
   legendsactivity: any = ["walking", "jogging", "running", "lifting_weight"];
   legendscarbs: any = ["1", "2", "3"];
+  slider: any;
 
   dateRange: Date[] = this.createDateRange();
   value: number = new Date(this.startDate).getTime();
@@ -147,6 +148,7 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
     this.getReportData();
+    this.drawSlider();
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -371,7 +373,7 @@ export class ReportComponent implements OnInit {
 
     var data = lineData;
 
-    data = data.filter((month, idx) => idx < 10);
+    data = data.filter((month, idx) => idx <= 10);
 
     data.forEach(function (d) {
       d.date = d.date_time;
@@ -1254,4 +1256,63 @@ export class ReportComponent implements OnInit {
     }
     return data;
   }
+
+  drawSlider(): void {
+
+    var handle1 = 15;
+    var handle2 = 85;
+
+   // create the svg container
+   var svg = d3.select("#slider-container").append("svg")
+     .attr("width", 2000)
+     .attr("height", 200);
+
+
+   var text1 = svg.append("text")
+     .attr("x", 100)
+     .attr("y", 90)
+     .style("font-size", "16px")
+     .text("text1");
+
+   var text2 = svg.append("text")
+     .attr("x", 280)
+     .attr("y", 90)
+     .style("font-size", "16px")
+     .text("text2");
+
+   var xscale = d3.scale.linear()
+     .domain([0, 100])
+     .range([0, 200]);
+
+
+   var brush = d3.svg.brush()
+     .x(xscale)
+     .extent([handle1, handle2])
+     .on("brush", brushed); 
+
+
+   var slider = svg.append("g")
+     .attr("transform", "translate(" + [100, 100] + ")");
+
+   brush(slider);
+
+   slider.selectAll("rect")
+     .attr("height", 30);
+
+   update(handle1, handle2);
+
+   function update(value1, value2) {
+
+     text1.text(Math.round(value1));
+     text2.text(Math.round(value2));
+   }
+
+   function brushed() {
+     const value1 = brush.extent()[0];
+     const value2 = brush.extent()[1];
+     update(value1, value2);
+   }
+
+  }
+
 }
