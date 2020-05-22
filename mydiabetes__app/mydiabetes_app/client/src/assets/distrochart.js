@@ -4000,7 +4000,7 @@ function makeDistroCrabsChart(settings) {
         // Add all the divs to make it centered and responsive
         chart.objs.mainDiv.append("div")
             .attr("class", "inner-wrapper")
-            .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
+            // .style("padding-bottom", (chart.divHeight / chart.divWidth) * 100 + "%")
             .append("div").attr("class", "outer-box")
             .append("div").attr("class", "inner-box");
         // Capture the inner div for the chart (where the chart actually is)
