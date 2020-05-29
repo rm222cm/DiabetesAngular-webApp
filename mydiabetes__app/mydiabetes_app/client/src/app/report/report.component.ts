@@ -18,6 +18,9 @@ declare var makeDistroChart: any;
 declare var makeDistroChartBox: any;
 declare var makeDistroCrabsChart: any;
 declare var Slider: any;
+declare var ActivitySlider: any;
+declare var CarbsSlider: any;
+declare var GlucoseSlider: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
@@ -150,9 +153,6 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
     this.getReportData();
-    // let data = [new Date(this.startDate), new Date(this.endDate)];
-    // Slider(data, {});
-
   }
 
 
@@ -938,6 +938,9 @@ export class ReportComponent implements OnInit {
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
         let sliderObjInsulin = {};
+        let sliderObjActivity = {};
+        let sliderObjCarbs = {};
+        let sliderObjGlucose = {};
 
         let count2 = 0;
         let count3 = 0;
@@ -979,8 +982,6 @@ export class ReportComponent implements OnInit {
           delete sliderObjInsulin[48]
           delete sliderObjInsulin[49]
 
-          // sliderObjInsulin[count + 1] = +value['value'];
-
           count++;
 
           this.multi = obj1;
@@ -990,7 +991,6 @@ export class ReportComponent implements OnInit {
             );
 
             this.boxPlot(objvoilin);
-            console.log(sliderObjInsulin);
             const dates = [new Date(this.startDate), new Date(this.endDate)];
             Slider(sliderObjInsulin, dates, {});
           }
@@ -1023,10 +1023,16 @@ export class ReportComponent implements OnInit {
           objscatter[count2].activityDuration =
             obj2[0].series[count2].activityDuration;
 
+            if(Number(value['value']) <= 100) {
+              sliderObjActivity[count2 + 1] = +value['value'];
+            }
+
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
             this.scatterPlot(objscatter);
+            const dates = [new Date(this.startDate), new Date(this.endDate)];
+            ActivitySlider(sliderObjActivity, dates, {});
           }
         }
         // -------------------------------Carb charts ---------------------------------//
@@ -1048,10 +1054,15 @@ export class ReportComponent implements OnInit {
           objcrabscatter[count3].tooltipTime = new Date(value["carbsTime"]);
           objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
+
+          sliderObjCarbs[count3 + 1] = objcrabscatter[count3].time;
+
           count3++;
 
           if (count3 === carbs.length) {
             this.carbsScatterPlot(objcrabscatter);
+            const dates = [new Date(this.startDate), new Date(this.endDate)];
+            CarbsSlider(sliderObjCarbs, dates, {});
           }
         }
 
@@ -1075,9 +1086,14 @@ export class ReportComponent implements OnInit {
             value["glucoseType"]
           ];
           obj4[0].series[count4].glucoseLevelUnits = value["glucoseLevelUnits"];
+
+          sliderObjGlucose[count4 + 1] = parseFloat(obj4[0].series[count4].glucoseLevelUnits);
+
           count4++;
           this.golucoseobj = obj4;
         }
+        const dates1 = [new Date(this.startDate), new Date(this.endDate)];
+        GlucoseSlider(sliderObjGlucose, dates1, {})
         this.drawGolucoseLineChart123(this.golucoseobj[0].series);
 
         this.isLoading = false;
@@ -1261,6 +1277,16 @@ export class ReportComponent implements OnInit {
       this.endDate = value;
       this.maxValue = new Date(this.endDate).getTime();
     }
+
+    let insulinSlider = document.querySelector('#brush-slider');
+    let activitySlider = document.querySelector('#acitivity-slider');
+    let carbsSlider = document.querySelector('#carbs-slider');
+    let glucoseSlider = document.querySelector('#glucose-slider');
+    insulinSlider.innerHTML = '';
+    activitySlider.innerHTML = '';
+    carbsSlider.innerHTML = '';
+    glucoseSlider.innerHTML = '';
+
     this.getReportData();
   }
 

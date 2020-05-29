@@ -932,8 +932,79 @@ input[type="checkbox"]+label {
 }
 
 #brush-slider {
-    margin-left: 37%;
+    margin-left: 14%;
     min-width: 100px;
+    width: 100%;
+}
+
+#acitivity-slider {
+    margin-left: 20%;
+    min-width: 100px;
+    width: 100%;
+}
+
+#carbs-slider {
+    margin-left: 14%;
+    min-width: 100px;
+    width: 100%;
+}
+
+#glucose-slider {
+    margin-top: -4%;
+    margin-left: 18%;
+    min-width: 100px;
+    width: 100%;
 }
 
 #brush-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; }
+
+#acitivity-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; }
+
+#carbs-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
+
+#glucose-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
+
+@media (max-width: 1200px) {
+
+    #glucose-slider, #brush-slider, #carbs-slider, #acitivity-slider {
+        margin-left: 7%;
+    }
+
+    #glucose-slider svg, 
+    #carbs-slider svg,
+    #acitivity-slider svg,
+    #brush-slider svg { 
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 960px) {
+
+    #glucose-slider, #brush-slider, #carbs-slider, #acitivity-slider {
+        margin-left: 0;
+    }
+
+}
+
+@media (max-width: 767px) {
+
+    #glucose-slider, #brush-slider, #carbs-slider, #acitivity-slider {
+        margin-left: 10%;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    #glucose-slider, #brush-slider, #carbs-slider, #acitivity-slider {
+        margin-left: 0;
+    }
+
+    #labelright {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+}

@@ -65,7 +65,7 @@
 
   <div class="graph-wrapper">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-md-6">
         <div class="text-center mb-3" [hidden]="!showInsulin">
           <dl><b>{{(this.islanguageEnglish)? 'Insulin Dosage Chart': 'Insulindosdiagram'}}</b></dl>
         </div>
@@ -109,10 +109,11 @@
 
             <div class="chart-wrap" [hidden]="!showInsulin">
                 <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
+                <div id="brush-slider"></div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-md-6">
         <div class="text-center mb-3" [hidden]="!showActivity">
             <dl><b>{{(islanguageEnglish)? 'Activity Chart':'Aktivitetsdiagram'}}</b></dl>
         </div>
@@ -142,13 +143,14 @@
         <div class="legend-styles">
           <div class="chart-wrap" [hidden]="!showActivity">
             <div class="chart-wrapper" id="chart-distro2" #dataContainer></div>
+            <div id="acitivity-slider"></div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-md-6">
         <div class="text-center" [hidden]="!showCarbs">
           <dl><b>{{(islanguageEnglish)? 'Carbs Chart': 'Kolhydrater Diagram'}}</b></dl>
           <div class="custom-control custom-checkbox" style="display: inline-block;">
@@ -180,9 +182,10 @@
           [hidden]="!showCarbs"
         >
           <div class="chart-wrapper" id="chart-distro3" #dataContainer></div>
+          <div id="carbs-slider"></div>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-md-6">
         <div class="text-center">
             <dl style="margin-bottom: 0;"><b>{{(islanguageEnglish)? 'Glucose Level Chart': 'Glukosnivån'}}</b></dl>
         </div>
@@ -190,6 +193,7 @@
           [hidden]="!showGlucose"
         >
           <div id="chartArea" (window:resize)="onResize($event)" class="chart-wrapper"></div>
+          <div id="glucose-slider"></div>
         </div>
       </div>
     </div>

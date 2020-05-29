@@ -1,6 +1,6 @@
-function Slider(histogram, date, customOptions) {
+function GlucoseSlider(histogram, date, customOptions) {
 
-    let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w':400,
@@ -36,7 +36,7 @@ function Slider(histogram, date, customOptions) {
     .range([0, height]);
 
     // create svg and translated g
-    var svg = d3v4.select('#brush-slider').append('svg')
+    var svg = d3v4.select('#glucose-slider').append('svg')
     const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     // draw histogram values
@@ -49,7 +49,7 @@ function Slider(histogram, date, customOptions) {
     .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
     .attr('width', width / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', 'brown');
+    .style('fill', 'slateblue');
 
     // labels
     var labelMax = g.append('text')
