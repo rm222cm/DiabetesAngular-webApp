@@ -931,3 +931,10 @@ input[type="checkbox"]+label {
     }
 }
 
+#brush-slider {
+    margin-left: 30%;
+    min-width: 100px;
+    width: 100%;
+}
+
+#brush-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; }

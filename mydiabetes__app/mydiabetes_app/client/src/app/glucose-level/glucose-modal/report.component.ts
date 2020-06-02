@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
+  NgZone
 } from "@angular/core";
 import { InsulinDosagesService } from "../../services/insulin-dosages.service";
 import { single, multi1, multi, linear } from "../../data/data.model";
@@ -20,7 +21,7 @@ declare var makeDistroCrabsChart: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
-
+declare var GlucoseSlider: any;
 @Component({
   selector: "app-glucose-modal",
   templateUrl: "./report.component.html",
@@ -36,7 +37,8 @@ export class GlucoseModalComponent implements OnInit {
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
     private translate: TranslateService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone: NgZone
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
@@ -139,7 +141,24 @@ export class GlucoseModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    window['angularGlucoseReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.glucoseSliderEnd() };
     this.getReportData();
+  }
+
+  glucoseSliderEnd() {
+
+    this.setDates();
+    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+  }
+
+  setDates() {
+
+    this.startDate = localStorage.getItem('startDate');
+    this.endDate = localStorage.getItem('endDate');
+
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -902,6 +921,7 @@ export class GlucoseModalComponent implements OnInit {
         let obj3 = [{ name: "Crabs", series: [] }];
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
+        let sliderObjGlucose = {};
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
@@ -1019,9 +1039,14 @@ export class GlucoseModalComponent implements OnInit {
             value["glucoseType"]
           ];
           obj4[0].series[count4].glucoseLevelUnits = value["glucoseLevelUnits"];
+
+          sliderObjGlucose[count4 + 1] = parseFloat(obj4[0].series[count4].glucoseLevelUnits);
+
           count4++;
           this.golucoseobj = obj4;
         }
+        const dates1 = [new Date(this.startDate), new Date(this.endDate)];
+        GlucoseSlider(sliderObjGlucose, dates1, {});
         this.drawGolucoseLineChart123(this.golucoseobj[0].series);
 
         this.isLoading = false;

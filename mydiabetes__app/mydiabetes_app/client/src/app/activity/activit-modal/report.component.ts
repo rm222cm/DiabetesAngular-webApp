@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
+  NgZone
 } from "@angular/core";
 import { InsulinDosagesService } from "../../services/insulin-dosages.service";
 import { single, multi1, multi, linear } from "../../data/data.model";
@@ -20,6 +21,7 @@ declare var makeDistroCrabsChart_activity: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
+declare var ActivitySlider: any;
 
 @Component({
   selector: "app-activity-modal",
@@ -36,7 +38,8 @@ export class ActivityModalComponent implements OnInit {
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
     private translate: TranslateService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone: NgZone
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
@@ -139,7 +142,24 @@ export class ActivityModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    window['angularActivityReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.activitySliderEnd() };
     this.getReportData();
+  }
+
+  activitySliderEnd() {
+
+    this.setDates();
+    this.getActivityReportData(this.legendsactivity);
+  }
+
+  setDates() {
+
+    this.startDate = localStorage.getItem('startDate');
+    this.endDate = localStorage.getItem('endDate');
+
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -911,6 +931,7 @@ export class ActivityModalComponent implements OnInit {
         let obj3 = [{ name: "Crabs", series: [] }];
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
+        let sliderObjActivity = {};
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
@@ -978,10 +999,16 @@ export class ActivityModalComponent implements OnInit {
           objscatter[count2].activityDuration =
             obj2[0].series[count2].activityDuration;
 
+            if(Number(value['value']) <= 100) {
+              sliderObjActivity[count2 + 1] = +value['value'];
+            }
+
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
             this.scatterPlot(objscatter);
+            const dates = [new Date(this.startDate), new Date(this.endDate)];
+            ActivitySlider(sliderObjActivity, dates, {});
           }
         }
         // -------------------------------Carb charts ---------------------------------//

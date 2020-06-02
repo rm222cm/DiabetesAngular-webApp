@@ -30,18 +30,19 @@
           [hidden]="!showGlucose"
         >
           <div id="chartArea" (window:resize)="onResize($event)" class="chart-wrapper"></div>
+          <div id="glucose-slider"></div>
         </div>
       </div>
     </div>
 
-    <div class="slider-wrap">
+    <!-- <div class="slider-wrap">
       <ng5-slider
         [(value)]="value"
         [(highValue)]="maxValue"
         [options]="options"
         (userChange)="onUserChange($event)"
       ></ng5-slider>
-    </div>
+    </div> -->
 
   </div>
 </div>

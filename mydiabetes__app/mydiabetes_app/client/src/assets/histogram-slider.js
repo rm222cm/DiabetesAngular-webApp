@@ -96,12 +96,26 @@ function Slider(histogram, date, customOptions) {
         if (!d3v4.event.sourceEvent) return;
         var d0 = d3v4.event.selection.map(x.invert);
         var d1 = d0.map(Math.round)
-        console.log(d0,d1)
+
         let start_date = formatDate(d1[0])
         let end_date = formatDate(d1[1])
-        document.getElementById("startDate").value = start_date;
-        document.getElementById("endDate").value = end_date;
-         
+        // document.getElementById("startDate").value = start_date;
+        // document.getElementById("endDate").value = end_date;
+
+        localStorage.setItem('startDate', start_date);
+        localStorage.setItem('endDate', end_date);
+
+
+        setTimeout(() => {
+          let button = document.getElementById('insulin-chart-slider-clicker');
+          button.click();
+        }, 2000);
+
+
+
+        // d3v4.select('#insulin-chart-slider-clicker').dispatch('click');
+        // document.getElementById("insulin-chart-slider-clicker").click();
+
         d3v4.select(this).transition().call(d3v4.event.target.move, d1.map(x))
     });
 

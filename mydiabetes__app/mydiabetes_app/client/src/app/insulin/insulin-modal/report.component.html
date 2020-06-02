@@ -68,19 +68,20 @@
 
             <div class="chart-wrap" [hidden]="!showInsulin">
                 <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
+                <div id="brush-slider"></div>
             </div>
         </div>
     </div>
     </div>
 
 
-    <div class="slider-wrap">
+    <!-- <div class="slider-wrap">
       <ng5-slider
         [(value)]="value"
         [(highValue)]="maxValue"
         [options]="options"
         (userChange)="onUserChange($event)"
       ></ng5-slider>
-    </div>
+    </div> -->
   </div>
 </div>

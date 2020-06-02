@@ -1,6 +1,7 @@
 /*------------------------------------------*/
 body{
     font-family: 'Poppins', sans-serif !important;
+    overflow-x: hidden;
 }
 
 /*------------------------------------------*/
@@ -956,13 +957,13 @@ input[type="checkbox"]+label {
     width: 100%;
 }
 
-#brush-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; }
+#brush-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; }
 
-#acitivity-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; }
+#acitivity-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; }
 
-#carbs-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
+#carbs-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
 
-#glucose-slider svg { width: 1000px; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
+#glucose-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
 
 @media (max-width: 1200px) {
 

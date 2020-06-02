@@ -52,19 +52,20 @@
         <div class="legend-styles">
           <div class="chart-wrap" [hidden]="!showActivity">
             <div class="chart-wrapper" id="chart-distro2" #dataContainer></div>
+            <div id="acitivity-slider"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="slider-wrap">
+    <!-- <div class="slider-wrap">
       <ng5-slider
         [(value)]="value"
         [(highValue)]="maxValue"
         [options]="options"
         (userChange)="onUserChange($event)"
       ></ng5-slider>
-    </div>
+    </div> -->
   </div>
 
 </div>

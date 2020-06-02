@@ -942,3 +942,12 @@ input[type="checkbox"]+label {
     }
 
 }
+
+#glucose-slider {
+    margin-top: -4%;
+    margin-left: 18%;
+    min-width: 100px;
+    width: 100%;
+}
+
+#glucose-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }

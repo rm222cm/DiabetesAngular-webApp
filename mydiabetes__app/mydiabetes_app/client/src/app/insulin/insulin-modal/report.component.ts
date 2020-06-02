@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
+  NgZone
 } from "@angular/core";
 import { InsulinDosagesService } from '../../services/insulin-dosages.service';
 import { single, multi1, multi, linear } from "../../data/data.model";
@@ -20,6 +21,7 @@ declare var makeDistroCrabsChart_insulin: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
+declare var Slider: any;
 
 @Component({
   selector: "app-insulin-modal",
@@ -36,7 +38,8 @@ export class InsulinModalComponent implements OnInit {
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
     translate: TranslateService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone: NgZone
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
@@ -139,7 +142,24 @@ export class InsulinModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.insulinSliderEnd() };
     this.getInsulinReportData(this.legendsarray);
+  }
+
+  insulinSliderEnd() {
+
+    this.setDates();
+    this.getInsulinReportData(this.legendsarray);
+  }
+
+  setDates() {
+
+    this.startDate = localStorage.getItem('startDate');
+    this.endDate = localStorage.getItem('endDate');
+
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -846,6 +866,7 @@ export class InsulinModalComponent implements OnInit {
         if (insulin !== undefined) {
           let obj1 = [];
           let count = 0;
+          let sliderObjInsulin = {};
           for (let [key, value] of Object.entries(insulin)) {
             obj1[count] = {};
             obj1[count] = {};
@@ -870,6 +891,18 @@ export class InsulinModalComponent implements OnInit {
                 dosageTime: value["dosageTime"],
               },
             ];
+
+            if (Number(value['value']) <= 100) {
+              sliderObjInsulin[count + 1] = +value['value'];
+            }
+            delete sliderObjInsulin[43];
+            delete sliderObjInsulin[44];
+            delete sliderObjInsulin[45];
+            delete sliderObjInsulin[46];
+            delete sliderObjInsulin[47];
+            delete sliderObjInsulin[48];
+            delete sliderObjInsulin[49];
+
             count++;
             this.multi = obj1;
             if (count === insulin.length) {
@@ -878,6 +911,8 @@ export class InsulinModalComponent implements OnInit {
               );
 
               this.boxPlot(obj1);
+              const dates = [new Date(this.startDate), new Date(this.endDate)];
+              Slider(sliderObjInsulin, dates, {});
             }
             // }
           }

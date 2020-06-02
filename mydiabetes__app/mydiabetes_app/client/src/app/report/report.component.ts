@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
+  NgZone
 } from "@angular/core";
 import { InsulinDosagesService } from "../services/insulin-dosages.service";
 import { single, multi1, multi, linear } from "../data/data.model";
@@ -41,7 +42,8 @@ export class ReportComponent implements OnInit {
     private insulinService: InsulinDosagesService,
     private translate: TranslateService,
     private http: HttpClient,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone: NgZone
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
@@ -152,6 +154,10 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
+    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.insulinSliderEnd() };
+    window['angularActivityReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.activitySliderEnd() };
+    window['angularCarbsReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.carbsSliderEnd() };
+    window['angularGlucoseReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.glucoseSliderEnd() };
     this.getReportData();
   }
 
@@ -233,6 +239,40 @@ export class ReportComponent implements OnInit {
     this.getInsulinReportData(this.legendsarray);
   }
 
+  insulinSliderEnd() {
+
+    this.setDates();
+    this.getInsulinReportData(this.legendsarray);
+  }
+
+  activitySliderEnd() {
+
+    this.setDates();
+    this.getActivityReportData(this.legendsactivity);
+  }
+
+  carbsSliderEnd() {
+
+    this.setDates();
+    this.getCarbsReportData(this.legendscarbs);
+  }
+
+  glucoseSliderEnd() {
+
+    this.setDates();
+    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+  }
+
+  setDates() {
+
+    this.startDate = localStorage.getItem('startDate');
+    this.endDate = localStorage.getItem('endDate');
+
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+
+  }
+
   activitiesTypeChange(event, target) {
     if (event) {
       this.legendsactivity.push(target);
@@ -306,6 +346,7 @@ export class ReportComponent implements OnInit {
   }
 
   drawGolucoseLineChart123(lineData) {
+
     var node = document.querySelector('#chartArea');
     node.innerHTML = '';
     let glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';

@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
+  NgZone
 } from "@angular/core";
 import { InsulinDosagesService } from "../../services/insulin-dosages.service";
 import { single, multi1, multi, linear } from "../../data/data.model";
@@ -20,7 +21,7 @@ declare var makeDistroCrabsChart_carbs: any;
 declare var rSlider: any;
 declare var d3: any;
 declare var d3version4: any;
-
+declare var CarbsSlider: any;
 @Component({
   selector: "app-carbsmodel",
   templateUrl: "./carbsmodel.component.html",
@@ -36,7 +37,8 @@ export class CarbsModelComponent implements OnInit {
     private insulinService: InsulinDosagesService,
     private http: HttpClient,
     private translate: TranslateService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private ngZone: NgZone
   ) {
     Object.assign(this, { single });
     Object.assign(this, { linear });
@@ -139,9 +141,25 @@ export class CarbsModelComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getReportData()
+    window['angularCarbsReference'] = { component: this, zone: this.ngZone, loadAngularFunction: () => this.carbsSliderEnd() };
     this.getCarbsReportData(this.legendscarbs);
-   
+
+  }
+
+  carbsSliderEnd() {
+
+    this.setDates();
+    this.getCarbsReportData(this.legendscarbs);
+  }
+
+  setDates() {
+
+    this.startDate = localStorage.getItem('startDate');
+    this.endDate = localStorage.getItem('endDate');
+
+    localStorage.removeItem('startDate');
+    localStorage.removeItem('endDate');
+
   }
 
   onUserChange(changeContext: ChangeContext): void {
@@ -268,6 +286,7 @@ export class CarbsModelComponent implements OnInit {
 
     this.insulinService.getCarbsReportData(data).subscribe((res: any) => {
       let count3 = 0;
+      let sliderObjCarbs = {};
       let obj3 = [{ name: "Crabs", series: [] }];
       let objcrabscatter = [];
 
@@ -286,10 +305,15 @@ export class CarbsModelComponent implements OnInit {
         objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
         objcrabscatter[count3].time = new Date(value["carbsTime"]).getHours();
         objcrabscatter[count3].tooltipTime = new Date(value["carbsTime"]);
+
+        sliderObjCarbs[count3 + 1] = objcrabscatter[count3].time;
+
         count3++;
 
         if (count3 === res.data.length) {
           this.carbsScatterPlot(objcrabscatter);
+          const dates = [new Date(this.startDate), new Date(this.endDate)];
+          CarbsSlider(sliderObjCarbs, dates, {});
         }
       }
 

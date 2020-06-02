@@ -9,7 +9,6 @@
   <title>My diabetes logbook</title>
   <base href="/">
 
-
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|IBM+Plex+Mono|Kaushan+Script" rel="stylesheet">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
@@ -20,14 +19,31 @@
 <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="https://www.cssscript.com/demo/animated-customizable-range-slider-pure-javascript-rslider-js/css/rSlider.min.css">
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+    <script>
+      function callAngularFunction() {
+        window.angularComponentReference.zone.run(() => { window.angularComponentReference.loadAngularFunction(); });  
+      } 
+      function callActivityFunction() {
+        window.angularActivityReference.zone.run(() => { window.angularActivityReference.loadAngularFunction(); });  
+      }
+      function callCarbsFunction() { 
+        window.angularCarbsReference.zone.run(() => { window.angularCarbsReference.loadAngularFunction(); });  
+      }
+      function callGlucoseFunction() { 
+        window.angularGlucoseReference.zone.run(() => { window.angularGlucoseReference.loadAngularFunction(); });
+      }
+    </script>
 
 </head>
 
 <body>
+  <button hidden id="insulin-chart-slider-clicker" onclick="callAngularFunction()" type="button"></button>
+  <button hidden id="activity-chart-slider-clicker" onclick="callActivityFunction()" type="button"></button>
+  <button hidden id="carbs-chart-slider-clicker" onclick="callCarbsFunction()" type="button"></button>
+  <button hidden id="glucose-chart-slider-clicker" onclick="callGlucoseFunction()" type="button"></button>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
@@ -57,6 +73,8 @@
   <script src="assets/carbs-histogram-slider.js"></script>
   <script src="assets/glucose-histogram-slider.js"></script>
   <app-root></app-root>
+
+  
 </body>
 
 </html>
