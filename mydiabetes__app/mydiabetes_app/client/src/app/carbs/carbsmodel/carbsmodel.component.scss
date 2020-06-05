@@ -950,3 +950,32 @@ input[type="checkbox"]+label {
 }
 
 #carbs-slider svg { width: 100%; font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4;  } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; }
+
+@media (max-width: 1024px) {
+
+    #carbs-slider {
+        margin-left: 15%;
+    }
+
+}
+
+
+@media (max-width: 960px) {
+
+    #carbs-slider {
+        margin-left: 10%;
+    }
+
+}
+
+@media (max-width: 767px) {
+
+    #carbs-slider {
+        margin-left: 0;
+    }
+
+    .graph-wrapper .chart-wrapper text {
+        font-size: 9px !important;
+    }
+
+}
