@@ -1,4 +1,4 @@
-function Slider(histogram, date, customOptions) {
+function Slider(histogram, legendColors, date, customOptions) {
 
     let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
@@ -49,7 +49,8 @@ function Slider(histogram, date, customOptions) {
     .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
     .attr('width', width / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', 'brown');
+    .style('fill', function(d, i) { return legendColors[i]});
+
 
     // labels
     var labelMax = g.append('text')
