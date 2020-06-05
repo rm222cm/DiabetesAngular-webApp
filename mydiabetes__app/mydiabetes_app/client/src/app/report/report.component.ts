@@ -979,6 +979,9 @@ export class ReportComponent implements OnInit {
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
         let sliderObjInsulin = {};
+        let insulinLegendColor = [];
+        let activityLegendColor = [];
+        let carbsLegendColor = [];
         let sliderObjActivity = {};
         let sliderObjCarbs = {};
         let sliderObjGlucose = {};
@@ -1014,14 +1017,19 @@ export class ReportComponent implements OnInit {
 
           if(Number(value['value']) <= 100) {
             sliderObjInsulin[count + 1] = +value['value'];
+
+            switch(value['name']) {
+              case 'Any other time':
+                insulinLegendColor.push('#008000')
+                break;
+              case 'Before Meal':
+                insulinLegendColor.push('#1F77B4')
+                break;
+              case 'After Meal':
+                insulinLegendColor.push('#FF7F0E')
+            }
+
           }
-          delete sliderObjInsulin[43]
-          delete sliderObjInsulin[44]
-          delete sliderObjInsulin[45]
-          delete sliderObjInsulin[46]
-          delete sliderObjInsulin[47]
-          delete sliderObjInsulin[48]
-          delete sliderObjInsulin[49]
 
           count++;
 
@@ -1032,8 +1040,27 @@ export class ReportComponent implements OnInit {
             );
 
             this.boxPlot(objvoilin);
+
+            delete sliderObjInsulin[0]
+            delete sliderObjInsulin[1]
+            delete sliderObjInsulin[44]
+            delete sliderObjInsulin[45]
+            delete sliderObjInsulin[46]
+            delete sliderObjInsulin[47]
+            delete sliderObjInsulin[48]
+            delete sliderObjInsulin[49]
+
+            delete insulinLegendColor[1]
+            delete insulinLegendColor[43]
+            delete insulinLegendColor[44]
+            delete insulinLegendColor[45]
+            delete insulinLegendColor[46]
+            delete insulinLegendColor[47]
+            delete insulinLegendColor[48]
+            delete insulinLegendColor[49]
+
             const dates = [new Date(this.startDate), new Date(this.endDate)];
-            Slider(sliderObjInsulin, dates, {});
+            Slider(sliderObjInsulin, insulinLegendColor,  dates, {});
           }
         }
         for (let [key, value] of Object.entries(activity)) {
@@ -1064,16 +1091,31 @@ export class ReportComponent implements OnInit {
           objscatter[count2].activityDuration =
             obj2[0].series[count2].activityDuration;
 
-            if(Number(value['value']) <= 100) {
-              sliderObjActivity[count2 + 1] = +value['value'];
-            }
+              sliderObjActivity[count2 + 1] = +value["activityDuration"]["hour"];
+
+              switch(value['activityType']) {
+                case 'walking':
+                  activityLegendColor.push('#1f76b4')
+                  break;
+                case 'jogging':
+                  activityLegendColor.push('#e17f0e')
+                  break;
+                case 'running':
+                  activityLegendColor.push('#2ca02c')
+                  break;
+                case 'lifting_weight':
+                  activityLegendColor.push('#d62727')
+                  break;
+              }
 
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
             this.scatterPlot(objscatter);
+            // console.log(Object.keys(sliderObjActivity).length)
+            // console.log(activityLegendColor.length);
             const dates = [new Date(this.startDate), new Date(this.endDate)];
-            ActivitySlider(sliderObjActivity, dates, {});
+            ActivitySlider(sliderObjActivity, activityLegendColor, dates, {});
           }
         }
         // -------------------------------Carb charts ---------------------------------//
@@ -1096,14 +1138,29 @@ export class ReportComponent implements OnInit {
           objcrabscatter[count3].carbsType = value["carbsType"];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
 
+          
           sliderObjCarbs[count3 + 1] = objcrabscatter[count3].time;
+
+          switch(objcrabscatter[count3].carbsType) {
+            case '1':
+              carbsLegendColor.push('#1F77B4')
+              break;
+            case '2':
+              carbsLegendColor.push('#FF7F0E')
+              break;
+            case '3':
+              carbsLegendColor.push('#2CA02C')
+              break;
+          }
 
           count3++;
 
           if (count3 === carbs.length) {
+
+
             this.carbsScatterPlot(objcrabscatter);
             const dates = [new Date(this.startDate), new Date(this.endDate)];
-            CarbsSlider(sliderObjCarbs, dates, {});
+            CarbsSlider(sliderObjCarbs, carbsLegendColor, dates, {});
           }
         }
 
