@@ -1,4 +1,4 @@
-function CarbsSlider(histogram, date, customOptions) {
+function CarbsSlider(histogram, legendColors, date, customOptions) {
 
     let style = `<style> #carbs-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
@@ -45,11 +45,11 @@ function CarbsSlider(histogram, date, customOptions) {
     .data(d3v4.range(range[0], range[1]+1))
     .enter()
     .append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; }) // d => x(d)+ counter
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
     .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', width / (range[1] - range[0]))
+    .attr('width', (width -130) / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', '#ffdb58');
+    .style('fill', function(d, i) { return legendColors[i]});
 
     // labels
     var labelMax = g.append('text')
