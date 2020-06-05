@@ -309,315 +309,315 @@ export class ActivityModalComponent implements OnInit {
   onResize(event) {
     if(this.golucoseobj){
       
-      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+      // this.drawGolucoseLineChart123(this.golucoseobj[0].series);
     }
   }
 
   drawGolucoseLineChart123(lineData) {
-    var node = document.querySelector("#chartArea");
-    node.innerHTML = "";
+    // var node = document.querySelector("#chartArea");
+    // node.innerHTML = "";
 
-    var margin = { top: 50, right: 10, bottom: 60, left: 50 };
-    var width, height;
+    // var margin = { top: 50, right: 10, bottom: 60, left: 50 };
+    // var width, height;
 
-    if (window.matchMedia('(max-width: 767px)')['matches']) {
+    // if (window.matchMedia('(max-width: 767px)')['matches']) {
 
-      width = 390 - margin.left - margin.right,
-      height = 310 - margin.top - margin.bottom;
+    //   width = 390 - margin.left - margin.right,
+    //   height = 310 - margin.top - margin.bottom;
 
-    } else {
-      width = 590 - margin.left - margin.right,
-      height = 310 - margin.top - margin.bottom;
+    // } else {
+    //   width = 590 - margin.left - margin.right,
+    //   height = 310 - margin.top - margin.bottom;
 
-    }
+    // }
 
-    var x = d3.time.scale().range([0, width]);
+    // var x = d3.time.scale().range([0, width]);
 
-    var y = d3.scale.linear().range([height, 0]);
+    // var y = d3.scale.linear().range([height, 0]);
 
-    var xAxis = d3.svg
-      .axis()
-      .scale(x)
-      .ticks(d3.time.hours, 24)
-      .tickSize(4)
-      .orient("bottom");
+    // var xAxis = d3.svg
+    //   .axis()
+    //   .scale(x)
+    //   .ticks(d3.time.hours, 24)
+    //   .tickSize(4)
+    //   .orient("bottom");
 
-    var xMinorAxis = d3.svg
-      .axis()
-      .scale(x)
-      .ticks(d3.time.hours, 12)
-      .orient("bottom");
+    // var xMinorAxis = d3.svg
+    //   .axis()
+    //   .scale(x)
+    //   .ticks(d3.time.hours, 12)
+    //   .orient("bottom");
 
-    var yAxis = d3.svg.axis().scale(y).orient("left");
+    // var yAxis = d3.svg.axis().scale(y).orient("left");
 
-    var line = d3.svg
-      .line()
-      .x(function (d) {
-        return x(d.date);
-      })
-      .y(function (d) {
-        return y(d.total_km);
-      });
+    // var line = d3.svg
+    //   .line()
+    //   .x(function (d) {
+    //     return x(d.date);
+    //   })
+    //   .y(function (d) {
+    //     return y(d.total_km);
+    //   });
 
-    var div = d3
-      .select("#chartArea")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0)
-      .style("background-color", "#FFFFFF")
-      .style("font-weight", "bold").style('font-size', '12px');
+    // var div = d3
+    //   .select("#chartArea")
+    //   .append("div")
+    //   .attr("class", "tooltip")
+    //   .style("opacity", 0)
+    //   .style("background-color", "#FFFFFF")
+    //   .style("font-weight", "bold").style('font-size', '12px');
 
-    var svg = d3
-      .select("#chartArea")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    // var svg = d3
+    //   .select("#chartArea")
+    //   .append("svg")
+    //   .attr("width", width + margin.left + margin.right)
+    //   .attr("height", height + margin.top + margin.bottom)
+    //   .append("g")
+    //   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var parseDate = d3.time.format("%Y-%m-%d %X");
-    var formatTime = d3.time.format("%e %b %-I:%M %p");
-    var formatCount = d3.format(",");
+    // var parseDate = d3.time.format("%Y-%m-%d %X");
+    // var formatTime = d3.time.format("%e %b %-I:%M %p");
+    // var formatCount = d3.format(",");
 
-    function make_y_axis() {
-      return d3.svg.axis().scale(y).orient("left");
-    }
+    // function make_y_axis() {
+    //   return d3.svg.axis().scale(y).orient("left");
+    // }
 
-    var data = lineData;
+    // var data = lineData;
 
-    data = data.filter((month, idx) => idx < 10);
+    // data = data.filter((month, idx) => idx < 10);
 
-    data.forEach(function (d) {
-      d.date = d.date_time;
-      d.total_km = +d.total_km;
-    });
+    // data.forEach(function (d) {
+    //   d.date = d.date_time;
+    //   d.total_km = +d.total_km;
+    // });
 
-    x.domain(
-      d3.extent(data, function (d) {
-        return d.date;
-      })
-    );
-    y.domain(
-      d3.extent(data, function (d) {
-        return d.total_km;
-      })
-    );
+    // x.domain(
+    //   d3.extent(data, function (d) {
+    //     return d.date;
+    //   })
+    // );
+    // y.domain(
+    //   d3.extent(data, function (d) {
+    //     return d.total_km;
+    //   })
+    // );
 
-    // Draw the y Grid lines
-    svg
-      .append("g")
-      .attr("class", "grid")
-      .call(make_y_axis().tickSize(-width, 0, 0).tickFormat(""));
+    // // Draw the y Grid lines
+    // svg
+    //   .append("g")
+    //   .attr("class", "grid")
+    //   .call(make_y_axis().tickSize(-width, 0, 0).tickFormat(""));
 
-    svg.append("path").datum(data).attr("class", "line").attr("d", line);
+    // svg.append("path").datum(data).attr("class", "line").attr("d", line);
 
-    var g = svg.selectAll().data(data).enter().append("g");
+    // var g = svg.selectAll().data(data).enter().append("g");
 
-    g.append("circle")
-      .attr("r", 4.5)
-      .attr("cx", function (d) {
-        return x(d.date);
-      })
-      .attr("cy", function (d) {
-        return y(d.total_km);
-      });
+    // g.append("circle")
+    //   .attr("r", 4.5)
+    //   .attr("cx", function (d) {
+    //     return x(d.date);
+    //   })
+    //   .attr("cy", function (d) {
+    //     return y(d.total_km);
+    //   });
 
-    g.append("line")
-      .attr("class", "x")
-      .attr("id", "dashedLine")
+    // g.append("line")
+    //   .attr("class", "x")
+    //   .attr("id", "dashedLine")
 
-      .style("opacity", 0)
-      .attr("x1", function (d) {
-        return x(d.date);
-      })
-      .attr("y1", function (d) {
-        return y(d.total_km);
-      })
-      .attr("x2", function (d) {
-        return x(d3.min(x));
-      })
-      .attr("y2", function (d) {
-        return y(d.total_km);
-      });
+    //   .style("opacity", 0)
+    //   .attr("x1", function (d) {
+    //     return x(d.date);
+    //   })
+    //   .attr("y1", function (d) {
+    //     return y(d.total_km);
+    //   })
+    //   .attr("x2", function (d) {
+    //     return x(d3.min(x));
+    //   })
+    //   .attr("y2", function (d) {
+    //     return y(d.total_km);
+    //   });
 
-    g.append("line")
-      .attr("class", "y")
-      .attr("id", "dashedLine")
-      .style("opacity", 0)
-      .attr("x1", function (d) {
-        return x(d.date);
-      })
-      .attr("y1", function (d) {
-        return y(d.total_km);
-      })
-      .attr("x2", function (d) {
-        return x(d.date);
-      })
-      .attr("y2", height);
+    // g.append("line")
+    //   .attr("class", "y")
+    //   .attr("id", "dashedLine")
+    //   .style("opacity", 0)
+    //   .attr("x1", function (d) {
+    //     return x(d.date);
+    //   })
+    //   .attr("y1", function (d) {
+    //     return y(d.total_km);
+    //   })
+    //   .attr("x2", function (d) {
+    //     return x(d.date);
+    //   })
+    //   .attr("y2", height);
 
-    g.selectAll("circle")
-      .on("mouseover", function (d) {
-        div.transition().duration(200).style("opacity", 0.7);
-        let date = new Date(d.date);
-        var day: any;
-        var month: any;
-        var hours: any;
-        var minutes: any;
-        var seconds: any;
-        day = date.getDay();
+    // g.selectAll("circle")
+    //   .on("mouseover", function (d) {
+    //     div.transition().duration(200).style("opacity", 0.7);
+    //     let date = new Date(d.date);
+    //     var day: any;
+    //     var month: any;
+    //     var hours: any;
+    //     var minutes: any;
+    //     var seconds: any;
+    //     day = date.getDay();
 
-        month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        hours = date.getHours();
-        minutes = date.getMinutes();
-        seconds = date.getSeconds();
+    //     month = date.getMonth() + 1;
+    //     var year = date.getFullYear();
+    //     hours = date.getHours();
+    //     minutes = date.getMinutes();
+    //     seconds = date.getSeconds();
 
-        if (day < 10) {
-          day = "0" + day;
-        }
+    //     if (day < 10) {
+    //       day = "0" + day;
+    //     }
 
-        if (month < 10) {
-          month = "0" + month;
-        }
+    //     if (month < 10) {
+    //       month = "0" + month;
+    //     }
 
-        if (Number(hours) < 10) {
-          hours = "0" + hours;
-        }
+    //     if (Number(hours) < 10) {
+    //       hours = "0" + hours;
+    //     }
 
-        if (Number(minutes) < 10) {
-          minutes = "0" + minutes;
-        }
+    //     if (Number(minutes) < 10) {
+    //       minutes = "0" + minutes;
+    //     }
 
-        if (Number(seconds) < 10) {
-          seconds = "0" + seconds;
-        }
+    //     if (Number(seconds) < 10) {
+    //       seconds = "0" + seconds;
+    //     }
 
-        if (window.matchMedia('(max-width: 767px)')['matches']) {
+    //     if (window.matchMedia('(max-width: 767px)')['matches']) {
 
-          div.html(
-            "Glucose Specification Time: " +
-              d.glucoseType +
-              "<br/>" +
-              "Glucose Level: " +
-              formatCount(d.total_km) + ' mmol/L ' +
-              "<br/>" +
-              "Glucose checking Time: " +
-              `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
-          )
-          .style("left", d3.event.pageX - 10 + "px")
-          .style("top", d3.event.pageY - 1218 + "px")
-          .style("width", "45%");
+    //       div.html(
+    //         "Glucose Specification Time: " +
+    //           d.glucoseType +
+    //           "<br/>" +
+    //           "Glucose Level: " +
+    //           formatCount(d.total_km) + ' mmol/L ' +
+    //           "<br/>" +
+    //           "Glucose checking Time: " +
+    //           `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
+    //       )
+    //       .style("left", d3.event.pageX - 10 + "px")
+    //       .style("top", d3.event.pageY - 1218 + "px")
+    //       .style("width", "45%");
 
-        } else {
+    //     } else {
 
-          div.html(
-            "Glucose Specification Time: " +
-              d.glucoseType +
-              "<br/>" +
-              "Glucose Level: " +
-              formatCount(d.total_km) + ' mmol/L ' +
-              "<br/>" +
-              "Glucose checking Time: " +
-              `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
-          )
-          .style("left", d3.event.pageX - 670 + "px")
-          .style("top", d3.event.pageY - 550 + "px")
-          .style("width", "45%");
+    //       div.html(
+    //         "Glucose Specification Time: " +
+    //           d.glucoseType +
+    //           "<br/>" +
+    //           "Glucose Level: " +
+    //           formatCount(d.total_km) + ' mmol/L ' +
+    //           "<br/>" +
+    //           "Glucose checking Time: " +
+    //           `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
+    //       )
+    //       .style("left", d3.event.pageX - 670 + "px")
+    //       .style("top", d3.event.pageY - 550 + "px")
+    //       .style("width", "45%");
 
-        }
-
-
-
-        d3.select(this.nextElementSibling)
-          .transition()
-          .duration(200)
-          .style("opacity", 0.7);
-
-        d3.select(this.nextElementSibling.nextElementSibling)
-          .transition()
-          .duration(200)
-          .style("opacity", 0.7);
-      })
-
-      .on("mouseout", function (d) {
-        div.transition().duration(500).style("opacity", 0);
-
-        d3.select(this.nextElementSibling)
-          .transition()
-          .duration(500)
-          .style("opacity", 0);
-
-        d3.select(this.nextElementSibling.nextElementSibling)
-          .transition()
-          .duration(500)
-          .style("opacity", 0);
-      });
-
-    svg
-      .append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-      .selectAll(".tick text")
-      .call(wrap, 35);
-
-    svg
-      .append("g")
-      .attr("class", "xMinorAxis")
-      .attr("transform", "translate(0," + height + ")")
-      .style({ stroke: "Black", fill: "none", "stroke-width": "1px" })
-      .call(xMinorAxis)
-      .selectAll("text")
-      .remove();
-
-    svg
-      .append("text") // text label for the y-axis
-      .attr("y", 20 - margin.left)
-      .attr("x", 50 - height / 2)
-      .attr("transform", "rotate(-90)")
-      .style("text-anchor", "end")
-      .style("font-size", "16px")
-      .text("Glucose Level");
+    //     }
 
 
-    svg.append("g").attr("class", "y axis").call(yAxis);
+
+    //     d3.select(this.nextElementSibling)
+    //       .transition()
+    //       .duration(200)
+    //       .style("opacity", 0.7);
+
+    //     d3.select(this.nextElementSibling.nextElementSibling)
+    //       .transition()
+    //       .duration(200)
+    //       .style("opacity", 0.7);
+    //   })
+
+    //   .on("mouseout", function (d) {
+    //     div.transition().duration(500).style("opacity", 0);
+
+    //     d3.select(this.nextElementSibling)
+    //       .transition()
+    //       .duration(500)
+    //       .style("opacity", 0);
+
+    //     d3.select(this.nextElementSibling.nextElementSibling)
+    //       .transition()
+    //       .duration(500)
+    //       .style("opacity", 0);
+    //   });
+
+    // svg
+    //   .append("g")
+    //   .attr("class", "x axis")
+    //   .attr("transform", "translate(0," + height + ")")
+    //   .call(xAxis)
+    //   .selectAll(".tick text")
+    //   .call(wrap, 35);
+
+    // svg
+    //   .append("g")
+    //   .attr("class", "xMinorAxis")
+    //   .attr("transform", "translate(0," + height + ")")
+    //   .style({ stroke: "Black", fill: "none", "stroke-width": "1px" })
+    //   .call(xMinorAxis)
+    //   .selectAll("text")
+    //   .remove();
+
+    // svg
+    //   .append("text") // text label for the y-axis
+    //   .attr("y", 20 - margin.left)
+    //   .attr("x", 50 - height / 2)
+    //   .attr("transform", "rotate(-90)")
+    //   .style("text-anchor", "end")
+    //   .style("font-size", "16px")
+    //   .text("Glucose Level");
 
 
-    // http://bl.ocks.org/mbostock/7555321
-    // This code wraps label text if it has too much text
-    function wrap(text, width) {
-      text.each(function () {
-        var text = d3.select(this),
-          words = text.text().split(/\s+/).reverse(),
-          word,
-          line = [],
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
-          y = text.attr("y"),
-          dy = parseFloat(text.attr("dy")),
-          tspan = text
-            .text(null)
-            .append("tspan")
-            .attr("x", 0)
-            .attr("y", y)
-            .attr("dy", dy + "em");
-        while ((word = words.pop())) {
-          line.push(word);
-          tspan.text(line.join(" "));
-          if (tspan.node().getComputedTextLength() > width) {
-            line.pop();
-            tspan.text(line.join(" "));
-            line = [word];
-            tspan = text
-              .append("tspan")
-              .attr("x", 0)
-              .attr("y", y)
-              .attr("dy", ++lineNumber * lineHeight + dy + "em")
-              .text(word);
-          }
-        }
-      });
-    }
+    // svg.append("g").attr("class", "y axis").call(yAxis);
+
+
+    // // http://bl.ocks.org/mbostock/7555321
+    // // This code wraps label text if it has too much text
+    // function wrap(text, width) {
+    //   text.each(function () {
+    //     var text = d3.select(this),
+    //       words = text.text().split(/\s+/).reverse(),
+    //       word,
+    //       line = [],
+    //       lineNumber = 0,
+    //       lineHeight = 1.1, // ems
+    //       y = text.attr("y"),
+    //       dy = parseFloat(text.attr("dy")),
+    //       tspan = text
+    //         .text(null)
+    //         .append("tspan")
+    //         .attr("x", 0)
+    //         .attr("y", y)
+    //         .attr("dy", dy + "em");
+    //     while ((word = words.pop())) {
+    //       line.push(word);
+    //       tspan.text(line.join(" "));
+    //       if (tspan.node().getComputedTextLength() > width) {
+    //         line.pop();
+    //         tspan.text(line.join(" "));
+    //         line = [word];
+    //         tspan = text
+    //           .append("tspan")
+    //           .attr("x", 0)
+    //           .attr("y", y)
+    //           .attr("dy", ++lineNumber * lineHeight + dy + "em")
+    //           .text(word);
+    //       }
+    //     }
+    //   });
+    // }
 
   }
 
@@ -932,6 +932,7 @@ export class ActivityModalComponent implements OnInit {
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
         let sliderObjActivity = {};
+        let activityLegendColor = [];
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
@@ -999,16 +1000,36 @@ export class ActivityModalComponent implements OnInit {
           objscatter[count2].activityDuration =
             obj2[0].series[count2].activityDuration;
 
-            if(Number(value['value']) <= 100) {
-              sliderObjActivity[count2 + 1] = +value['value'];
-            }
+            sliderObjActivity[count2 + 1] = +value["activityDuration"]["hour"];
+
+              switch(value['activityType']) {
+                case 'walking':
+                  activityLegendColor.push('#1f76b4')
+                  break;
+                case 'jogging':
+                  activityLegendColor.push('#e17f0e')
+                  break;
+                case 'running':
+                  activityLegendColor.push('#2ca02c')
+                  break;
+                case 'lifting_weight':
+                  activityLegendColor.push('#d62727')
+                  break;
+              }
 
           count2++;
           this.activityobj = obj2;
           if (count2 === activity.length) {
             this.scatterPlot(objscatter);
-            const dates = [new Date(this.startDate), new Date(this.endDate)];
-            ActivitySlider(sliderObjActivity, dates, {});
+
+            let activitySlider = document.querySelector('#acitivity-slider');
+
+            if (!activitySlider.getElementsByTagName('svg').length) {
+              const dates = [new Date(this.startDate), new Date(this.endDate)];
+              ActivitySlider(sliderObjActivity,activityLegendColor, dates, {});
+            }
+
+
           }
         }
         // -------------------------------Carb charts ---------------------------------//
@@ -1241,6 +1262,9 @@ export class ActivityModalComponent implements OnInit {
       this.endDate = value;
       this.maxValue = new Date(this.endDate).getTime();
     }
+
+    let activitySlider = document.querySelector('#acitivity-slider');
+    activitySlider.innerHTML = '';
     this.getReportData();
   }
 
