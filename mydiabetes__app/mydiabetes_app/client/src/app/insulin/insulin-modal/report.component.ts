@@ -305,9 +305,9 @@ export class InsulinModalComponent implements OnInit {
   }
 
   onResize(event) {
-    if(this.golucoseobj){
+    if (this.golucoseobj) {
       
-      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+      // this.drawGolucoseLineChart123(this.golucoseobj[0].series);
     }
   }
 
@@ -366,29 +366,12 @@ export class InsulinModalComponent implements OnInit {
     }   if (liftingarr.length > 0) {
       chartarr=  chartarr.concat(liftingarr);
     }
-       let chart2;
+    let chart2;
     chartarr.forEach(function (d) {
       d.value = +d.value % 60;
     });
 
-    // document.getElementById("chart-distro2").innerHTML = "";
-    // chart2 = makeDistroChart_Insulin({
-    //   data: chartarr,
-    //   xName: "date",
-    //   yName: "value",
-    //   axisLabels: { xAxis: null, yAxis: "Activity Duration" },
-    //   selector: "#chart-distro2",
-    //   chartSize: { height: 240, width: 960 },
-    //   constrainExtremes: true,
-    // });
-    // chart2.renderDataPlots();
-    // chart2.dataPlots.show({
-    //   showPlot: true,
-    //   plotType: 9,
-    //   showBeanLines: false,
-    //   colors: null,
-    // });
-    // this.sliderButton.nativeElement.click();
+
   }
 
   carbsScatterPlot(this_data) {
@@ -419,26 +402,6 @@ export class InsulinModalComponent implements OnInit {
 
     });
 
-    // var chart3;
-
-    // document.getElementById("chart-distro3").innerHTML = "";
-
-    // chart3 = makeDistroCrabsChart_Insulin({
-    //   data: this_data,
-    //   yName: "carabsTime",
-    //   xName: "carbsType",
-    //   axisLabels: { xAxis: null, yAxis: null },
-    //   selector: "#chart-distro3",
-    //   chartSize: { height: 240, width: 960 },
-    //   constrainExtremes: true,
-    // });
-    // chart3.renderDataPlots();
-    // chart3.dataPlots.show({
-    //   showPlot: true,
-    //   plotType: 40,
-    //   showBeanLines: false,
-    //   colors: null,
-    // });
   }
 
   onSelectInsulin(event) {
@@ -867,6 +830,7 @@ export class InsulinModalComponent implements OnInit {
           let obj1 = [];
           let count = 0;
           let sliderObjInsulin = {};
+          let insulinLegendColor = [];
           for (let [key, value] of Object.entries(insulin)) {
             obj1[count] = {};
             obj1[count] = {};
@@ -894,14 +858,19 @@ export class InsulinModalComponent implements OnInit {
 
             if (Number(value['value']) <= 100) {
               sliderObjInsulin[count + 1] = +value['value'];
+
+              switch(value['name']) {
+                case 'Any other time':
+                  insulinLegendColor.push('#008000')
+                  break;
+                case 'Before Meal':
+                  insulinLegendColor.push('#1F77B4')
+                  break;
+                case 'After Meal':
+                  insulinLegendColor.push('#FF7F0E')
+              }
+
             }
-            delete sliderObjInsulin[43];
-            delete sliderObjInsulin[44];
-            delete sliderObjInsulin[45];
-            delete sliderObjInsulin[46];
-            delete sliderObjInsulin[47];
-            delete sliderObjInsulin[48];
-            delete sliderObjInsulin[49];
 
             count++;
             this.multi = obj1;
@@ -911,10 +880,34 @@ export class InsulinModalComponent implements OnInit {
               );
 
               this.boxPlot(obj1);
-              const dates = [new Date(this.startDate), new Date(this.endDate)];
-              Slider(sliderObjInsulin, dates, {});
+
+              delete sliderObjInsulin[0];
+              delete sliderObjInsulin[1];
+              delete sliderObjInsulin[44];
+              delete sliderObjInsulin[45];
+              delete sliderObjInsulin[46];
+              delete sliderObjInsulin[47];
+              delete sliderObjInsulin[48];
+              delete sliderObjInsulin[49];
+  
+              delete insulinLegendColor[1];
+              delete insulinLegendColor[43];
+              delete insulinLegendColor[44];
+              delete insulinLegendColor[45];
+              delete insulinLegendColor[46];
+              delete insulinLegendColor[47];
+              delete insulinLegendColor[48];
+              delete insulinLegendColor[49];
+
+              let insulinSlider = document.querySelector('#brush-slider');
+
+              if (!insulinSlider.getElementsByTagName('svg').length) {
+                const dates = [new Date(this.startDate), new Date(this.endDate)];
+                Slider(sliderObjInsulin, insulinLegendColor, dates, {});
+              }
+
+
             }
-            // }
           }
         } else {
           let obj = [];
@@ -943,6 +936,10 @@ export class InsulinModalComponent implements OnInit {
       this.endDate = value;
       this.maxValue = new Date(this.endDate).getTime();
     }
+
+    let insulinSlider = document.querySelector('#brush-slider');
+    insulinSlider.innerHTML = '';
+
     this.getReportData();
   }
 
