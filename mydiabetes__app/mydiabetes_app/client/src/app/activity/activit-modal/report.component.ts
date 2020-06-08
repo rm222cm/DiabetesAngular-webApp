@@ -1265,6 +1265,8 @@ export class ActivityModalComponent implements OnInit {
 
     let activitySlider = document.querySelector('#acitivity-slider');
     activitySlider.innerHTML = '';
+
+    // this.getActivityReportData(this.legendsactivity);
     this.getReportData();
   }
 
