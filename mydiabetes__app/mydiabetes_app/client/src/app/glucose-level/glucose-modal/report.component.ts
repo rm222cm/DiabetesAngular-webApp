@@ -148,7 +148,7 @@ export class GlucoseModalComponent implements OnInit {
   glucoseSliderEnd() {
 
     this.setDates();
-    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+    this.getReportData();
   }
 
   setDates() {
@@ -621,23 +621,7 @@ export class GlucoseModalComponent implements OnInit {
   }
 
   boxPlot(this_data) {
-    // let chart1;
 
-    // this_data.forEach(function (d) {
-    //   d.value = +d.value;
-    // });
-
-    // document.getElementById("chart-distro1").innerHTML = "";
-    // chart1 = makeDistroChartBox({
-    //   data: this_data,
-    //   xName: "date",
-    //   yName: "value",
-    //   axisLabels: { xAxis: null, yAxis: "Dosage Units" },
-    //   selector: "#chart-distro1",
-    //   chartSize: { height: 240, width: 960 },
-    //   constrainExtremes: true,
-    // });
-    // chart1.renderBoxPlot();
   }
 
   scatterPlot(this_data) {
@@ -689,52 +673,6 @@ export class GlucoseModalComponent implements OnInit {
 
   carbsScatterPlot(this_data) {
 
-    // this_data.forEach(element => {
-    //   if (element.carbsType.includes('Protein')) {
-    //     element.carbsType = element.carbsType + 's';
-    //   }
-    //   element.carabsTime = new Date(element.carabsTime);
-    //   let formattedDate = '';
-    //   // element.carabsTime = `${element.carabsTime.getMonth() + 1}-${element.carabsTime.getDate()}-${element.carabsTime.getFullYear()}`;
-
-    //   if((element.carabsTime.getMonth() + 1) < 10) {
-    //     formattedDate += `0${element.carabsTime.getMonth() + 1}`;
-    //   } else {
-    //     formattedDate += `${element.carabsTime.getMonth() + 1}`;
-    //   }
-
-    //   if (element.carabsTime.getDate() < 10) {
-    //     formattedDate += `-0${element.carabsTime.getDate()}-`;
-    //   } else {
-    //     formattedDate += `-${element.carabsTime.getDate()}-`;
-    //   }
-
-    //   formattedDate += element.carabsTime.getFullYear();
-    //   element.carabsTime = formattedDate;
-
-
-    // });
-
-    // var chart3;
-
-    // document.getElementById("chart-distro3").innerHTML = "";
-
-    // chart3 = makeDistroCrabsChart({
-    //   data: this_data,
-    //   yName: "carabsTime",
-    //   xName: "carbsType",
-    //   axisLabels: { xAxis: null, yAxis: null },
-    //   selector: "#chart-distro3",
-    //   chartSize: { height: 240, width: 960 },
-    //   constrainExtremes: true,
-    // });
-    // chart3.renderDataPlots();
-    // chart3.dataPlots.show({
-    //   showPlot: true,
-    //   plotType: 40,
-    //   showBeanLines: false,
-    //   colors: null,
-    // });
   }
 
   onSelectInsulin(event) {
@@ -1045,6 +983,7 @@ export class GlucoseModalComponent implements OnInit {
           count4++;
           this.golucoseobj = obj4;
         }
+        
         const dates1 = [new Date(this.startDate), new Date(this.endDate)];
         GlucoseSlider(sliderObjGlucose, dates1, {});
         this.drawGolucoseLineChart123(this.golucoseobj[0].series);
@@ -1230,6 +1169,10 @@ export class GlucoseModalComponent implements OnInit {
       this.endDate = value;
       this.maxValue = new Date(this.endDate).getTime();
     }
+    let glucoseSlider = document.querySelector('#glucose-slider');
+    glucoseSlider.innerHTML = '';
+
+    // this.drawGolucoseLineChart123(this.golucoseobj[0].series);
     this.getReportData();
   }
 
