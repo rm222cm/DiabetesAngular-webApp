@@ -940,7 +940,8 @@ export class InsulinModalComponent implements OnInit {
     let insulinSlider = document.querySelector('#brush-slider');
     insulinSlider.innerHTML = '';
 
-    this.getReportData();
+    this.getInsulinReportData(this.legendsarray);
+    // this.getReportData();
   }
 
   parseData(data): any {
