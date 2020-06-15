@@ -3,7 +3,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':400,
+        'w':700,
         'h': 150,
         'margin': {
           top: 20,
@@ -37,19 +37,71 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
 
     // create svg and translated g
     var svg = d3v4.select('#acitivity-slider').append('svg')
-    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    // draw histogram values
-    let counter = 1295;
-    g.append('g').selectAll('rect')
+    var groups = svg.selectAll(".groups")
     .data(d3v4.range(range[0], range[1]+1))
     .enter()
-    .append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; }) // d => x(d)+ counter
-    .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', width / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', function(d, i) { return legendColors[i]});
+    .append("g").attr('transform', `translate(${margin.left}, ${margin.top})`)
+    .attr("class", "gbar")
+
+    // draw histogram values
+    // let counter = 1295;
+    // g.append('g').selectAll('rect')
+    // .data(d3v4.range(range[0], range[1]+1))
+    // .enter()
+    // .append('rect')
+    // .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; }) // d => x(d)+ counter
+    // .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
+    // .attr('width', width / (range[1] - range[0]))
+    // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
+    // .style('fill', function(d, i) { return legendColors[i]});
+
+    let counter = 2735;
+    let hist1 = 0;
+
+    groups.append('rect')
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
+    .attr('width', (width - 430) / (range[1] - range[0]))
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
+    .style('fill', function(d, i) { return legendColors[i]})
+    .attr("id", function(d, i){   
+      return 'rect-activity-'+i;        // slug = label downcased, this works
+    });
+
+    counter = 2740;
+    hist1 = 0;
+
+    groups.append('text')
+    .style('fill', 'black')
+    .attr('writing-mode', 'vertical-rl')
+    .attr('font-size', 8)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('y', '30%')
+    .text(function(d, i)  {
+
+      let id = 'rect-activity-'+i;
+      let height = document.getElementById(id).getAttribute('height');
+
+      if(height > 0) {
+
+        if (legendColors[i] === '#1f76b4') {
+          return 'walking';
+        } else if(legendColors[i] === '#e17f0e') {
+            return 'jogging';
+        } else if(legendColors[i] === '#2ca02c') {
+            return 'running';
+        } else {
+            return 'lifting_weight';
+        }
+
+      } else {
+        return '';
+      }
+
+
+    });
 
     // labels
     var labelMax = g.append('text')
@@ -81,7 +133,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 270).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 565).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)
