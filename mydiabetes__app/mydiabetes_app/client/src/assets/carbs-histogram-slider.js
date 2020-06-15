@@ -3,7 +3,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
     let style = `<style> #carbs-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':400,
+        'w':700,
         'h': 150,
         'margin': {
           top: 20,
@@ -37,19 +37,84 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
 
     // create svg and translated g
     var svg = d3v4.select('#carbs-slider').append('svg')
-    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-    // draw histogram values
-    let counter = 1295;
-    g.append('g').selectAll('rect')
+    var groups = svg.selectAll(".groups")
     .data(d3v4.range(range[0], range[1]+1))
     .enter()
-    .append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
-    .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', (width -130) / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', function(d, i) { return legendColors[i]});
+    .append("g").attr('transform', `translate(${margin.left}, ${margin.top})`)
+    .attr("class", "gbar")
+
+    let counter = 0;
+
+    if(window.location.href.includes('report')) {
+      counter = 2930;
+    } else {
+      counter = 2895;
+    }
+
+    
+    let hist1 = 0;
+
+    groups.append('rect')
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
+    .attr('width', (width - 500) / (range[1] - range[0]))
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
+    .style('fill', function(d, i) { return legendColors[i]})
+    .attr("id", function(d, i){   
+      return 'rect-carbs-'+i;        // slug = label downcased, this works
+    });
+
+    if(window.location.href.includes('report')) {
+      counter = 2933;
+    } else {
+      counter = 2900;
+    }
+
+
+    // counter = 2933;
+    hist1 = 0;
+
+    groups.append('text')
+    .style('fill', 'black')
+    .attr('writing-mode', 'vertical-rl')
+    .attr('font-size', 8)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('y', '30%')
+    .text((d, i) => {
+
+      let id = 'rect-carbs-'+i;
+      let height = document.getElementById(id).getAttribute('height');
+
+      if (height > 0) {
+
+        if (legendColors[i] === '#1F77B4') {
+          return 'Carbohydrates';
+          } else if(legendColors[i] === '#FF7F0E') {
+            return 'Proteins';
+          } else {
+            return 'Fibers';
+          }
+
+      } else {
+        return '';
+      }
+
+
+    });
+
+    // draw histogram values
+    // let counter = 1295;
+    // g.append('g').selectAll('rect')
+    // .data(d3v4.range(range[0], range[1]+1))
+    // .enter()
+    // .append('rect')
+    // .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
+    // .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
+    // .attr('width', (width -130) / (range[1] - range[0]))
+    // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
+    // .style('fill', function(d, i) { return legendColors[i]});
 
     // labels
     var labelMax = g.append('text')
@@ -81,7 +146,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 270).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 570).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)
