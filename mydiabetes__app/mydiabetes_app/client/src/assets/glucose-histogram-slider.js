@@ -3,7 +3,7 @@ function GlucoseSlider(histogram, date, customOptions) {
     let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':700,
+        'w':650,
         'h': 150,
         'margin': {
           top: 20,
@@ -40,14 +40,14 @@ function GlucoseSlider(histogram, date, customOptions) {
     const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     // draw histogram values
-    let counter = 2735;
+    let counter = 2500;
     g.append('g').selectAll('rect')
     .data(d3v4.range(range[0], range[1]+1))
     .enter()
     .append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
     .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', (width -500)  / (range[1] - range[0]))
+    .attr('width', (width -400)  / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
     .style('fill', 'slateblue');
 
@@ -81,7 +81,7 @@ function GlucoseSlider(histogram, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 565).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 540).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)
@@ -98,8 +98,6 @@ function GlucoseSlider(histogram, date, customOptions) {
         var d1 = d0.map(Math.round)
         let start_date = formatDate(d1[0])
         let end_date = formatDate(d1[1])
-        // document.getElementById("startDate").value = start_date;
-        // document.getElementById("endDate").value = end_date;
 
         localStorage.setItem('startDate', start_date);
         localStorage.setItem('endDate', end_date);

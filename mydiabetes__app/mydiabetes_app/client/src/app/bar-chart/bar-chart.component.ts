@@ -114,21 +114,7 @@ export class BarChartComponent implements OnInit {
         ]
       },
       options: {
-        // tooltips: {
-        //   callbacks: {
-        //     label:  (item, data) => {
-        //       console.log(item, data);
-        //       const index= item.index;
-        //       const value  = item.value;
-        //       const insulinType = this.insulinData.filter(el => {
-        //         console.log(el.dosageUnits, 'el')
-        //         console.log(value, 'el')
-        //         return el.dosageUnits == value
-        //       })
-        //       console.log(insulinType, 'type');
-        //     }
-        //   }
-        // },
+
         title: {
           display: true,
           text: 'Insulin Dosage/Units'

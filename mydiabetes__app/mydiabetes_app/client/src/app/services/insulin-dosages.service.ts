@@ -26,7 +26,6 @@ export class InsulinDosagesService {
   }
 
   public downloadFile(data, filename = 'data') {
-    console.log('data', data)
     let blob = new Blob(['\ufeff' + data], { type: 'text/csv;charset=utf-8;' });
     let dwldLink = document.createElement('a');
     let url = URL.createObjectURL(blob);

@@ -3882,8 +3882,6 @@ function makeDistroCrabsChart_insulin(settings) {
         for (current_row = 0; current_row < chart.data.length; current_row++) {
             current_x = chart.data[current_row][chart.settings.xName];
             current_y = chart.data[current_row][chart.settings.yName];
-            console.log('current_x,current_y')
-            console.log(current_x,current_y)
             // exchanged this
             if (chart.groupObjs.hasOwnProperty(current_x)) {
                 chart.groupObjs[current_y].values.push(current_x);
@@ -3952,8 +3950,7 @@ function makeDistroCrabsChart_insulin(settings) {
             .tickFormat(chart.yFormatter)
             .outerTickSize(0)
             .innerTickSize(-chart.width + (chart.margin.right + chart.margin.left));
-            console.log('chart.objs.yAxis.ticks(),chart.settings.yTicks')
-            console.log(chart.objs.yAxis.ticks(),chart.settings.yTicks)
+
         chart.objs.yAxis.ticks(chart.objs.yAxis.ticks()*chart.settings.yTicks);
         chart.objs.xAxis = d3.svg.axis().scale(chart.xScale).orient("bottom").tickSize(5);
     }();

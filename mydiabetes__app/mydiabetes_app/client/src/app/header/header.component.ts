@@ -15,12 +15,8 @@ import {TranslateService} from '@ngx-translate/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  // userData: UserData = {
-  //   name: '',
-  //   avatar: '',
-  //   auth: false,
-  // };
-  userData: any = {}
+
+  userData: any = {};
 
   constructor(
     private cookieService: CookieService,
@@ -38,7 +34,6 @@ export class HeaderComponent implements OnInit {
           } else {
             this.userData.auth = false;
           }
-          console.log(this.userData);
         })
     }
   useLanguage(language: string) {
@@ -48,9 +43,7 @@ export class HeaderComponent implements OnInit {
     this.loginService.logOut()
       .subscribe((res: any) => {
         if (res.msg === 'success') {
-          console.log(res);
           this.userData.auth = false;
-          // this.router.navigate([this.router.url]);
         }
         this.router.navigate(['login']);
       });

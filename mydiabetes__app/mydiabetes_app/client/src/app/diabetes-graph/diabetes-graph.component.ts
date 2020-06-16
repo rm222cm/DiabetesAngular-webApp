@@ -36,8 +36,6 @@ export class DiabetesGraphComponent implements IModalDialog, OnInit {
 
 
   onTimeChange(value) {
-    console.log(value);
-
   }
 
   loadChart() {

@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
   twitterLogin() {
     this.loginService.twitterLogin()
     .subscribe((res: any) => {
-      console.log('twitter', typeof res.authURL);
       const url = res.authURL;
         if(res.authURL) {
           window.location.href = url;
@@ -54,7 +53,6 @@ export class LoginComponent implements OnInit {
         if(res.err) {
           this.errMsg.class = null;
           this.errMsg.msg = res.err;
-          console.log('res', this.errMsg);
           return;
         }
         this.modalService.openDialog(this.viewRef, {
@@ -66,7 +64,6 @@ export class LoginComponent implements OnInit {
           actionButtons: [
             { text: this.translate.instant('loginpop.continue'),
               onAction: () => {
-              console.log('sssssssssss');
               window.localStorage.setItem('sid', res.name)
               this.router.navigateByUrl(res.redirect);
               return true;

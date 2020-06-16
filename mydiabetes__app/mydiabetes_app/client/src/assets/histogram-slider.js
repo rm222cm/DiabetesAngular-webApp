@@ -4,7 +4,7 @@ function Slider(histogram, legendColors, date, customOptions) {
     let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':700, // 400
+        'w':650, // 400
         'h': 150,
         'margin': {
           top: 20,
@@ -46,7 +46,7 @@ function Slider(histogram, legendColors, date, customOptions) {
     .append("g").attr('transform', `translate(${margin.left}, ${margin.top})`)
     .attr("class", "gbar")
 
-    let counter = 2735; //1295
+    let counter = 2480; //1295
     let hist1 = 0;      // 0
 
     groups.append('rect')
@@ -72,7 +72,7 @@ function Slider(histogram, legendColors, date, customOptions) {
     // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
     // .style('fill', function(d, i) { return legendColors[i]});
 
-    counter = 2740;
+    counter = 2485;
     hist1 = 0;
 
     groups.append('text')
@@ -149,7 +149,7 @@ function Slider(histogram, legendColors, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x',565).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x',540).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)

@@ -49,15 +49,12 @@ export class TweetImgComponent implements OnInit {
           .subscribe((res: any) => {
             if (res.err) {
               this.onError();
-              console.log(res.redirect)
-              // window.location.href = res.authURL;
               return;
             }
             this.onSuccess();
             window.location.href = res.authURL;
           })
       } else {
-        console.log('false')
         this.tweetStatus.err = true;
       }
     });
@@ -66,8 +63,6 @@ export class TweetImgComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(document.cookie)
-    console.log(this.cookieService.get('new-tweet'));
     const newTweetURL = this.cookieService.get('new-tweet');
     if (newTweetURL) {
       this.modalService.openDialog(this.viewRef, {

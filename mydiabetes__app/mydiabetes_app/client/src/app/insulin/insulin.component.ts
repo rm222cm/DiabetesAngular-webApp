@@ -84,7 +84,6 @@ export class InsulinComponent implements OnInit {
         this.latestGlucoseLevelUnits = res.data;
       else
         this.latestGlucoseLevelUnits = '0';
-      console.log('latestGlucoseLevelUnits', this.latestGlucoseLevelUnits);
     });
   }
 
@@ -95,16 +94,11 @@ export class InsulinComponent implements OnInit {
   }
   insulinLableData
   loadChartData() {
-    console.log('start date', this.startDate)
-    console.log('end date', this.endDate)
     this.insulinService.getChartData({
       startDate: this.startDate,
       endDate: this.endDate
     }).subscribe(res => {
-      console.log('res', res)
       this.chartData = res['data']
-      // res['data']['insulinLabel'].forEach(elem => this.lableData.push(elem))
-      // res['data']['activityLabel'].forEach(elem => this.lableData.push(elem))
       this.lableData = []
       res['data']['insulin'].map(elem => {
         elem.x = new Date(elem.x).getTime()
@@ -140,7 +134,6 @@ export class InsulinComponent implements OnInit {
       res['data']['glucoseLabel'].forEach(elem => {
         this.lableData.push(elem)
       })
-      console.log('load chart data res', this.lableData)
       this.loadChart();
     })
   }
@@ -157,19 +150,16 @@ export class InsulinComponent implements OnInit {
     this.isSubmitted = true
     const info = this.insulinForm.value;
     info.entryTime = new Date();
-    // info.latestGlucoseLevelUnits = this.latestGlucoseLevelUnits;
 
     let date = new Date();
     date.setHours(info.dosageTime.hour, info.dosageTime.minute, 0);
     info.dosageTime = date;
 
-    console.log(JSON.stringify(info));
 
     if (!this.insulinForm.valid) {
       return
     }
     this.glucoseService.getLatestGlucoseLevelByTime({ compareTime: info.dosageTime }).subscribe((res: any) => {
-      console.log('latest glucose res', res)
       if (res.data) {
         info.latestGlucoseLevelUnits = res.data;
       } else {
@@ -239,26 +229,16 @@ export class InsulinComponent implements OnInit {
   }
 
   onTimeChange(value) {
-    console.log(value);
   }
   onDateChange(value) {
-    console.log('start date change', this.startDate)
-    console.log('end date change', this.endDate)
     this.loadChartData()
   }
 
   onStartDateChange(value) {
-    console.log(value);
   }
 
   onEndDateChange(value) {
-    console.log(value);
   }
-
-
-
-  
-
 
   onChecked(value, target) {
     let glucoseRef: any = document.getElementsByClassName('ct-series-a')
@@ -285,12 +265,6 @@ export class InsulinComponent implements OnInit {
     this.insulinCheckBoxGroup.activityCheck = true
     this.insulinCheckBoxGroup.carbsCheck = true
     var chartwidth = $("#modal-body").width()*0.95;
-    console.log('chartwidth',chartwidth)
-    console.log('label data', this.lableData)
-    console.log('insulin', this.chartData['insulin'])
-    console.log('glucose', this.chartData['glucose'])
-    console.log('activity', this.chartData['activity'])
-    console.log('carbs', this.chartData['carbs'])
     var chart = new Chartist.Line('#chartist-chart', {
       series: [
         {

@@ -94,7 +94,6 @@ export class GlucoseLevelComponent implements OnInit {
     date.setHours(info.glucoseTime.hour, info.glucoseTime.minute, 0);
     info.glucoseTime = date
 
-    console.log('info', info);
 
     if (!this.glucoseReactForm.valid) {
       return;
@@ -106,10 +105,8 @@ export class GlucoseLevelComponent implements OnInit {
         if (res.err) {
           this.errMsg.class = null;
           this.errMsg.msg = res.err;
-          console.log('res', this.errMsg);
           return;
         }
-        console.log('back', res);
         let title, text;
         if (res.msg === 'success') {
           title = this.translate.instant('loginpop.title'),
@@ -155,30 +152,22 @@ export class GlucoseLevelComponent implements OnInit {
   }
 
   onTimeChange(value) {
-    console.log(value);
   }
   onDateChange(value) {
-    console.log('start date change', this.startDate)
-    console.log('end date change', this.endDate)
     this.loadChartData()
   }
 
   onStartDateChange(value) {
-    console.log(value);
   }
 
   onEndDateChange(value) {
-    console.log(value);
   }
-
-  
 
   generateCSV() {
     this.insulinService.getCsvData({
       startDate: this.startDate,
       endDate: this.endDate
     }).subscribe((res: any) => {
-      console.log(res)
       this.insulinService.downloadFile(res.data, 'jsontocsv');
     }
     ),
@@ -189,7 +178,6 @@ export class GlucoseLevelComponent implements OnInit {
 
   generateHistoricalCSV() {
     this.insulinService.getHistoricalCsvData({}).subscribe((res: any) => {
-      console.log(res)
       this.insulinService.downloadFile(res.data, 'jsontocsv');
     }
     ),
@@ -227,16 +215,12 @@ export class GlucoseLevelComponent implements OnInit {
     return new Date(dateStr).getUTCFullYear() + '/' + new Date(dateStr).getUTCMonth() + 1 + '/' + new Date(dateStr).getUTCDate() + '/' + new Date(dateStr).getUTCHours() + ":" + new Date(dateStr).getUTCMinutes()
   }
   loadChartData() {
-    console.log('start date', this.startDate)
-    console.log('end date', this.endDate)
+
     this.insulinService.getChartData({
       startDate: this.startDate,
       endDate: this.endDate
     }).subscribe(res => {
-      console.log('res', res)
       this.chartData = res['data']
-      // res['data']['insulinLabel'].forEach(elem => this.lableData.push(elem))
-      // res['data']['activityLabel'].forEach(elem => this.lableData.push(elem))
       this.lableData = []
       res['data']['insulin'].map(elem => {
         elem.x = new Date(elem.x).getTime()
@@ -272,7 +256,6 @@ export class GlucoseLevelComponent implements OnInit {
       res['data']['glucoseLabel'].forEach(elem => {
         this.lableData.push(elem)
       })
-      console.log('load chart data res', this.lableData)
       this.loadChart();
     })
   }
@@ -285,11 +268,7 @@ export class GlucoseLevelComponent implements OnInit {
     this.glucoseCheckBoxGroup.carbsCheck = true
     var chartwidth = $("#modal-body4").width()*0.95;
 
-    console.log('label data', this.lableData)
-    console.log('insulin', this.chartData['insulin'])
-    console.log('glucose', this.chartData['glucose'])
-    console.log('activity', this.chartData['activity'])
-    console.log('carbs', this.chartData['carbs'])
+
     var chart = new Chartist.Line('#chartist-chart4', {
       series: [
         {

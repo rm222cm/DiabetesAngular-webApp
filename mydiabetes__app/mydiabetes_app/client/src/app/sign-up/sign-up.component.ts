@@ -39,16 +39,13 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(): void{
     const info = this.registerInfo;
-    console.log(info)
     this.signUpService.register(info)
       .subscribe((res: any) => {
         if(res.err) {
           this.errMsg.class = null;
           this.errMsg.msg = res.err;
-          console.log('res', this.errMsg);
           return;
         }
-        console.log('back',res);
         let title, text;
         if (res.msg === 'success') {
           title = 'Success',
@@ -64,7 +61,6 @@ export class SignUpComponent implements OnInit {
           actionButtons: [
             { text: 'continue',
               onAction: () => {
-              console.log('sssssssssss');
               this.router.navigateByUrl(res.redirect);
               return true;
               }

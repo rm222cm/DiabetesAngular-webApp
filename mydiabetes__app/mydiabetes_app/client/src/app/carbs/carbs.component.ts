@@ -95,30 +95,27 @@ export class CarbsComponent implements OnInit {
     date.setHours(info.carbsTime.hour, info.carbsTime.minute, 0);
     info.carbsTime = date;
 
-    // console.log('info', info)
     if (!this.carbsForm.valid) {
       return
     }
     // this.formProcess = true;
     this.glucoseService.getLatestGlucoseLevelByTime({compareTime :info.carbsTime}).subscribe((res: any) => {
-      console.log('latest glucose res',res)
+
       if (res.data){
         info.latestGlucoseLevelUnits = res.data;
       }else{
         info.latestGlucoseLevelUnits = '0';
       }
     })
-      console.log('infor', info)
+
     this.service.create(info)
       .subscribe((res: any) => {
         this.formProcess = false;
         if (res.err) {
           this.errMsg.class = null;
           this.errMsg.msg = res.err;
-          console.log('res', this.errMsg);
           return;
         }
-        console.log('back', res);
         let title, text;
         if (res.msg === 'success') {
           title = this.translate.instant('loginpop.title'),
@@ -156,7 +153,7 @@ export class CarbsComponent implements OnInit {
   }
 
   onTimeChange(value) {
-    console.log(value);
+
   }
 
   openModal(): void {
@@ -166,17 +163,14 @@ export class CarbsComponent implements OnInit {
   }
 
   onStartDateChange(value) {
-    console.log(value);
   }
 
   onEndDateChange(value) {
-    console.log(value);
   }
 
   onDateChange(value) {
-    console.log('start date change', this.startDate)
-    console.log('end date change', this.endDate)
-    this.loadChartData()
+
+    this.loadChartData();
   }
 
   generateCSV() {
@@ -184,7 +178,6 @@ export class CarbsComponent implements OnInit {
       startDate: this.startDate,
       endDate: this.endDate
     }).subscribe((res: any) => {
-      console.log(res)
       this.insulinService.downloadFile(res.data, 'jsontocsv');
     }
     ),
@@ -195,7 +188,6 @@ export class CarbsComponent implements OnInit {
 
   generateHistoricalCSV() {
     this.insulinService.getHistoricalCsvData({}).subscribe((res: any) => {
-      console.log(res)
       this.insulinService.downloadFile(res.data, 'jsontocsv');
     }
     ),
@@ -230,65 +222,16 @@ export class CarbsComponent implements OnInit {
     return new Date(dateStr).getUTCFullYear() + '/' + new Date(dateStr).getUTCMonth() + 1 + '/' + new Date(dateStr).getUTCDate() + '/' + new Date(dateStr).getUTCHours() + ":" + new Date(dateStr).getUTCMinutes()
   }
   loadChartData() {
-    console.log('start date', this.startDate)
-    console.log('end date', this.endDate)
+
     const data = {
       toDate: this.startDate,
       fromDate: this.endDate,
       carbsType: this.carbsType
     };
     this.insulinService.getCarbsReportData(data).subscribe((res: any) => {
-      console.log('Running the service ');
-      
-      console.log(res);
-      
+
     })
-    // this.insulinService.getChartData({
-    //   startDate: this.startDate,
-    //   endDate: this.endDate
-    // }).subscribe(res => {
-    //   console.log('res', res)
-    //   this.chartData = res['data']
-    //   // res['data']['insulinLabel'].forEach(elem => this.lableData.push(elem))
-    //   // res['data']['activityLabel'].forEach(elem => this.lableData.push(elem))
-    //   this.lableData = []
-    //   res['data']['insulin'].map(elem => {
-    //     elem.x = new Date(elem.x).getTime()
-    //     elem.meta = "Insulin"
-    //     return elem
-    //   })
-    //   res['data']['activity'].map(elem => {
-    //     elem.x = new Date(elem.x).getTime()
-    //     elem.meta = "Activity"
-    //     return elem
-    //   })
-    //   res['data']['carbs'].map(elem => {
-    //     elem.x = new Date(elem.x).getTime()
-    //     elem.meta = "Carbs"
-    //     return elem
-    //   })
-    //   res['data']['glucose'].map(elem => {
-    //     elem.x = new Date(elem.x).getTime()
-    //     elem.meta = "Glucose"
-    //     return elem
-    //   })
 
-
-    //   res['data']['insulinLabel'].forEach(elem => {
-    //     this.lableData.push(elem)
-    //   })
-    //   res['data']['activityLabel'].forEach(elem => {
-    //     this.lableData.push(elem)
-    //   })
-    //   res['data']['carbsLabel'].forEach(elem => {
-    //     this.lableData.push(elem)
-    //   })
-    //   res['data']['glucoseLabel'].forEach(elem => {
-    //     this.lableData.push(elem)
-    //   })
-    //   console.log('load chart data res', this.lableData)
-    //   this.loadChart();
-    // })
   }
 
 
@@ -299,11 +242,7 @@ export class CarbsComponent implements OnInit {
     this.carbsCheckBoxGroup.carbsCheck = true
     var chartwidth = $("#modal-body3").width()*0.95;
 
-    console.log('label data', this.lableData)
-    console.log('insulin', this.chartData['insulin'])
-    console.log('glucose', this.chartData['glucose'])
-    console.log('activity', this.chartData['activity'])
-    console.log('carbs', this.chartData['carbs'])
+
     var chart = new Chartist.Line('#chartist-chart3', {
       series: [
         {
