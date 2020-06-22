@@ -1,9 +1,10 @@
 function CarbsSlider(histogram, legendColors, date, customOptions) {
 
+
     let style = `<style> #carbs-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':650,
+        'w':400,
         'h': 150,
         'margin': {
           top: 20,
@@ -47,33 +48,31 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
 
     let counter = 0;
 
-    if(window.location.href.includes('report')) {
-      counter = 2669;
-    } else {
-      counter = 2640;
+    if (window.location.href.includes('report')) {
+      counter = 15840;
+    } else if (window.location.href.includes('service')) {
+      counter = 1300;
     }
 
-    
     let hist1 = 0;
 
     groups.append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
     .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
-    .attr('width', (width - 400) / (range[1] - range[0]))
+    .attr('width', (width - 200) / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .attr("id", function(d, i){   
       return 'rect-carbs-'+i;        // slug = label downcased, this works
     });
 
-    if(window.location.href.includes('report')) {
-      counter = 2674;
-    } else {
-      counter = 2644;
+    if (window.location.href.includes('report')) {
+      counter = 15844;
+    } else if (window.location.href.includes('service')) {
+      counter = 1304;
     }
 
 
-    // counter = 2933;
     hist1 = 0;
 
     groups.append('text')
@@ -86,15 +85,16 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
 
       let id = 'rect-carbs-'+i;
       let height = document.getElementById(id).getAttribute('height');
+      let lang = localStorage.getItem('lang');
 
       if (height > 0) {
 
         if (legendColors[i] === '#1F77B4') {
-          return 'Carbohydrates';
+          return (lang === 'sv') ? 'Kolhydrater' : 'Carbohydrates';
           } else if(legendColors[i] === '#FF7F0E') {
-            return 'Proteins';
+            return (lang === 'sv')? 'Proteiner' : 'Proteins';
           } else {
-            return 'Fibers';
+            return (lang === 'sv')? 'Fiber' : 'Fibers';
           }
 
       } else {
@@ -134,7 +134,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 540).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 300).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)

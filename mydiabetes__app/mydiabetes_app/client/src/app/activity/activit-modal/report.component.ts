@@ -699,52 +699,6 @@ export class ActivityModalComponent implements OnInit {
 
   carbsScatterPlot(this_data) {
 
-    this_data.forEach(element => {
-      if (element.carbsType.includes('Protein')) {
-        element.carbsType = element.carbsType + 's';
-      }
-      element.carabsTime = new Date(element.carabsTime);
-      let formattedDate = '';
-      // element.carabsTime = `${element.carabsTime.getMonth() + 1}-${element.carabsTime.getDate()}-${element.carabsTime.getFullYear()}`;
-
-      if((element.carabsTime.getMonth() + 1) < 10) {
-        formattedDate += `0${element.carabsTime.getMonth() + 1}`;
-      } else {
-        formattedDate += `${element.carabsTime.getMonth() + 1}`;
-      }
-
-      if (element.carabsTime.getDate() < 10) {
-        formattedDate += `-0${element.carabsTime.getDate()}-`;
-      } else {
-        formattedDate += `-${element.carabsTime.getDate()}-`;
-      }
-
-      formattedDate += element.carabsTime.getFullYear();
-      element.carabsTime = formattedDate;
-
-
-    });
-
-    var chart3;
-
-    document.getElementById("chart-distro3").innerHTML = "";
-
-    chart3 = makeDistroCrabsChart_activity({
-      data: this_data,
-      yName: "carabsTime",
-      xName: "carbsType",
-      axisLabels: { xAxis: null, yAxis: null },
-      selector: "#chart-distro3",
-      chartSize: { height: 240, width: 960 },
-      constrainExtremes: true,
-    });
-    chart3.renderDataPlots();
-    chart3.dataPlots.show({
-      showPlot: true,
-      plotType: 40,
-      showBeanLines: false,
-      colors: null,
-    });
   }
 
   onSelectInsulin(event) {

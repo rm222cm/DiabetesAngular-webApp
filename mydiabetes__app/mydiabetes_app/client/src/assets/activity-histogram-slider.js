@@ -1,9 +1,34 @@
 function ActivitySlider(histogram, legendColors, date, customOptions) {
 
+    // let sliderWidth = 0;
+
+    // if (window.screen.width <= 480 && window.screen.width >= 320) {
+
+    //   sliderWidth = 300;
+
+    // } else if (window.screen.width <= 767 && window.screen.width >= 481) {
+
+    //   sliderWidth = 360;
+
+    // } else if (window.screen.width <= 1024 && window.screen.width >= 768) {
+
+    //   sliderWidth = 360;
+
+    // } else if (window.screen.width <= 1280 && window.screen.width >= 1025) {
+
+    //   sliderWidth = 500;
+
+    // } else if (window.screen.width >= 1281) {
+
+    //   sliderWidth = 650;
+
+    // }
+
+
     let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w': 650,
+        'w': 400,
         'h': 150,
         'margin': {
           top: 20,
@@ -45,55 +70,59 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     .append("g").attr('transform', `translate(${margin.left}, ${margin.top})`)
     .attr("class", "gbar")
 
-    // draw histogram values
-    // let counter = 1295;
-    // g.append('g').selectAll('rect')
-    // .data(d3v4.range(range[0], range[1]+1))
-    // .enter()
-    // .append('rect')
-    // .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; }) // d => x(d)+ counter
-    // .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    // .attr('width', width / (range[1] - range[0]))
-    // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    // .style('fill', function(d, i) { return legendColors[i]});
 
-    let counter = 2484;
+    let counter = 15842;
+
+    if (window.location.href.includes('report')) {
+      counter = 15842;
+    } else if(window.location.href.includes('service')) {
+      counter = 1300;
+    }
+
     let hist1 = 0;
 
     groups.append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
     .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
-    .attr('width', (width - 430) / (range[1] - range[0]))
+    .attr('width', (width - 180) / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .attr("id", function(d, i){   
       return 'rect-activity-'+i;        // slug = label downcased, this works
     });
 
-    counter = 2486;
+    counter = 15844;
+
+    if (window.location.href.includes('report')) {
+      counter = 15844;
+    } else {
+      counter = 1302;
+    }
+
     hist1 = 0;
 
     groups.append('text')
     .style('fill', 'black')
     .attr('writing-mode', 'vertical-rl')
-    .attr('font-size', 8)
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('font-size', 6.5)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
     .attr('y', '30%')
     .text(function(d, i)  {
 
       let id = 'rect-activity-'+i;
       let height = document.getElementById(id).getAttribute('height');
+      let lang = localStorage.getItem('lang');
 
       if(height > 0) {
 
         if (legendColors[i] === '#1f76b4') {
-          return 'walking';
+          return (lang === 'sv')? 'Vandra' : 'walking';
         } else if(legendColors[i] === '#e17f0e') {
-            return 'jogging';
+            return (lang === 'sv')? 'Joggning' : 'jogging';
         } else if(legendColors[i] === '#2ca02c') {
-            return 'running';
+            return (lang === 'sv')? 'Spring' : 'running';
         } else {
-            return 'lifting_weight';
+            return (lang === 'sv')? 'liftingweight' : 'lifting_weight';
         }
 
       } else {
@@ -133,7 +162,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 540).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 300).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)
@@ -150,8 +179,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
         var d1 = d0.map(Math.round)
         let start_date = formatDate(d1[0])
         let end_date = formatDate(d1[1])
-        // document.getElementById("startDate").value = start_date;
-        // document.getElementById("endDate").value = end_date;
+
 
         localStorage.setItem('startDate', start_date);
         localStorage.setItem('endDate', end_date);

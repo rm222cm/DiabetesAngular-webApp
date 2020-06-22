@@ -3,7 +3,7 @@ function GlucoseSlider(histogram, date, customOptions) {
     let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
-        'w':650,
+        'w':400,
         'h': 150,
         'margin': {
           top: 20,
@@ -40,14 +40,21 @@ function GlucoseSlider(histogram, date, customOptions) {
     const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
 
     // draw histogram values
-    let counter = 2500;
+    let counter = 15846;
+
+    if (window.location.href.includes('report')) {
+      counter = 15846;
+    } else if (window.location.href.includes('service')) {
+      counter = 1300;
+    }
+
     g.append('g').selectAll('rect')
     .data(d3v4.range(range[0], range[1]+1))
     .enter()
     .append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
     .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', (width -400)  / (range[1] - range[0]))
+    .attr('width', (width -200)  / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
     .style('fill', 'slateblue');
 
@@ -81,7 +88,7 @@ function GlucoseSlider(histogram, date, customOptions) {
         var s = d3v4.event.selection;
         // update and move labels
         labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
-        labelR.attr('x', 540).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
+        labelR.attr('x', 300).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
         .attr("display", null)

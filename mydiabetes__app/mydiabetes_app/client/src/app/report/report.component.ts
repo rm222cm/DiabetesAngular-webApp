@@ -48,11 +48,18 @@ export class ReportComponent implements OnInit {
     Object.assign(this, { single });
     Object.assign(this, { linear });
     translate.onLangChange.subscribe(result => {
-      this.islanguageEnglish = (result.lang === 'sv')? false : true;
-      this.getInsulinReportData(this.legendsarray);
-      this.getActivityReportData(this.legendsactivity);
-      this.getCarbsReportData(this.legendscarbs);
-      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+      this.islanguageEnglish = (result.lang === 'sv') ? false : true;
+      localStorage.setItem('lang', result.lang);
+
+      let insulinSlider = document.querySelector('#brush-slider');
+      let activitySlider = document.querySelector('#acitivity-slider');
+      let carbsSlider = document.querySelector('#carbs-slider');
+      let glucoseSlider = document.querySelector('#glucose-slider');
+      insulinSlider.innerHTML = '';
+      activitySlider.innerHTML = '';
+      carbsSlider.innerHTML = '';
+      glucoseSlider.innerHTML = '';
+      this.getReportData();
     });
   }
 
@@ -103,7 +110,7 @@ export class ReportComponent implements OnInit {
   glucoseType = ['', 'Before Meal', 'After Meal', 'Any other time'];
   insulinType = ['Before Meal1', 'After Meal', 'Any other time'];
   carbsType = ['', 'Carbohydrates', 'Protein', 'Fibers'];
-  startDate = new Date(new Date().setDate(new Date().getDate() - 3650))
+  startDate = new Date(new Date().setDate(new Date().getDate() - 365))
     .toISOString()
     .substring(0, 10);
   endDate = new Date().toISOString().substring(0, 10);
@@ -1059,7 +1066,7 @@ export class ReportComponent implements OnInit {
             },
           ];
 
-          if(Number(value['value']) <= 100) {
+          if (Number(value['value']) <= 100) {
             sliderObjInsulin[count + 1] = +value['value'];
 
             switch(value['name']) {
@@ -1444,6 +1451,16 @@ export class ReportComponent implements OnInit {
       }
     }
     return data;
+  }
+
+  isInRange(insulinDosageDate) {
+
+    const inputDate = new Date(insulinDosageDate);
+    const rangeStartDate = new Date(this.startDate);
+    const rangeEndDate = new Date(this.endDate);
+
+    return (inputDate >= rangeStartDate && inputDate <= rangeEndDate) ? true : false;
+
   }
 
 }
