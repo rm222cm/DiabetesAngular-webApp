@@ -22,9 +22,7 @@ declare var Slider: any;
 declare var ActivitySlider: any;
 declare var CarbsSlider: any;
 declare var GlucoseSlider: any;
-declare var rSlider: any;
 declare var d3: any;
-declare var d3version4: any;
 
 
 @Component({
@@ -1033,6 +1031,7 @@ export class ReportComponent implements OnInit {
         let insulinLegendColor = [];
         let activityLegendColor = [];
         let carbsLegendColor = [];
+        let glucoseLabels = [];
         let sliderObjActivity = {};
         let sliderObjCarbs = {};
         let sliderObjGlucose = {};
@@ -1234,12 +1233,13 @@ export class ReportComponent implements OnInit {
           obj4[0].series[count4].glucoseLevelUnits = value['glucoseLevelUnits'];
 
           sliderObjGlucose[count4 + 1] = parseFloat(obj4[0].series[count4].glucoseLevelUnits);
-
+          glucoseLabels.push(`${value['glucoseLevelUnits']} mmol/L`);
           count4++;
           this.golucoseobj = obj4;
         }
+
         const dates1 = [new Date(this.startDate), new Date(this.endDate)];
-        GlucoseSlider(sliderObjGlucose, dates1, {})
+        GlucoseSlider(sliderObjGlucose, glucoseLabels, dates1, {});
         this.drawGolucoseLineChart123(this.golucoseobj[0].series);
 
         this.isLoading = false;

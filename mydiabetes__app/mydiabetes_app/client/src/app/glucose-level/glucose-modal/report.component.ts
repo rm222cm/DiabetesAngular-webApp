@@ -860,6 +860,7 @@ export class GlucoseModalComponent implements OnInit {
         let obj4 = [{ name: "Glucose", series: [] }];
         let count = 0;
         let sliderObjGlucose = {};
+        let glucoseLabels = [];
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
@@ -979,13 +980,13 @@ export class GlucoseModalComponent implements OnInit {
           obj4[0].series[count4].glucoseLevelUnits = value["glucoseLevelUnits"];
 
           sliderObjGlucose[count4 + 1] = parseFloat(obj4[0].series[count4].glucoseLevelUnits);
-
+          glucoseLabels.push(`${value['glucoseLevelUnits']} mmol/L`);
           count4++;
           this.golucoseobj = obj4;
         }
-        
+
         const dates1 = [new Date(this.startDate), new Date(this.endDate)];
-        GlucoseSlider(sliderObjGlucose, dates1, {});
+        GlucoseSlider(sliderObjGlucose, glucoseLabels, dates1, {});
         this.drawGolucoseLineChart123(this.golucoseobj[0].series);
 
         this.isLoading = false;
@@ -1172,7 +1173,6 @@ export class GlucoseModalComponent implements OnInit {
     let glucoseSlider = document.querySelector('#glucose-slider');
     glucoseSlider.innerHTML = '';
 
-    // this.drawGolucoseLineChart123(this.golucoseobj[0].series);
     this.getReportData();
   }
 

@@ -5,7 +5,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
 
     const defaultOptions = {
         'w':400,
-        'h': 150,
+        'h': 120,
         'margin': {
           top: 20,
           bottom: 20,
@@ -58,18 +58,18 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
 
     groups.append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
-    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;})
     .attr('width', (width - 200) / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .attr("id", function(d, i){   
       return 'rect-carbs-'+i;        // slug = label downcased, this works
     });
 
     if (window.location.href.includes('report')) {
-      counter = 15844;
+      counter = 15846;
     } else if (window.location.href.includes('service')) {
-      counter = 1304;
+      counter = 1306;
     }
 
 
@@ -80,7 +80,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 8)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
-    .attr('y', '30%')
+    .attr('y', '20%')
     .text((d, i) => {
 
       let id = 'rect-carbs-'+i;

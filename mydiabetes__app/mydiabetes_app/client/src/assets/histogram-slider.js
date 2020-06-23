@@ -1,36 +1,10 @@
-const e = require("express");
-
 function Slider(histogram, legendColors, date, customOptions) {
-
-    // let sliderWidth = 0;
-
-    // if (window.screen.width <= 480 && window.screen.width >= 320) {
-
-    //   sliderWidth = 300;
-
-    // } else if (window.screen.width <= 767 && window.screen.width >= 481) {
-
-    //   sliderWidth = 360;
-
-    // } else if (window.screen.width <= 1024 && window.screen.width >= 768) {
-
-    //   sliderWidth = 360;
-
-    // } else if (window.screen.width <= 1280 && window.screen.width >= 1025) {
-
-    //   sliderWidth = 500;
-
-    // } else if (window.screen.width >= 1281) {
-
-    //   sliderWidth = 650;
-
-    // }
 
     let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400, // 400
-        'h': 150,
+        'h': 120,
         'margin': {
           top: 20,
           bottom: 20,
@@ -85,21 +59,19 @@ function Slider(histogram, legendColors, date, customOptions) {
 
     groups.append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
-    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;})
     .attr('width', (width - 170)  / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .attr("id", function(d, i){   
       return 'rect-'+i;        // slug = label downcased, this works
     });
 
 
-    counter = 15843;
-
     if (window.location.href.includes('report')) {
-      counter = 15843;
+      counter = 15845;
     } else if (window.location.href.includes('service')) {
-      counter = 1303;
+      counter = 1305;
     }
 
     hist1 = 0;
@@ -109,7 +81,7 @@ function Slider(histogram, legendColors, date, customOptions) {
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
-    .attr('y', '30%')
+    .attr('y', '20%')
     .text(function(d, i)  {
 
       let id = 'rect-'+i;

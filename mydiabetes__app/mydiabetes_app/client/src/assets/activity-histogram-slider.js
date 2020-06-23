@@ -1,35 +1,10 @@
 function ActivitySlider(histogram, legendColors, date, customOptions) {
 
-    // let sliderWidth = 0;
-
-    // if (window.screen.width <= 480 && window.screen.width >= 320) {
-
-    //   sliderWidth = 300;
-
-    // } else if (window.screen.width <= 767 && window.screen.width >= 481) {
-
-    //   sliderWidth = 360;
-
-    // } else if (window.screen.width <= 1024 && window.screen.width >= 768) {
-
-    //   sliderWidth = 360;
-
-    // } else if (window.screen.width <= 1280 && window.screen.width >= 1025) {
-
-    //   sliderWidth = 500;
-
-    // } else if (window.screen.width >= 1281) {
-
-    //   sliderWidth = 650;
-
-    // }
-
-
     let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400,
-        'h': 150,
+        'h': 120,
         'margin': {
           top: 20,
           bottom: 20,
@@ -83,20 +58,18 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
 
     groups.append('rect')
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
-    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;})
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60; else return height - hist1;})
     .attr('width', (width - 180) / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;})
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .attr("id", function(d, i){   
       return 'rect-activity-'+i;        // slug = label downcased, this works
     });
 
-    counter = 15844;
-
     if (window.location.href.includes('report')) {
-      counter = 15844;
+      counter = 15845;
     } else {
-      counter = 1302;
+      counter = 1305;
     }
 
     hist1 = 0;
@@ -106,7 +79,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 6.5)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
-    .attr('y', '30%')
+    .attr('y', '20%')
     .text(function(d, i)  {
 
       let id = 'rect-activity-'+i;

@@ -990,6 +990,16 @@ input[type="checkbox"]+label {
 
 @media (max-width: 767px) {
 
+    .mobile-date-input {
+        width: 90%;
+        margin: 0 auto 15px;
+    }
+
+    .mobile-date-input input, .mobile-date-input span {
+        font-size: 10px !important;
+    }
+
+
     #glucose-slider, #brush-slider, #carbs-slider, #acitivity-slider {
         margin-left: 10%;
     }

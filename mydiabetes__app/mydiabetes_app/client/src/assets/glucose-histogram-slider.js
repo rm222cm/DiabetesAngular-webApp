@@ -1,10 +1,10 @@
-function GlucoseSlider(histogram, date, customOptions) {
+function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
     let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w':400,
-        'h': 150,
+        'h': 120,
         'margin': {
           top: 20,
           bottom: 20,
@@ -37,26 +37,75 @@ function GlucoseSlider(histogram, date, customOptions) {
 
     // create svg and translated g
     var svg = d3v4.select('#glucose-slider').append('svg')
-    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+    const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    var groups = svg.selectAll(".groups")
+    .data(d3v4.range(range[0], range[1]+1))
+    .enter()
+    .append("g").attr('transform', `translate(${margin.left}, ${margin.top})`)
+    .attr("class", "gbar")
 
     // draw histogram values
-    let counter = 15846;
+    let counter = 0;
 
     if (window.location.href.includes('report')) {
       counter = 15846;
     } else if (window.location.href.includes('service')) {
+
       counter = 1300;
     }
 
-    g.append('g').selectAll('rect')
-    .data(d3v4.range(range[0], range[1]+1))
-    .enter()
-    .append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
-    .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 110)  return height -  110 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    .attr('width', (width -200)  / (range[1] - range[0]))
-    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 110)  return 110 ; else return hist1;}) //d => y(histogram[d] || 0))
-    .style('fill', 'slateblue');
+    groups.append('rect')
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
+    .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;})
+    .attr('width', (width - 200)  / (range[1] - range[0]))
+    .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
+    .style('fill', 'slateblue')
+    .attr("id", function(d, i){   
+      return 'rect-glucose-'+i;        // slug = label downcased, this works
+    });
+
+
+    if (window.location.href.includes('report')) {
+      counter = 15851;
+    } else if (window.location.href.includes('service')) {
+
+      counter = 1305;
+    }
+
+    hist1 = 0;
+
+    groups.append('text')
+    .style('fill', 'black')
+    .attr('writing-mode', 'vertical-rl')
+    .attr('font-size', 7)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
+    .attr('y', '20%')
+    .text(function(d, i)  {
+
+      let id = 'rect-glucose-'+i;
+      let height = document.getElementById(id).getAttribute('height');
+
+
+      if(height > 0) {
+
+        return legendColor[i];
+
+      } else {
+        return '';
+      }
+
+    });
+
+    // g.append('g').selectAll('rect')
+    // .data(d3v4.range(range[0], range[1]+1))
+    // .enter()
+    // .append('rect')
+    // .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
+    // .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
+    // .attr('width', (width -200)  / (range[1] - range[0]))
+    // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60; else return hist1;}) //d => y(histogram[d] || 0))
+    // .style('fill', 'slateblue');
 
     // labels
     var labelMax = g.append('text')
