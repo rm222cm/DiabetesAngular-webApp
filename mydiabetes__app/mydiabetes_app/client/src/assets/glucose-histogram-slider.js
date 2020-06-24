@@ -127,7 +127,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     .on('brush', function() {
         var s = d3v4.event.selection;
         // update and move labels
-        labelL.attr('x', s[0]).text(format(Math.round(x.invert(s[0])) * bucketSize));
+        labelL.attr('x', 0).text(format(Math.round(x.invert(s[0])) * bucketSize));
         labelR.attr('x', 300).text(format((Math.round(x.invert(s[1])) - 1) * bucketSize));
         // move brush handles      
         handle
