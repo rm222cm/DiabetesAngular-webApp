@@ -46,10 +46,10 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     .attr("class", "gbar")
 
 
-    let counter = 15842;
+    let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15842;
+      counter = 15845;
     } else if(window.location.href.includes('service')) {
       counter = 1300;
     }
@@ -67,17 +67,17 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     });
 
     if (window.location.href.includes('report')) {
-      counter = 15845;
+      counter = 15849;
     } else {
-      counter = 1305;
+      counter = 1309;
     }
 
     hist1 = 0;
 
     groups.append('text')
-    .style('fill', 'black')
+    .style('fill', 'white')
     .attr('writing-mode', 'vertical-rl')
-    .attr('font-size', 6.5)
+    .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
     .attr('y', '20%')
     .text(function(d, i)  {

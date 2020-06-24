@@ -76,7 +76,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     hist1 = 0;
 
     groups.append('text')
-    .style('fill', 'black')
+    .style('fill', 'white')
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
@@ -97,15 +97,6 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
     });
 
-    // g.append('g').selectAll('rect')
-    // .data(d3v4.range(range[0], range[1]+1))
-    // .enter()
-    // .append('rect')
-    // .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; }) // d => x(d)+ counter
-    // .attr('y', function(d) { let hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;}) //d => height - y(histogram[d] || 0)
-    // .attr('width', (width -200)  / (range[1] - range[0]))
-    // .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60; else return hist1;}) //d => y(histogram[d] || 0))
-    // .style('fill', 'slateblue');
 
     // labels
     var labelMax = g.append('text')

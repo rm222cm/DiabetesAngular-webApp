@@ -50,10 +50,10 @@ function Slider(histogram, legendColors, date, customOptions) {
 
     if (window.location.href.includes('report')) {
 
-      counter = 15840;
+      counter = 15843;
 
     } else if (window.location.href.includes('service')) {
-      counter = 1300;
+      counter = 1303;
     }
 
 
@@ -69,15 +69,15 @@ function Slider(histogram, legendColors, date, customOptions) {
 
 
     if (window.location.href.includes('report')) {
-      counter = 15845;
+      counter = 15847;
     } else if (window.location.href.includes('service')) {
-      counter = 1305;
+      counter = 1307;
     }
 
     hist1 = 0;
 
     groups.append('text')
-    .style('fill', 'black')
+    .style('fill', 'white')
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })

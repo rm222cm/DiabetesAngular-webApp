@@ -57,7 +57,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
     let hist1 = 0;
 
     groups.append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=11; return sum; })
     .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;})
     .attr('width', (width - 200) / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
@@ -76,10 +76,10 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
     hist1 = 0;
 
     groups.append('text')
-    .style('fill', 'black')
+    .style('fill', 'white')
     .attr('writing-mode', 'vertical-rl')
-    .attr('font-size', 8)
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=10; return sum; })
+    .attr('font-size', 7)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=11; return sum; })
     .attr('y', '20%')
     .text((d, i) => {
 

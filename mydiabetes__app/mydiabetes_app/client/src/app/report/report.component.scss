@@ -991,12 +991,22 @@ input[type="checkbox"]+label {
 @media (max-width: 767px) {
 
     .mobile-date-input {
-        width: 90%;
+        width:80%;
         margin: 0 auto 15px;
     }
 
     .mobile-date-input input, .mobile-date-input span {
         font-size: 10px !important;
+    }
+
+    .mobile-date-input span {
+        min-width: inherit !important;
+        width: 70px !important;
+    }
+
+    .btn-wrap {
+        width: 80%;
+        margin: 0 auto;
     }
 
 
