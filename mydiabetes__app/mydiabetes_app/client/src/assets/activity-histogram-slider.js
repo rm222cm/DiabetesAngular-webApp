@@ -1,6 +1,6 @@
 function ActivitySlider(histogram, legendColors, date, customOptions) {
 
-    let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: steelblue; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: lightgray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400,
@@ -75,7 +75,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     hist1 = 0;
 
     groups.append('text')
-    .style('fill', 'white')
+    .style('fill', 'black')
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
