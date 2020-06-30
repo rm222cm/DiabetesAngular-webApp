@@ -49,7 +49,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15846;
+      counter = 15850;
     } else if (window.location.href.includes('service')) {
 
       counter = 1300;
@@ -67,7 +67,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
 
     if (window.location.href.includes('report')) {
-      counter = 15851;
+      counter = 15853;
     } else if (window.location.href.includes('service')) {
 
       counter = 1305;
