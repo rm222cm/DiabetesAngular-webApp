@@ -28,6 +28,7 @@ function CarbsSlider(histogram, legendColors, date, customOptions) {
       const width = w - margin.left - margin.right;
       const height = h - margin.top - margin.bottom;
 
+  
     // create x scale
     const x = d3v4.scaleTime()
     .domain([date[0], date[1]])  // data space
