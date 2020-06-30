@@ -69,7 +69,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     if (window.location.href.includes('report')) {
       counter = 15854;
     } else {
-      counter = 1309;
+      counter = 1302;
     }
 
     hist1 = 0;
