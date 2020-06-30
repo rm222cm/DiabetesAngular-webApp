@@ -53,7 +53,7 @@ function Slider(histogram, legendColors, date, customOptions) {
       counter = 15850;
 
     } else if (window.location.href.includes('service')) {
-      counter = 1305;
+      counter = 1300;
     }
 
 
@@ -71,7 +71,7 @@ function Slider(histogram, legendColors, date, customOptions) {
     if (window.location.href.includes('report')) {
       counter = 15853;
     } else if (window.location.href.includes('service')) {
-      counter = 1307;
+      counter = 1303;
     }
 
     hist1 = 0;
