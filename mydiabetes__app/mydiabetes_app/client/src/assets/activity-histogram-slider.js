@@ -1,6 +1,6 @@
 function ActivitySlider(histogram, legendColors, date, customOptions) {
 
-    let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: lightgray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #acitivity-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #acitivity-slider rect.overlay { stroke: #888; } #acitivity-slider rect.selection { stroke: none; fill: gray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #acitivity-slider #labelleft, #acitivity-slider #labelright { dominant-baseline: hanging; } #acitivity-slider #label-min, #acitivity-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400,
@@ -49,7 +49,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15850;
+      counter = 15854;
     } else if(window.location.href.includes('service')) {
       counter = 1300;
     }
@@ -67,7 +67,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     });
 
     if (window.location.href.includes('report')) {
-      counter = 15854;
+      counter = 15857;
     } else {
       counter = 1302;
     }

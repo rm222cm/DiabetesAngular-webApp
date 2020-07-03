@@ -1,6 +1,6 @@
 function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
-    let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: lightgray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #glucose-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #glucose-slider rect.overlay { stroke: #888; } #glucose-slider rect.selection { stroke: none; fill: gray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #glucose-slider #labelleft, #glucose-slider #labelright { dominant-baseline: hanging; } #glucose-slider #label-min, #glucose-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w':400,
@@ -49,16 +49,16 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15850;
+      counter = 15865;
     } else if (window.location.href.includes('service')) {
 
       counter = 1300;
     }
 
     groups.append('rect')
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=12; return sum; })
     .attr('y', function(d) { hist1 = y(histogram[d]) || 0; if(hist1 > 60)  return height -  60 ; else return height - hist1;})
-    .attr('width', (width - 200)  / (range[1] - range[0]))
+    .attr('width', (width - 150)  / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', 'slateblue')
     .attr("id", function(d, i){   
@@ -67,7 +67,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
 
     if (window.location.href.includes('report')) {
-      counter = 15853;
+      counter = 15869;
     } else if (window.location.href.includes('service')) {
 
       counter = 1305;
@@ -78,8 +78,8 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     groups.append('text')
     .style('fill', 'black')
     .attr('writing-mode', 'vertical-rl')
-    .attr('font-size', 7)
-    .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
+    .attr('font-size', 8)
+    .attr('x', function(d) { let sum = x(d) + counter; counter+=12; return sum; })
     .attr('y', '20%')
     .text(function(d, i)  {
 

@@ -1,6 +1,6 @@
 function Slider(histogram, legendColors, date, customOptions) {
 
-    let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: lightgray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: gray; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400, // 400
@@ -50,7 +50,7 @@ function Slider(histogram, legendColors, date, customOptions) {
 
     if (window.location.href.includes('report')) {
 
-      counter = 15850;
+      counter = 15855;
 
     } else if (window.location.href.includes('service')) {
       counter = 1300;
@@ -69,7 +69,7 @@ function Slider(histogram, legendColors, date, customOptions) {
 
 
     if (window.location.href.includes('report')) {
-      counter = 15853;
+      counter = 15857;
     } else if (window.location.href.includes('service')) {
       counter = 1303;
     }
