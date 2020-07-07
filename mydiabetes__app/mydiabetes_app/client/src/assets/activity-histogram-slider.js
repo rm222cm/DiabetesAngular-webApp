@@ -62,6 +62,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     .attr('width', (width - 180) / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
+    .style('opacity', 0.5)
     .attr("id", function(d, i){   
       return 'rect-activity-'+i;        // slug = label downcased, this works
     });

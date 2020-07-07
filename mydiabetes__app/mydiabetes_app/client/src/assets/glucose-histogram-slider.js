@@ -61,6 +61,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     .attr('width', (width - 150)  / (range[1] - range[0]))
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', 'slateblue')
+    .style('opacity', 0.4)
     .attr("id", function(d, i){   
       return 'rect-glucose-'+i;        // slug = label downcased, this works
     });
