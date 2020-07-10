@@ -1,7 +1,7 @@
 function CarbsSlider(histogram, legendColors, date, customOptions) {
 
 
-    let style = `<style> #carbs-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: #717171; fill-opacity: 0.4; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style> #carbs-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #carbs-slider rect.overlay { stroke: #888; } #carbs-slider rect.selection { stroke: none; fill: #e9ecef; fill-opacity: 1; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #carbs-slider #labelleft, #carbs-slider #labelright { dominant-baseline: hanging; } #carbs-slider #label-min, #carbs-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w':400,
