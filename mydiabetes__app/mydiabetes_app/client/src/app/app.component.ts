@@ -12,5 +12,8 @@ export class AppComponent {
   title = 'Rasha App';
 
   constructor(private http: HttpClient) {
+
+    localStorage.removeItem('lang');
+
   }
 }

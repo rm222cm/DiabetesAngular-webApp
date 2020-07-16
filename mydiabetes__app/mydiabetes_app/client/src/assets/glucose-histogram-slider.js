@@ -62,6 +62,13 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', 'slateblue')
     .style('opacity', 0.4)
+    .style('-webkit-touch-callout', 'none')
+    .style('-webkit-user-select', 'none')
+    .style('-khtml-user-select', 'none')
+    .style('-moz-user-select', 'none')
+    .style('-ms-user-select', 'none')
+    .style('user-select', 'none')
+    .style('outline-style', 'none')
     .attr("id", function(d, i){   
       return 'rect-glucose-'+i;        // slug = label downcased, this works
     });
@@ -78,6 +85,14 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
 
     groups.append('text')
     .style('fill', 'black')
+    .style('-webkit-touch-callout', 'none')
+    .style('-webkit-user-select', 'none')
+    .style('-khtml-user-select', 'none')
+    .style('-moz-user-select', 'none')
+    .style('-ms-user-select', 'none')
+    .style('user-select', 'none')
+    .style('outline-style', 'none')
+    .style('z-index', -999)
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 8)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=12; return sum; })

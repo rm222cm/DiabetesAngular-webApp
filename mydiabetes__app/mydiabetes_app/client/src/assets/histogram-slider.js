@@ -1,6 +1,6 @@
 function Slider(histogram, legendColors, date, customOptions) {
 
-    let style = `<style> #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: #e9ecef; fill-opacity: 1; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
+    let style = `<style>  #brush-slider svg { font-family: -apple-system, system-ui, "avenir next", avenir, helvetica, "helvetica neue", ubuntu, roboto, noto, "segoe ui", arial, sans-serif; } #brush-slider rect.overlay { stroke: #888; } #brush-slider rect.selection { stroke: none; fill: #e9ecef; fill-opacity: 1; } #labelleft, #labelright, #label-max, #label-min { font-size: 12px; } #brush-slider #labelleft, #brush-slider #labelright { dominant-baseline: hanging; } #brush-slider #label-min, #brush-slider #label-max { dominant-baseline: central; text-anchor: end; } </style>`;
 
     const defaultOptions = {
         'w': 400, // 400
@@ -64,6 +64,13 @@ function Slider(histogram, legendColors, date, customOptions) {
     .attr('height', function(d) { let hist1 =  y(histogram[d]) || 0; if(hist1 > 60)  return 60 ; else return hist1;})
     .style('fill', function(d, i) { return legendColors[i]})
     .style('opacity', 0.5)
+    .style('-webkit-touch-callout', 'none')
+    .style('-webkit-user-select', 'none')
+    .style('-khtml-user-select', 'none')
+    .style('-moz-user-select', 'none')
+    .style('-ms-user-select', 'none')
+    .style('user-select', 'none')
+    .style('outline-style', 'none')
     .attr("id", function(d, i){   
       return 'rect-'+i;        // slug = label downcased, this works
     });
@@ -79,6 +86,13 @@ function Slider(histogram, legendColors, date, customOptions) {
 
     groups.append('text')
     .style('fill', 'black')
+    .style('-webkit-touch-callout', 'none')
+    .style('-webkit-user-select', 'none')
+    .style('-khtml-user-select', 'none')
+    .style('-moz-user-select', 'none')
+    .style('-ms-user-select', 'none')
+    .style('user-select', 'none')
+    .style('outline-style', 'none')
     .attr('writing-mode', 'vertical-rl')
     .attr('font-size', 7)
     .attr('x', function(d) { let sum = x(d) + counter; counter+=8; return sum; })
