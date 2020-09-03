@@ -49,7 +49,7 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15861;
+      counter = 15910;
     } else if(window.location.href.includes('service')) {
       counter = 1300;
     }
@@ -71,11 +71,11 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     .style('user-select', 'none')
     .style('outline-style', 'none')
     .attr("id", function(d, i){   
-      return 'rect-activity-'+i;        // slug = label downcased, this works
+      return 'rect-activity-'+i;
     });
 
     if (window.location.href.includes('report')) {
-      counter = 15864;
+      counter = 15912;
     } else {
       counter = 1302;
     }

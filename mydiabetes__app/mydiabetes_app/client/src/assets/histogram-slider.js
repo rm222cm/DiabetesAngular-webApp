@@ -50,7 +50,7 @@ function Slider(histogram, legendColors, date, customOptions) {
 
     if (window.location.href.includes('report')) {
 
-      counter = 15862;
+      counter = 15910;
 
     } else if (window.location.href.includes('service')) {
       counter = 1300;
@@ -72,12 +72,12 @@ function Slider(histogram, legendColors, date, customOptions) {
     .style('user-select', 'none')
     .style('outline-style', 'none')
     .attr("id", function(d, i){   
-      return 'rect-'+i;        // slug = label downcased, this works
+      return 'rect-'+i;
     });
 
 
     if (window.location.href.includes('report')) {
-      counter = 15864;
+      counter = 15912;
     } else if (window.location.href.includes('service')) {
       counter = 1303;
     }

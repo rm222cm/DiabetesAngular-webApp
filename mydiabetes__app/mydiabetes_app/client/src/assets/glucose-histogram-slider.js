@@ -49,7 +49,7 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15865;
+      counter = 15910;
     } else if (window.location.href.includes('service')) {
 
       counter = 1300;
@@ -70,12 +70,12 @@ function GlucoseSlider(histogram, legendColor, date, customOptions) {
     .style('user-select', 'none')
     .style('outline-style', 'none')
     .attr("id", function(d, i){   
-      return 'rect-glucose-'+i;        // slug = label downcased, this works
+      return 'rect-glucose-'+i;
     });
 
 
     if (window.location.href.includes('report')) {
-      counter = 15869;
+      counter = 15914;
     } else if (window.location.href.includes('service')) {
 
       counter = 1305;
