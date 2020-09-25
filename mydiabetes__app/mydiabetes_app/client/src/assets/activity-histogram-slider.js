@@ -49,9 +49,9 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     let counter = 0;
 
     if (window.location.href.includes('report')) {
-      counter = 15910;
+      counter = 15927;
     } else if(window.location.href.includes('service')) {
-      counter = 1300;
+      counter = 1305;
     }
 
     let hist1 = 0;
@@ -75,9 +75,9 @@ function ActivitySlider(histogram, legendColors, date, customOptions) {
     });
 
     if (window.location.href.includes('report')) {
-      counter = 15912;
+      counter = 15930;
     } else {
-      counter = 1302;
+      counter = 1310;
     }
 
     hist1 = 0;

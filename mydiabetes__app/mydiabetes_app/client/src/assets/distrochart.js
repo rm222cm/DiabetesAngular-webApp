@@ -4099,7 +4099,7 @@ function makeDistroCrabsChart(settings) {
                     .style("display", null)
                     
                     .style("left", (d3.event.pageX  - 5) + "px")
-                    .style("top", (d3.event.pageY  - 550) + "px");
+                    .style("top", (d3.event.pageY  - 700) + "px");
 
                 }
             }).on("mouseout", function () {

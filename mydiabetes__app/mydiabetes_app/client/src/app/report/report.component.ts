@@ -167,7 +167,6 @@ export class ReportComponent implements OnInit {
     this.drawRectanleWithText();
   }
 
-
   onUserChange(changeContext: ChangeContext): void {
     let lowDate = new Date(changeContext.value);
     let lowDateString = `${lowDate.getFullYear()}`;
@@ -560,12 +559,10 @@ export class ReportComponent implements OnInit {
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
           .style('left', d3.event.pageX - 670 + 'px')
-          .style('top', d3.event.pageY - 550 + 'px')
+          .style('top', d3.event.pageY - 700 + 'px')
           .style('width', '45%');
 
         }
-
-
 
         d3.select(this.nextElementSibling)
           .transition()
@@ -620,8 +617,7 @@ export class ReportComponent implements OnInit {
 
 
     svg.append('g').attr('class', 'y axis').call(yAxis);
-
-
+    
     // http://bl.ocks.org/mbostock/7555321
     // This code wraps label text if it has too much text
     function wrap(text, width) {
@@ -662,45 +658,6 @@ export class ReportComponent implements OnInit {
 
   drawRectanleWithText() {
 
-
-    // const  data = [{
-    //   x: 20,
-    //   y: 30,
-    //   text: 'Hi'
-    // }, {
-    //   x: 70,
-    //   y: 30,
-    //   text: 'bye'
-    // }];
-
-    // let svg = d3.select('#demo-rect')
-    // .append('svg')
-    // .attr('width', 500)
-    // .attr('height', 500);
-
-    // let g = svg.selectAll('.someClass')
-    // .data(data)
-    // .enter()
-    // .append('g')
-    // .attr('class', 'someClass')
-    // .attr('transform', function(d) {
-    //     return 'translate(' + d.x + ',' + d.y + ')';
-    // });
-
-    // g.append('rect')
-    // .attr('width', 40)
-    // .attr('height', 40)
-    // .style('fill', 'red');
-
-    // g.append('text')
-    // .style('fill', 'black')
-    // .attr('writing-mode', 'tb-rl')
-    // .attr('transform', 'rotate(-180deg)')
-    // .attr('x', 5)
-    // .attr('y', 25)
-    // .text(function(d) {
-    //   return d.text;
-    // });
 
   }
 
@@ -1015,10 +972,10 @@ export class ReportComponent implements OnInit {
 
         this.groupedReport = this.groupBy(this.reportData, 'type');
 
-        const insulin = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
-        const activity = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const carbs = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const glucose = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
+        const insulin = this.groupedReport.insulin;
+        const activity = this.groupedReport.activity;
+        const carbs = this.groupedReport.carbs;
+        const glucose = this.groupedReport.glucose;
         let obj1 = [];
         let objvoilin = [];
         let objscatter = [];
@@ -1068,15 +1025,15 @@ export class ReportComponent implements OnInit {
           if (Number(value['value']) <= 100) {
             sliderObjInsulin[count + 1] = +value['value'];
 
-            switch(value['name']) {
+            switch (value['name']) {
               case 'Any other time':
-                insulinLegendColor.push('#008000')
+                insulinLegendColor.push('#008000');
                 break;
               case 'Before Meal':
-                insulinLegendColor.push('#1F77B4')
+                insulinLegendColor.push('#1F77B4');
                 break;
               case 'After Meal':
-                insulinLegendColor.push('#FF7F0E')
+                insulinLegendColor.push('#FF7F0E');
             }
 
           }
@@ -1091,22 +1048,36 @@ export class ReportComponent implements OnInit {
 
             this.boxPlot(objvoilin);
 
-            delete sliderObjInsulin[0]
-            delete sliderObjInsulin[1]
-            delete sliderObjInsulin[44]
-            delete sliderObjInsulin[45]
-            delete sliderObjInsulin[46]
-            delete sliderObjInsulin[47]
-            delete sliderObjInsulin[48]
-            delete sliderObjInsulin[49]
-            delete insulinLegendColor[43]
-            delete insulinLegendColor[44]
-            delete insulinLegendColor[45]
-            delete insulinLegendColor[46]
-            delete insulinLegendColor[47]
-            delete insulinLegendColor[48]
-            delete insulinLegendColor[49]
-            
+            delete sliderObjInsulin[40];
+            delete sliderObjInsulin[41];
+            delete sliderObjInsulin[42];
+            delete sliderObjInsulin[43];
+            delete sliderObjInsulin[44];
+            delete sliderObjInsulin[45];
+            delete sliderObjInsulin[46];
+            delete sliderObjInsulin[47];
+            delete sliderObjInsulin[48];
+            delete sliderObjInsulin[49];
+            delete sliderObjInsulin[50];
+            delete insulinLegendColor[40];
+            delete insulinLegendColor[41];
+            delete insulinLegendColor[42];
+            delete insulinLegendColor[43];
+            delete insulinLegendColor[44];
+            delete insulinLegendColor[45];
+            delete insulinLegendColor[46];
+            delete insulinLegendColor[47];
+            delete insulinLegendColor[48];
+            delete insulinLegendColor[49];
+            delete insulinLegendColor[50];
+
+            insulinLegendColor = insulinLegendColor.filter(function (el) {
+              return el != null;
+            });
+
+            debugger;
+            console.log(JSON.stringify(sliderObjInsulin));
+            console.log(JSON.stringify(insulinLegendColor));
 
             const dates = [new Date(this.startDate), new Date(this.endDate)];
             Slider(sliderObjInsulin, insulinLegendColor,  dates, {});
@@ -1144,16 +1115,16 @@ export class ReportComponent implements OnInit {
 
               switch(value['activityType']) {
                 case 'walking':
-                  activityLegendColor.push('#1f76b4')
+                  activityLegendColor.push('#1f76b4');
                   break;
                 case 'jogging':
-                  activityLegendColor.push('#e17f0e')
+                  activityLegendColor.push('#e17f0e');
                   break;
                 case 'running':
-                  activityLegendColor.push('#2ca02c')
+                  activityLegendColor.push('#2ca02c');
                   break;
                 case 'lifting_weight':
-                  activityLegendColor.push('#d62727')
+                  activityLegendColor.push('#d62727');
                   break;
               }
 
@@ -1185,10 +1156,9 @@ export class ReportComponent implements OnInit {
           objcrabscatter[count3].carbsType = value['carbsType'];
           objcrabscatter[count3].carbsItem = obj3[0].series[count3].carbsItem;
 
-          
           sliderObjCarbs[count3 + 1] = objcrabscatter[count3].time;
 
-          switch(objcrabscatter[count3].carbsType) {
+          switch (objcrabscatter[count3].carbsType) {
             case '1':
               carbsLegendColor.push('#1F77B4')
               break;

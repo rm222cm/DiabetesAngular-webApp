@@ -4092,7 +4092,7 @@ function makeDistroCrabsChart_carbs(settings) {
                         .style("display", null)
 
                     .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 910) + "px");
+                    .style("top", (d3.event.pageY - 910) + "px");
 
                 } else {
 
@@ -4100,7 +4100,7 @@ function makeDistroCrabsChart_carbs(settings) {
                         .style("display", null)
 
                     .style("left", (d3.event.pageX - 120) + "px")
-                        .style("top", (d3.event.pageY - 180) + "px");
+                    .style("top", (d3.event.pageY - 140) + "px");
 
                 }
             }).on("mouseout", function() {

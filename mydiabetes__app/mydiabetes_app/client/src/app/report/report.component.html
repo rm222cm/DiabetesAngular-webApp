@@ -186,7 +186,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="text-center">
+        <div class="text-center" [hidden]="!showGlucose">
             <dl style="margin-bottom: 0;"><b>{{(islanguageEnglish)? 'Glucose Level Chart': 'Glukosnivån'}}</b></dl>
         </div>
         <div class="chart-wrap"

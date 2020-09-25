@@ -576,10 +576,10 @@ export class InsulinModalComponent implements OnInit {
 
         this.groupedReport = this.groupBy(this.reportData, "type");
 
-        const insulin = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
-        const activity = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const carbs = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const glucose = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
+        const insulin = this.groupedReport.insulin;
+        const activity = this.groupedReport.activity;
+        const carbs = this.groupedReport.carbs;
+        const glucose = this.groupedReport.glucose;
         let obj1 = [];
         let objvoilin = [];
         let objscatter = [];
@@ -803,7 +803,7 @@ export class InsulinModalComponent implements OnInit {
       (res: any) => {
         this.reportData = this.parseData(res.data);
         this.reportData.map((elem) => {
-          const myDate = elem.entryTime; // new Date(elem.entryTime).setHours(0, 0, 0, 0);
+          const myDate = elem.entryTime;
           elem["commonTime"] = myDate;
           if (elem.type == "insulin") {
             if (elem.insulinType) {
@@ -859,15 +859,15 @@ export class InsulinModalComponent implements OnInit {
             if (Number(value['value']) <= 100) {
               sliderObjInsulin[count + 1] = +value['value'];
 
-              switch(value['name']) {
+              switch (value['name']) {
                 case 'Any other time':
-                  insulinLegendColor.push('#008000')
+                  insulinLegendColor.push('#008000');
                   break;
                 case 'Before Meal':
-                  insulinLegendColor.push('#1F77B4')
+                  insulinLegendColor.push('#1F77B4');
                   break;
                 case 'After Meal':
-                  insulinLegendColor.push('#FF7F0E')
+                  insulinLegendColor.push('#FF7F0E');
               }
 
             }
@@ -881,16 +881,20 @@ export class InsulinModalComponent implements OnInit {
 
               this.boxPlot(obj1);
 
-              delete sliderObjInsulin[0];
-              delete sliderObjInsulin[1];
+              delete sliderObjInsulin[40];
+              delete sliderObjInsulin[41];
+              delete sliderObjInsulin[42];
+              delete sliderObjInsulin[43];
               delete sliderObjInsulin[44];
               delete sliderObjInsulin[45];
               delete sliderObjInsulin[46];
               delete sliderObjInsulin[47];
               delete sliderObjInsulin[48];
               delete sliderObjInsulin[49];
-  
-              delete insulinLegendColor[1];
+              delete sliderObjInsulin[50];
+              delete insulinLegendColor[40];
+              delete insulinLegendColor[41];
+              delete insulinLegendColor[42];
               delete insulinLegendColor[43];
               delete insulinLegendColor[44];
               delete insulinLegendColor[45];
@@ -898,6 +902,7 @@ export class InsulinModalComponent implements OnInit {
               delete insulinLegendColor[47];
               delete insulinLegendColor[48];
               delete insulinLegendColor[49];
+              delete insulinLegendColor[50];
 
               let insulinSlider = document.querySelector('#brush-slider');
 
@@ -941,7 +946,6 @@ export class InsulinModalComponent implements OnInit {
     insulinSlider.innerHTML = '';
 
     this.getInsulinReportData(this.legendsarray);
-    // this.getReportData();
   }
 
   parseData(data): any {

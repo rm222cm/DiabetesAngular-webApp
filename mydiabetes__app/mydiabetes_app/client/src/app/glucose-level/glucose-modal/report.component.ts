@@ -519,8 +519,8 @@ export class GlucoseModalComponent implements OnInit {
               "Glucose checking Time: " +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
-          .style("left", d3.event.pageX - 130 + "px")
-          .style("top", d3.event.pageY - 210 + "px")
+          .style("left", d3.event.pageX - 310 + "px")
+          .style("top", d3.event.pageY - 166 + "px")
           .style("width", "45%");
 
         }
@@ -847,10 +847,10 @@ export class GlucoseModalComponent implements OnInit {
 
         this.groupedReport = this.groupBy(this.reportData, "type");
 
-        const insulin = this.groupedReport.insulin; // this.groupBy(this.groupedReport.insulin, 'entryTime');
-        const activity = this.groupedReport.activity; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const carbs = this.groupedReport.carbs; // this.groupBy(this.groupedReport.activity, 'activityType');
-        const glucose = this.groupedReport.glucose; // this.groupBy(this.groupedReport.activity, 'activityType');
+        const insulin = this.groupedReport.insulin;
+        const activity = this.groupedReport.activity;
+        const carbs = this.groupedReport.carbs;
+        const glucose = this.groupedReport.glucose;
         let obj1 = [];
         let objvoilin = [];
         let objscatter = [];
