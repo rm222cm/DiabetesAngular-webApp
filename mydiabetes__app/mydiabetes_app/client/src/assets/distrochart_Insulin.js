@@ -2240,7 +2240,7 @@ function makeDistroChart_insulin(settings) {
 
                         chart.objs.tooltip.style("display", null)
                                           .style("left", (d3.event.pageX) + "px")
-                                          .style("top", (d3.event.pageY  - 595  ) + "px");
+                                          .style("top", (d3.event.pageY  - 795  ) + "px");
 
                         chart.objs.tooltip.style("width", "30%");
 

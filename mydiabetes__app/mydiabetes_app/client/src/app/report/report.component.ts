@@ -542,8 +542,8 @@ export class ReportComponent implements OnInit {
               'Glucose checking Time: ' +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
-          .style('left', d3.event.pageX - 10 + 'px')
-          .style('top', d3.event.pageY - 1218 + 'px')
+          .style('left', d3.event.pageX + 'px')
+          .style('top', d3.event.pageY - 1700 + 'px')
           .style('width', '45%');
 
         } else {
@@ -1074,10 +1074,6 @@ export class ReportComponent implements OnInit {
             insulinLegendColor = insulinLegendColor.filter(function (el) {
               return el != null;
             });
-
-            debugger;
-            console.log(JSON.stringify(sliderObjInsulin));
-            console.log(JSON.stringify(insulinLegendColor));
 
             const dates = [new Date(this.startDate), new Date(this.endDate)];
             Slider(sliderObjInsulin, insulinLegendColor,  dates, {});

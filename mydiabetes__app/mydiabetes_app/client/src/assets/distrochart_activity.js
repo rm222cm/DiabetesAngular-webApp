@@ -2239,8 +2239,8 @@ function makeDistroChart_activity(settings) {
                     if (window.matchMedia('(max-width: 767px)')['matches']) {
 
                         chart.objs.tooltip.style("display", null)
-                                          .style("left", (d3.event.pageX) + "px")
-                                          .style("top", (d3.event.pageY  - 595  ) + "px");
+                                          .style("left", (d3.event.pageX) - 20 + "px")
+                                          .style("top", (d3.event.pageY  - 410  ) + "px");
 
                         chart.objs.tooltip.style("width", "30%");
 
