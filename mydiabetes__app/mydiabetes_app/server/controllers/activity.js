@@ -5,7 +5,6 @@ exports.create = (req, res) => {
   req.body.email = req.session.user.email
   Activity.create(req.body)
   .then((newActivity) => {
-    console.log(newActivity)
     res.json({ msg: 'success', redirect: '/home' });
   })
   .catch((dbErr) => {
@@ -18,7 +17,6 @@ exports.get = (req, res) => {
   
   Activity.find( { $and: [ { "entryTime": { "$gte": req.body.startDate, "$lt": req.body.endDate } }, { "email": req.session.user.email } ] } )
     .then((activityData) => {
-      console.log(activityData);
       res.json({
         msg: 'success',
         redirect: '/home',

@@ -56,4 +56,8 @@ export class InsulinDosagesService {
   public getCarbsReportData(body) {
     return this.http.post('api/exportAsReportCarbs', body);
   }
+
+  public getGlucoseReportData(body) {
+    return this.http.post('api/exportAsReportGlucose', body);
+  }
 }

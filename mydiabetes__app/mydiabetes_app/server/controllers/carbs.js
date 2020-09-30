@@ -5,7 +5,6 @@ exports.create = (req, res) => {
   req.body.email = req.session.user.email
   Carbs.create(req.body)
     .then((newcarbs) => {
-      console.log(newcarbs);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -13,7 +12,6 @@ exports.create = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -24,7 +22,6 @@ exports.getall = (req, res) => {
 
   Carbs.find({})
     .then((newcarbs) => {
-      console.log(newcarbs);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -32,7 +29,6 @@ exports.getall = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -44,7 +40,6 @@ exports.get = (req, res) => {
   
   find( { $and: [ { "entryTime": { "$gte": req.body.startDate, "$lt": req.body.endDate } }, { "email": req.session.user.email } ] } )
     .then((newcarbs) => {
-      console.log(newcarbs);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -52,7 +47,6 @@ exports.get = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -64,7 +58,6 @@ exports.getLatestGlucoseLevel = (req, res) => {
 
     Carbs.find({"email": req.session.user.email}).sort({"entryTime": -1}).limit(1)
       .then((newcarbs) => {
-        console.log(newcarbs);
         res.json({
           msg: 'success',
           redirect: '/home',

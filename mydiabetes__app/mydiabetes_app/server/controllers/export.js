@@ -47,10 +47,6 @@ exports.exportHistory = async(req, res) => {
     let carbsRecord = await Carbs.find({});
     let glucoseRecord = await Glucose.find({});
 
-    console.log(insulinRecord);
-    console.log(activityRecord);
-    console.log(carbsRecord);
-    console.log(glucoseRecord);
 
     let map = new Map();
 
@@ -83,9 +79,6 @@ exports.exportAsReport = async(req, res) => {
     //making time as empty
     fromDate.setHours(0, 0, 0)
     toDate.setHours(0, 0, 0)
-
-    console.log('from', fromDate)
-    console.log('to', toDate)
 
     let insulinRecord = await Insulin.find({ $and: [{ "dosageTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
     let activityRecord = await Activity.find({ $and: [{ "activityTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
@@ -148,10 +141,6 @@ exports.exportAsReportInsulin = async(req, res) => {
     });
 };
 
-//......................................
-//......................................
-//......................................
-//......................................
 exports.exportAsReportActivity = async(req, res) => {
 
     let fromDate = new Date(req.body.startDate)
@@ -194,6 +183,7 @@ exports.exportAsReportActivity = async(req, res) => {
         data: mapToArray
     });
 };
+
 exports.exportAsReportCarbs = async(req, res) => {
 
     let fromDate = new Date(req.body.toDate)
@@ -235,6 +225,35 @@ exports.exportAsReportCarbs = async(req, res) => {
     });
 };
 
+exports.exportAsReportGlucose = async(req, res) => {
+
+    let fromDate = new Date(req.body.fromDate);
+    let toDate = new Date(req.body.toDate);
+
+    //making time as empty
+    fromDate.setHours(0, 0, 0);
+    toDate.setHours(0, 0, 0);
+
+    console.log('fromDate', fromDate);
+    console.log('toDate', toDate);
+
+    let glucoseRecord =  await Glucose.find({ $and: [{ "glucoseTime": { "$gte": toDate , "$lt": fromDate } }, { "email": req.session.user.email }] });
+    // 
+    
+    let map = new Map();
+
+    exports.addGlucoseElementsToMap(glucoseRecord, map);
+
+    var mapAsc = new Map([...map.entries()].sort());
+    let mapToArray = Array.from(mapAsc.values());
+
+    res.json({
+        msg: 'success',
+        redirect: '/home',
+        data: mapToArray
+    });
+};
+
 
 exports.export = async(req, res) => {
 
@@ -246,18 +265,12 @@ exports.export = async(req, res) => {
     fromDate.setHours(0, 0, 0)
     toDate.setHours(0, 0, 0)
 
-    console.log('from', fromDate)
-    console.log('to', toDate)
 
     let insulinRecord = await Insulin.find({ $and: [{ "dosageTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
     let activityRecord = await Activity.find({ $and: [{ "activityTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
     let carbsRecord = await Carbs.find({ $and: [{ "carbsTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
     let glucoseRecord = await Glucose.find({ $and: [{ "glucoseTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] });
 
-    console.log(insulinRecord);
-    console.log(activityRecord);
-    console.log(carbsRecord);
-    console.log(glucoseRecord);
 
     let map = new Map();
 
@@ -283,7 +296,6 @@ exports.addInsulinElementsToMap = function(insulinRecord, map) {
         var d = element.dosageTime;
         var datestring = ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + "/" +
             d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-        console.log("DATE : ", datestring);
         element.csvTime = datestring;
         if (map.has(datestring)) {
             var getElement = map.get(datestring);
@@ -302,7 +314,6 @@ exports.addActivityElementsToMap = function(activityRecord, map) {
         var d = element.activityTime;
         var datestring = ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + "/" +
             d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-        console.log("DATE : ", datestring);
         element.csvTime = datestring;
         if (map.has(datestring)) {
             var getElement = map.get(datestring);
@@ -321,7 +332,6 @@ exports.addCarbsElementsToMap = function(carbsRecord, map) {
         var d = element.carbsTime;
         var datestring = ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + "/" +
             d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-        console.log("DATE : ", datestring);
         element.csvTime = datestring;
         if (map.has(datestring)) {
             var getElement = map.get(datestring);
@@ -335,12 +345,12 @@ exports.addCarbsElementsToMap = function(carbsRecord, map) {
 };
 
 exports.addGlucoseElementsToMap = function(glucoseRecord, map) {
+
     for (let i = 0; i < glucoseRecord.length; i++) {
         var element = glucoseRecord[i];
         var d = element.glucoseTime;
         var datestring = ("0" + (d.getMonth() + 1)).slice(-2) + "/" + ("0" + d.getDate()).slice(-2) + "/" +
             d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-        console.log("DATE : ", datestring);
         element.csvTime = datestring;
         if (map.has(datestring)) {
             var getElement = map.get(datestring);

@@ -8,7 +8,6 @@ exports.create = (req, res) => {
   req.body.email = req.session.user.email
   Insulin.create(req.body)
   .then((newData) => {
-    console.log("insulin data", newData)
     res.json({ msg: 'success', redirect: '/home', newData:newData });
   })
   .catch((dbErr) => {
@@ -20,7 +19,6 @@ exports.create = (req, res) => {
 exports.get = (req, res) => {
   Insulin.find( { $and: [ { "dosageTime": { "$gte": req.body.startDate, "$lt": req.body.endDate } }, { "email": req.session.user.email } ] } )
     .then((insulinData) => {
-       console.log(insulinData);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -47,11 +45,6 @@ async function getTotalRecord(req) {
   //making time as empty
   fromDate.setHours(0, 0, 0)
   toDate.setHours(0, 0, 0)
-
-  console.log('from',fromDate)
-  console.log('to',toDate)
-
- 
   
   //Insulin
   let insulinRecord = await Insulin.find({ $and: [{ "dosageTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] })
@@ -62,8 +55,6 @@ async function getTotalRecord(req) {
     return ins.dosageTime
   })
 
-  console.log('insulinrecord ', insulinRecord);
-  console.log('email ', req.session.user.email);
   
   //Activity
   let activityRecord = await Activity.find({ $and: [{ "activityTime": { "$gte": fromDate, "$lt": toDate } }, { "email": req.session.user.email }] })

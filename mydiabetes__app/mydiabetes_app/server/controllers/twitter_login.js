@@ -46,7 +46,6 @@ exports.cb = (req, res) => {
             console.error('twitter error', err);
             return;
           }
-          // console.log(twitterResponse);
           const {
             email, name, id_str, profile_image_url_https,
           } = JSON.parse(twitterResponse);
@@ -70,10 +69,8 @@ exports.cb = (req, res) => {
               { twitterId: id_str },
             ],
           }, updateOpt, { new: true }, async (dbError, dbUser) => {
-            console.log(dbUser);
             let user = dbUser;
             if (dbError) {
-              console.error(dbError);
               return;
             }
             if (!dbUser) {

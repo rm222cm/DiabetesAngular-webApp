@@ -2248,7 +2248,7 @@ function makeDistroChart_activity(settings) {
 
                         chart.objs.tooltip.style("display", null)
                                           .style("left", (d3.event.pageX - 120) + "px")
-                                          .style("top", (d3.event.pageY  - 220  ) + "px");
+                                          .style("top", (d3.event.pageY  - 205) + "px");
 
                         chart.objs.tooltip.style("width", "30%");
 

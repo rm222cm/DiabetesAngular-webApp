@@ -5,12 +5,9 @@ const isAuthenticated = (req) => {
   const { user } = req.cookies;
   const parsedUser = user && querystring.parse(user);
   const userSession = req.session && req.session.user;
-  console.log('user: ', parsedUser, userSession);
   if (parsedUser && userSession && parsedUser.userId === userSession.userId) {
-    console.log('Authenticated user');
     return true;
   }
-  console.log('Not authenticated user');
   return false;
 };
 

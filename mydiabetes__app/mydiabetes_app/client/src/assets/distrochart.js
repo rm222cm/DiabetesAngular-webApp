@@ -2240,7 +2240,7 @@ function makeDistroChart(settings) {
 
                         chart.objs.tooltip.style("display", null)
                                           .style("left", (d3.event.pageX) + "px")
-                                          .style("top", (d3.event.pageY  - 728  ) + "px");
+                                          .style("top", (d3.event.pageY  - 800  ) + "px");
 
                         chart.objs.tooltip.style("width", "30%");
 
@@ -4091,7 +4091,7 @@ function makeDistroCrabsChart(settings) {
                     .style("display", null)
                     
                     .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY  - 1200) + "px");
+                    .style("top", (d3.event.pageY  - 1280) + "px");
 
                 } else {
 

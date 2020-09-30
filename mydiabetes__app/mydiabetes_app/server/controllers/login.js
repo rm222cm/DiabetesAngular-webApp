@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user || !user.password) {
-    console.log('no user');
     res.status(200).json({ err: 'username or password incorrect' });
     return;
   }

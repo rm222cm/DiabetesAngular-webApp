@@ -5,7 +5,6 @@ exports.create = (req, res) => {
   req.body.email = req.session.user.email
   Glucose.create(req.body)
     .then((newGlucose) => {
-      console.log(newGlucose);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -13,7 +12,6 @@ exports.create = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -24,7 +22,6 @@ exports.getall = (req, res) => {
 
     Glucose.find({})
     .then((newGlucose) => {
-      console.log(newGlucose);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -32,7 +29,6 @@ exports.getall = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -44,7 +40,6 @@ exports.get = (req, res) => {
   
   Glucose.find( { $and: [ { "entryTime": { "$gte": req.body.startDate, "$lt": req.body.endDate } }, { "email": req.session.user.email } ] } )
     .then((newGlucose) => {
-      console.log(newGlucose);
       res.json({
         msg: 'success',
         redirect: '/home',
@@ -52,7 +47,6 @@ exports.get = (req, res) => {
       });
     })
     .catch((dbErr) => {
-      console.error(dbErr);
       res.json({
         msg: 'fail'
       });
@@ -64,7 +58,6 @@ exports.getLatestGlucoseLevel = (req, res) => {
 
     Glucose.find({"email": req.session.user.email}).sort({"glucoseTime": -1}).limit(1)
       .then((newGlucose) => {
-        console.log(newGlucose);
         res.json({
           msg: 'success',
           redirect: '/home',
@@ -72,7 +65,6 @@ exports.getLatestGlucoseLevel = (req, res) => {
         });
       })
       .catch((dbErr) => {
-        console.error(dbErr);
         res.json({
           msg: 'fail'
         });
@@ -80,10 +72,8 @@ exports.getLatestGlucoseLevel = (req, res) => {
   };
 
   exports.getLatestGlucoseLevelByTime = (req, res) => {
-    console.log('compareTime',req.body.compareTime)
       Glucose.find( { $and: [ { "glucoseTime": { "$lte": req.body.compareTime } }, { "email": req.session.user.email } ] }).sort({"glucoseTime": -1}).limit(1)
         .then((newGlucose) => {
-          console.log(newGlucose);
           res.json({
             msg: 'success',
             redirect: '/home',
@@ -91,7 +81,6 @@ exports.getLatestGlucoseLevel = (req, res) => {
           });
         })
         .catch((dbErr) => {
-          console.error(dbErr);
           res.json({
             msg: 'fail'
           });

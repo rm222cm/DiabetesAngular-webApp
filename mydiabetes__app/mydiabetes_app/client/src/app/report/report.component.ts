@@ -33,6 +33,7 @@ declare var d3: any;
   providers: [DatePipe],
 })
 export class ReportComponent implements OnInit {
+
   @ViewChild('dataContainer') dataContainer: ElementRef;
   @ViewChild('sliderButton') sliderButton: ElementRef;
   islanguageEnglish = true;
@@ -49,10 +50,10 @@ export class ReportComponent implements OnInit {
       this.islanguageEnglish = (result.lang === 'sv') ? false : true;
       localStorage.setItem('lang', result.lang);
 
-      let insulinSlider = document.querySelector('#brush-slider');
-      let activitySlider = document.querySelector('#acitivity-slider');
-      let carbsSlider = document.querySelector('#carbs-slider');
-      let glucoseSlider = document.querySelector('#glucose-slider');
+      const insulinSlider = document.querySelector('#brush-slider');
+      const activitySlider = document.querySelector('#acitivity-slider');
+      const carbsSlider = document.querySelector('#carbs-slider');
+      const glucoseSlider = document.querySelector('#glucose-slider');
       insulinSlider.innerHTML = '';
       activitySlider.innerHTML = '';
       carbsSlider.innerHTML = '';
@@ -126,7 +127,6 @@ export class ReportComponent implements OnInit {
   legendsactivity: any = ['walking', 'jogging', 'running', 'lifting_weight'];
   legendscarbs: any = ['1', '2', '3'];
   slider: any;
-  
 
   dateRange: Date[] = this.createDateRange();
   value: number = new Date(this.startDate).getTime();
@@ -143,8 +143,8 @@ export class ReportComponent implements OnInit {
 
   createDateRange(): Date[] {
     const dates: Date[] = [];
-    let startDate = new Date(this.startDate);
-    let endDate = new Date(this.endDate);
+    const startDate = new Date(this.startDate);
+    const endDate = new Date(this.endDate);
     for (
       let new_date = startDate;
       new_date <= endDate;
@@ -168,7 +168,7 @@ export class ReportComponent implements OnInit {
   }
 
   onUserChange(changeContext: ChangeContext): void {
-    let lowDate = new Date(changeContext.value);
+    const lowDate = new Date(changeContext.value);
     let lowDateString = `${lowDate.getFullYear()}`;
 
     if (lowDate.getMonth() + 1 < 10) {
@@ -183,7 +183,7 @@ export class ReportComponent implements OnInit {
       lowDateString += `-${lowDate.getDate()}`;
     }
 
-    let highDate = new Date(changeContext.highValue);
+    const highDate = new Date(changeContext.highValue);
     let highDateString = `${highDate.getFullYear()}`;
 
     if (highDate.getMonth() + 1 < 10) {
@@ -205,17 +205,17 @@ export class ReportComponent implements OnInit {
   }
 
   zeroPad(num, places) {
-    var zero = places - num.toString().length + 1;
+    let zero = places - num.toString().length + 1;
     return Array(+(zero > 0 && zero)).join('0') + num;
   }
 
   formatDT(__dt) {
-    var year = __dt.getFullYear();
-    var month = this.zeroPad(__dt.getMonth() + 1, 2);
-    var date = this.zeroPad(__dt.getDate(), 2);
-    var hours = this.zeroPad(__dt.getHours(), 2);
-    var minutes = this.zeroPad(__dt.getMinutes(), 2);
-    var seconds = this.zeroPad(__dt.getSeconds(), 2);
+    let year = __dt.getFullYear();
+    let month = this.zeroPad(__dt.getMonth() + 1, 2);
+    let date = this.zeroPad(__dt.getDate(), 2);
+    let hours = this.zeroPad(__dt.getHours(), 2);
+    let minutes = this.zeroPad(__dt.getMinutes(), 2);
+    let seconds = this.zeroPad(__dt.getSeconds(), 2);
     return (
       year +
       '-' +
@@ -235,9 +235,9 @@ export class ReportComponent implements OnInit {
     if (event) {
       this.legendsarray.push(target);
     } else {
-      let found = this.legendsarray.find((e) => e == target);
+      const found = this.legendsarray.find((e) => e == target);
       if (found) {
-        let index = this.legendsarray.indexOf(target);
+        const index = this.legendsarray.indexOf(target);
         this.legendsarray.splice(index, 1);
       }
     }
@@ -265,7 +265,65 @@ export class ReportComponent implements OnInit {
   glucoseSliderEnd() {
 
     this.setDates();
-    this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+    this.getGlucoseReportData();
+  }
+
+  getGlucoseReportData() {
+
+    const data = {
+      toDate: this.startDate,
+      fromDate: this.endDate
+    };
+
+    this.isLoading = true;
+    
+    this.insulinService.getGlucoseReportData(data).subscribe(response => {
+
+      let data = response['data'];
+
+      const obj4 = [{ name: 'Glucose', series: [] }];
+      const glucose = this.groupedReport.glucose;
+      const glucoseLabels = [];
+      let count4 = 0;
+      const sliderObjGlucose = {};
+
+      for (const [key, value] of Object.entries(data)) {
+
+        obj4[0].series[count4] = {};
+          obj4[0].series[count4].date_time = new Date(value['glucoseTime']);
+          if (isNaN(value['glucoseLevelUnits'])) {
+            value['glucoseLevelUnits'] = 0;
+          }
+          if (value['glucoseLevelUnits'] > 90) {
+            value['glucoseLevelUnits'] = 30;
+          }
+          obj4[0].series[count4].total_km = value['glucoseLevelUnits'];
+          obj4[0].series[count4].name = new Date(
+            value['glucoseTime']
+          ).getFullYear();
+          obj4[0].series[count4].glucoseType = this.glucoseType[
+            value['glucoseType']
+          ];
+          obj4[0].series[count4].glucoseLevelUnits = value['glucoseLevelUnits'];
+
+          sliderObjGlucose[count4 + 1] = parseFloat(obj4[0].series[count4].glucoseLevelUnits);
+          glucoseLabels.push(`${value['glucoseLevelUnits']} mmol/L`);
+          count4++;
+          this.golucoseobj = obj4;
+
+      }
+
+      const glucoseSlider = document.querySelector('#glucose-slider');
+
+      if (!glucoseSlider.getElementsByTagName('svg').length) {
+        const dates1 = [new Date(this.startDate), new Date(this.endDate)];
+        GlucoseSlider(sliderObjGlucose, glucoseLabels, dates1, {});
+      }
+      this.isLoading = false;
+      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+    },
+      (error) => {});
+
   }
 
   setDates() {
@@ -282,9 +340,9 @@ export class ReportComponent implements OnInit {
     if (event) {
       this.legendsactivity.push(target);
     } else {
-      let found = this.legendsactivity.find((e) => e == target);
+      const found = this.legendsactivity.find((e) => e == target);
       if (found) {
-        let index = this.legendsactivity.indexOf(target);
+        const index = this.legendsactivity.indexOf(target);
         this.legendsactivity.splice(index, 1);
       }
     }
@@ -315,10 +373,10 @@ export class ReportComponent implements OnInit {
 
     this.insulinService.getCarbsReportData(data).subscribe((res: any) => {
       let count3 = 0;
-      let obj3 = [{ name: 'Crabs', series: [] }];
-      let objcrabscatter = [];
+      const obj3 = [{ name: 'Crabs', series: [] }];
+      const objcrabscatter = [];
 
-      for (let [key, value] of Object.entries(res.data)) {
+      for (const [key, value] of Object.entries(res.data)) {
         obj3[0].series[count3] = {};
         objcrabscatter[count3] = {};
         obj3[0].series[count3].name = new Date(value['carbsTime']);
@@ -351,12 +409,15 @@ export class ReportComponent implements OnInit {
 
   drawGolucoseLineChart123(lineData) {
 
-    var node = document.querySelector('#chartArea');
-    node.innerHTML = '';
-    let glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
 
-    var margin = { top: 50, right: 10, bottom: 60, left: 50 };
-    var width, height;
+
+    let node = document.querySelector('#chartArea');
+    
+    node.innerHTML = '';
+    const glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
+
+    let margin = { top: 50, right: 10, bottom: 60, left: 50 };
+    let width, height;
 
     if (window.matchMedia('(max-width: 767px)')['matches']) {
 
@@ -369,26 +430,26 @@ export class ReportComponent implements OnInit {
 
     }
 
-    var x = d3.time.scale().range([0, width]);
+    let x = d3.time.scale().range([0, width]);
 
-    var y = d3.scale.linear().range([height, 0]);
+    let y = d3.scale.linear().range([height, 0]);
 
-    var xAxis = d3.svg
+    let xAxis = d3.svg
       .axis()
       .scale(x)
       .ticks(d3.time.hours, 24)
       .tickSize(4)
       .orient('bottom');
 
-    var xMinorAxis = d3.svg
+    let xMinorAxis = d3.svg
       .axis()
       .scale(x)
       .ticks(d3.time.hours, 12)
       .orient('bottom');
 
-    var yAxis = d3.svg.axis().scale(y).orient('left');
+    let yAxis = d3.svg.axis().scale(y).orient('left');
 
-    var line = d3.svg
+    let line = d3.svg
       .line()
       .x(function (d) {
         return x(d.date);
@@ -397,7 +458,7 @@ export class ReportComponent implements OnInit {
         return y(d.total_km);
       });
 
-    var div = d3
+    let div = d3
       .select('#chartArea')
       .append('div')
       .attr('class', 'tooltip')
@@ -405,7 +466,7 @@ export class ReportComponent implements OnInit {
       .style('background-color', '#FFFFFF')
       .style('font-weight', 'bold').style('font-size', '12px');
 
-    var svg = d3
+    let svg = d3
       .select('#chartArea')
       .append('svg')
       .attr('width', width + margin.left + margin.right)
@@ -413,9 +474,9 @@ export class ReportComponent implements OnInit {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var parseDate = d3.time.format('%Y-%m-%d %X');
-    var formatTime = d3.time.format('%e %b %-I:%M %p');
-    var formatCount = d3.format(',');
+    let parseDate = d3.time.format("%Y-%m-%d");
+    let formatTime = d3.time.format('%e %b %-I:%M %p');
+    let formatCount = d3.format(',');
 
     function make_y_axis() {
       return d3.svg.axis().scale(y).orient('left');
@@ -423,10 +484,40 @@ export class ReportComponent implements OnInit {
 
     var data = lineData;
 
-    data = data.filter((month, idx) => idx <= 10);
+    var newData = [];
+    data.forEach(element => {
 
+      let currentItem = JSON.parse(JSON.stringify(element));
+
+      currentItem.date_time = currentItem.date_time.toString().split('T')[0];
+      let found = false;
+
+      if (newData.length > 0) {
+
+        for (let i = 0; i < newData.length; i++) {
+
+          if (currentItem.date_time === newData[i].date_time) {
+            found = true;
+          }
+
+        }
+
+        if (found === false) {
+          newData.push(currentItem);
+        }
+
+      } else {
+        newData.push(currentItem);
+      }
+    });
+
+    newData.forEach(element => {
+      element.date_time = new Date(element.date_time);
+    });
+
+    data = newData;
     data.forEach(function (d) {
-      d.date = d.date_time;
+      d.date = parseDate(d.date_time) ;
       d.total_km = +d.total_km;
     });
 
@@ -449,7 +540,7 @@ export class ReportComponent implements OnInit {
 
     svg.append('path').datum(data).attr('class', 'line').attr('d', line);
 
-    var g = svg.selectAll().data(data).enter().append('g');
+    let g = svg.selectAll().data(data).enter().append('g');
 
     g.append('circle')
       .attr('r', 4.5)
@@ -496,16 +587,16 @@ export class ReportComponent implements OnInit {
     g.selectAll('circle')
       .on('mouseover', function (d) {
         div.transition().duration(200).style('opacity', 0.7);
-        let date = new Date(d.date);
-        var day: any;
-        var month: any;
-        var hours: any;
-        var minutes: any;
-        var seconds: any;
+        const date = new Date(d.date);
+        let day: any;
+        let month: any;
+        let hours: any;
+        let minutes: any;
+        let seconds: any;
         day = date.getDay();
 
         month = date.getMonth() + 1;
-        var year = date.getFullYear();
+        let year = date.getFullYear();
         hours = date.getHours();
         minutes = date.getMinutes();
         seconds = date.getSeconds();
@@ -543,7 +634,7 @@ export class ReportComponent implements OnInit {
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
           .style('left', d3.event.pageX + 'px')
-          .style('top', d3.event.pageY - 1700 + 'px')
+          .style('top', d3.event.pageY - 1740 + 'px')
           .style('width', '45%');
 
         } else {
@@ -617,12 +708,12 @@ export class ReportComponent implements OnInit {
 
 
     svg.append('g').attr('class', 'y axis').call(yAxis);
-    
+
     // http://bl.ocks.org/mbostock/7555321
     // This code wraps label text if it has too much text
     function wrap(text, width) {
       text.each(function () {
-        var text = d3.select(this),
+        let text = d3.select(this),
           words = text.text().split(/\s+/).reverse(),
           word,
           line = [],
@@ -673,7 +764,7 @@ export class ReportComponent implements OnInit {
       }
     });
 
-    let labelChart = (this.islanguageEnglish) ? 'Dosage Units' : 'Dosering';
+    const labelChart = (this.islanguageEnglish) ? 'Dosage Units' : 'Dosering';
 
     document.getElementById('chart-distro1').innerHTML = '';
     chart1 = makeDistroChartBox({
@@ -689,7 +780,7 @@ export class ReportComponent implements OnInit {
   }
 
   scatterPlot(this_data) {
-  
+
     let chartarr = [];
     let walkingarr = [];
     let joggingarr = [];
@@ -700,15 +791,15 @@ export class ReportComponent implements OnInit {
     runningarr = this_data.filter((e) => e.date == 'running');
     liftingarr = this_data.filter((e) => e.date == 'lifting_weight');
     if (walkingarr.length > 0) {
-    chartarr=  chartarr.concat(walkingarr);
-    } 
+    chartarr =  chartarr.concat(walkingarr);
+    }
      if (joggingarr.length > 0) {
-      chartarr= chartarr.concat(joggingarr);
-    } 
+      chartarr = chartarr.concat(joggingarr);
+    }
     if (runningarr.length > 0) {
-      chartarr= chartarr.concat(runningarr);
+      chartarr = chartarr.concat(runningarr);
     }   if (liftingarr.length > 0) {
-      chartarr=  chartarr.concat(liftingarr);
+      chartarr =  chartarr.concat(liftingarr);
     }
        let chart2;
     chartarr.forEach((d) => {
@@ -726,7 +817,7 @@ export class ReportComponent implements OnInit {
 
     });
 
-    let activityLabel = (this.islanguageEnglish) ? 'Activity Duration' : 'Aktivitetens Varaktighet';
+    const activityLabel = (this.islanguageEnglish) ? 'Activity Duration' : 'Aktivitetens Varaktighet';
 
     document.getElementById('chart-distro2').innerHTML = '';
     chart2 = makeDistroChart({
@@ -757,7 +848,7 @@ export class ReportComponent implements OnInit {
       element.carabsTime = new Date(element.carabsTime);
       let formattedDate = '';
 
-      if((element.carabsTime.getMonth() + 1) < 10) {
+      if ((element.carabsTime.getMonth() + 1) < 10) {
         formattedDate += `0${element.carabsTime.getMonth() + 1}`;
       } else {
         formattedDate += `${element.carabsTime.getMonth() + 1}`;
@@ -776,11 +867,11 @@ export class ReportComponent implements OnInit {
     });
 
 
-    var chart3;
+    let chart3;
 
     document.getElementById('chart-distro3').innerHTML = '';
 
-    let carbsLabel = (this.islanguageEnglish) ? 'Meal Time' : 'Matdags';
+    const carbsLabel = (this.islanguageEnglish) ? 'Meal Time' : 'Matdags';
 
     chart3 = makeDistroCrabsChart({
       data: this_data,
@@ -801,8 +892,8 @@ export class ReportComponent implements OnInit {
   }
 
   onSelectInsulin(event) {
-    var elements = document.querySelectorAll('.legend-label-text');
-    let arr = [];
+    let elements = document.querySelectorAll('.legend-label-text');
+    const arr = [];
     elements.forEach((el) => {
       if (el.textContent.trim() == event) {
         if (el['style'].textDecoration == 'line-through') {
@@ -976,28 +1067,28 @@ export class ReportComponent implements OnInit {
         const activity = this.groupedReport.activity;
         const carbs = this.groupedReport.carbs;
         const glucose = this.groupedReport.glucose;
-        let obj1 = [];
-        let objvoilin = [];
-        let objscatter = [];
-        let objcrabscatter = [];
-        let obj2 = [{ name: 'Activity', series: [] }];
-        let obj3 = [{ name: 'Crabs', series: [] }];
-        let obj4 = [{ name: 'Glucose', series: [] }];
+        const obj1 = [];
+        const objvoilin = [];
+        const objscatter = [];
+        const objcrabscatter = [];
+        const obj2 = [{ name: 'Activity', series: [] }];
+        const obj3 = [{ name: 'Crabs', series: [] }];
+        const obj4 = [{ name: 'Glucose', series: [] }];
         let count = 0;
-        let sliderObjInsulin = {};
+        const sliderObjInsulin = {};
         let insulinLegendColor = [];
-        let activityLegendColor = [];
-        let carbsLegendColor = [];
-        let glucoseLabels = [];
-        let sliderObjActivity = {};
-        let sliderObjCarbs = {};
-        let sliderObjGlucose = {};
+        const activityLegendColor = [];
+        const carbsLegendColor = [];
+        const glucoseLabels = [];
+        const sliderObjActivity = {};
+        const sliderObjCarbs = {};
+        const sliderObjGlucose = {};
 
         let count2 = 0;
         let count3 = 0;
         let count4 = 0;
 
-        for (let [key, value] of Object.entries(insulin)) {
+        for (const [key, value] of Object.entries(insulin)) {
           obj1[count] = {};
           objvoilin[count] = {};
           obj1[count].name = this.datePipe.transform(
@@ -1079,7 +1170,7 @@ export class ReportComponent implements OnInit {
             Slider(sliderObjInsulin, insulinLegendColor,  dates, {});
           }
         }
-        for (let [key, value] of Object.entries(activity)) {
+        for (const [key, value] of Object.entries(activity)) {
           obj2[0].series[count2] = {};
           objscatter[count2] = {};
           obj2[0].series[count2].name = new Date(value['activityTime']);
@@ -1109,7 +1200,7 @@ export class ReportComponent implements OnInit {
 
               sliderObjActivity[count2 + 1] = +value['activityDuration']['hour'];
 
-              switch(value['activityType']) {
+              switch (value['activityType']) {
                 case 'walking':
                   activityLegendColor.push('#1f76b4');
                   break;
@@ -1136,7 +1227,7 @@ export class ReportComponent implements OnInit {
         // -------------------------------Carb charts ---------------------------------//
         // -------------------------------Carb charts ---------------------------------//
 
-        for (let [key, value] of Object.entries(carbs)) {
+        for (const [key, value] of Object.entries(carbs)) {
           obj3[0].series[count3] = {};
           objcrabscatter[count3] = {};
           obj3[0].series[count3].name = new Date(value['carbsTime']);
@@ -1156,13 +1247,13 @@ export class ReportComponent implements OnInit {
 
           switch (objcrabscatter[count3].carbsType) {
             case '1':
-              carbsLegendColor.push('#1F77B4')
+              carbsLegendColor.push('#1F77B4');
               break;
             case '2':
-              carbsLegendColor.push('#FF7F0E')
+              carbsLegendColor.push('#FF7F0E');
               break;
             case '3':
-              carbsLegendColor.push('#2CA02C')
+              carbsLegendColor.push('#2CA02C');
               break;
           }
 
@@ -1180,7 +1271,7 @@ export class ReportComponent implements OnInit {
         // -------------------------------glucose charts ---------------------------------//
         // -------------------------------glucose charts ---------------------------------//
         // -------------------------------glucose charts ---------------------------------//
-        for (let [key, value] of Object.entries(glucose)) {
+        for (const [key, value] of Object.entries(glucose)) {
           obj4[0].series[count4] = {};
           obj4[0].series[count4].date_time = new Date(value['glucoseTime']);
           if (isNaN(value['glucoseLevelUnits'])) {
@@ -1225,7 +1316,7 @@ export class ReportComponent implements OnInit {
     this.isLoading = true;
     this.insulinService.getactivityReportData(data).subscribe(
       (res: any) => {
-        let new_data_activity = this.parseData(res.data);
+        const new_data_activity = this.parseData(res.data);
 
         // -------------------------------------------- //
         // --------------------------------------------//
@@ -1241,15 +1332,15 @@ export class ReportComponent implements OnInit {
           }
           return elem;
         });
-        let groupedDataActivity = this.groupBy(new_data_activity, 'type');
+        const groupedDataActivity = this.groupBy(new_data_activity, 'type');
         const activity = groupedDataActivity.activity;
         // --------------------------------------------//
         // --------------------------------------------//
-        let obj2 = [{ name: 'Activity', series: [] }];
+        const obj2 = [{ name: 'Activity', series: [] }];
         let count2 = 0;
-        let objscatter = [];
+        const objscatter = [];
 
-        for (let [key, value] of Object.entries(activity)) {
+        for (const [key, value] of Object.entries(activity)) {
           obj2[0].series[count2] = {};
           objscatter[count2] = {};
           obj2[0].series[count2].name = new Date(value['activityTime']);
@@ -1325,9 +1416,9 @@ export class ReportComponent implements OnInit {
         const insulin = this.groupedReport.insulin;
 
         if (insulin !== undefined) {
-          let obj1 = [];
+          const obj1 = [];
           let count = 0;
-          for (let [key, value] of Object.entries(insulin)) {
+          for (const [key, value] of Object.entries(insulin)) {
             obj1[count] = {};
             obj1[count] = {};
             obj1[count].name = this.datePipe.transform(
@@ -1363,7 +1454,7 @@ export class ReportComponent implements OnInit {
             // }
           }
         } else {
-          let obj = [];
+          const obj = [];
           this.boxPlot(obj);
         }
 
@@ -1390,10 +1481,10 @@ export class ReportComponent implements OnInit {
       this.maxValue = new Date(this.endDate).getTime();
     }
 
-    let insulinSlider = document.querySelector('#brush-slider');
-    let activitySlider = document.querySelector('#acitivity-slider');
-    let carbsSlider = document.querySelector('#carbs-slider');
-    let glucoseSlider = document.querySelector('#glucose-slider');
+    const insulinSlider = document.querySelector('#brush-slider');
+    const activitySlider = document.querySelector('#acitivity-slider');
+    const carbsSlider = document.querySelector('#carbs-slider');
+    const glucoseSlider = document.querySelector('#glucose-slider');
     insulinSlider.innerHTML = '';
     activitySlider.innerHTML = '';
     carbsSlider.innerHTML = '';

@@ -54,5 +54,6 @@ router.post('/exportAsReport', exportData.exportAsReport);
 router.post('/exportAsReportInsulin', exportData.exportAsReportInsulin);
 router.post('/exportAsReportActivity', exportData.exportAsReportActivity);
 router.post('/exportAsReportCarbs', exportData.exportAsReportCarbs);
+router.post('/exportAsReportGlucose', exportData.exportAsReportGlucose);
 
 module.exports = router;

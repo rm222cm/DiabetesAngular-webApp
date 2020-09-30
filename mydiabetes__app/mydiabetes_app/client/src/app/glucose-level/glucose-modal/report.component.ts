@@ -503,8 +503,8 @@ export class GlucoseModalComponent implements OnInit {
               "Glucose checking Time: " +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
-          .style("left", d3.event.pageX - 10 + "px")
-          .style("top", d3.event.pageY - 1218 + "px")
+          .style("left", d3.event.pageX - 50 + "px")
+          .style("top", d3.event.pageY - 380 + "px")
           .style("width", "45%");
 
         } else {
@@ -519,8 +519,8 @@ export class GlucoseModalComponent implements OnInit {
               "Glucose checking Time: " +
               `${day}-${month}-${year} (${hours}:${minutes}:${seconds})`
           )
-          .style("left", d3.event.pageX - 310 + "px")
-          .style("top", d3.event.pageY - 166 + "px")
+          .style("left", d3.event.pageX - 305 + "px")
+          .style("top", d3.event.pageY - 170 + "px")
           .style("width", "45%");
 
         }

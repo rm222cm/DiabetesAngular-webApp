@@ -23,18 +23,14 @@ const storage = multer.diskStorage({
     cb(null, 'uploads');
   },
   filename: (req, file, cb) => {
-    console.log('multer', file)
     cb(null, Date.now() + file.originalname);
   },
 });
 exports.multerConfig = multer({ dest: 'uploads\\' });
 
 exports.tweetImgUrl = (req, res) => {
-  console.log('req.file');
-  //console.log(req.body.status);
   consumer.getOAuthRequestToken((err, oauthToken, oauthTokenSecret, result) => {
     if (err) {
-      console.error(err);
       res.json({ err: 'error authenticating' });
       return;
     }
@@ -47,16 +43,13 @@ exports.tweetImgUrl = (req, res) => {
 };
 
 exports.tweetImgCb = (req, res) => {
-  console.log(req.session);
   const { oauth_token, oauth_verifier } = req.query;
   const { oauthTokenSecret, file, status } = req.session;
   function removeFile(path) {
     fs.unlink(path, (err) => {
       if (err) {
-        console.log(err);
         return;
       }
-      console.log(path, 'has been deleted');
     });
   }
   consumer.getOAuthAccessToken(
@@ -71,29 +64,23 @@ exports.tweetImgCb = (req, res) => {
         access_token_secret: oauthAccessSecret,
       });
       const filePath = path.join(...file.path.split('/'));
-      console.log('filepath', filePath);
       client.postMediaChunked({ file_path: filePath }, (err1, media, response) => {
         if (err1) {
-          console.log('postMediaChunkedError', err1);
           removeFile(filePath);
           res.json({ err: err1.message });
           return;
         }
-        // console.log(media);
         const statusObj = {
           status,
           media_ids: media.media_id_string,
         };
         client.post('statuses/update', statusObj, (error, tweet, response) => {
           if (error) {
-            console.log('statuses/update', error);
             removeFile(filePath);
             res.json({ err: error.message });
             return;
           }
-          console.log(tweet);
           removeFile(filePath);
-          console.log(tweet.id, tweet.id_str, tweet.user.screen_name);
           res.cookie('new-tweet', `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`);
           res.redirect(services);
         });
