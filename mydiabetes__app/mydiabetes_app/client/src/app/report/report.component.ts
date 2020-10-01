@@ -276,7 +276,7 @@ export class ReportComponent implements OnInit {
     };
 
     this.isLoading = true;
-    
+
     this.insulinService.getGlucoseReportData(data).subscribe(response => {
 
       let data = response['data'];
@@ -320,7 +320,15 @@ export class ReportComponent implements OnInit {
         GlucoseSlider(sliderObjGlucose, glucoseLabels, dates1, {});
       }
       this.isLoading = false;
-      this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+
+      this.golucoseobj[0].series = this.golucoseobj[0].series.filter((v, i) =>   i % 2 === 1 );
+      this.golucoseobj[0].series = this.golucoseobj[0].series.slice(0, 10);
+      console.log(this.golucoseobj[0].series);
+
+      if (this.golucoseobj[0].series.length <= 10) {
+        this.drawGolucoseLineChart123(this.golucoseobj[0].series);
+      }
+
     },
       (error) => {});
 
@@ -409,11 +417,9 @@ export class ReportComponent implements OnInit {
 
   drawGolucoseLineChart123(lineData) {
 
-
-
     let node = document.querySelector('#chartArea');
-    
     node.innerHTML = '';
+
     const glucoseLabel = (this.islanguageEnglish) ? 'Glucose Level' : 'Glukosnivån';
 
     let margin = { top: 50, right: 10, bottom: 60, left: 50 };
@@ -474,7 +480,7 @@ export class ReportComponent implements OnInit {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    let parseDate = d3.time.format("%Y-%m-%d");
+    let format =  d3.time.format('%m-%d-%Y');
     let formatTime = d3.time.format('%e %b %-I:%M %p');
     let formatCount = d3.format(',');
 
@@ -517,7 +523,7 @@ export class ReportComponent implements OnInit {
 
     data = newData;
     data.forEach(function (d) {
-      d.date = parseDate(d.date_time) ;
+      d.date = d.date_time ;
       d.total_km = +d.total_km;
     });
 
@@ -732,7 +738,7 @@ export class ReportComponent implements OnInit {
           tspan.text(line.join(' '));
           if (tspan.node().getComputedTextLength() > width) {
             line.pop();
-            tspan.text(line.join(' '));
+            tspan.text(line.join(''));
             line = [word];
             tspan = text
               .append('tspan')
@@ -1294,6 +1300,8 @@ export class ReportComponent implements OnInit {
           count4++;
           this.golucoseobj = obj4;
         }
+
+        this.golucoseobj[0].series = this.golucoseobj[0].series.slice(0, 10);
 
         const dates1 = [new Date(this.startDate), new Date(this.endDate)];
         GlucoseSlider(sliderObjGlucose, glucoseLabels, dates1, {});
