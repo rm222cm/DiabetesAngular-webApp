@@ -27,7 +27,7 @@
     "express-session": "^1.17.0",
     "form-data": "^3.0.0",
     "googleapis": "^46.0.0",
-    "luxon": "^1.21.3",
+    "luxon": "^2.5.2",
     "moment": "^2.24.0",
     "mongoose": "^5.8.3",
     "morgan": "^1.9.1",
